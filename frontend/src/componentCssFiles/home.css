@@ -1,0 +1,163 @@
+/* home.css */
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(15, 32, 39, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #61dafb;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.navbar li {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.navbar li:hover,
+.navbar .active {
+  color: #ff00cc;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 120px;
+  min-height: 90vh;
+}
+
+.hero-text {
+  flex: 1;
+  animation: fadeInUp 1.2s ease;
+}
+
+.hero-text h3 {
+  font-size: 22px;
+  color: #ddd;
+}
+
+.hero-text .name {
+  font-size: 52px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00c6ff, #ff00cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-size: 20px;
+  margin: 15px 0;
+  color: #61dafb;
+}
+
+.description {
+  margin: 20px 0;
+  line-height: 1.6;
+  max-width: 550px;
+  color: #ccc;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn.blue {
+  background: #00c6ff;
+  color: white;
+  box-shadow: 0px 0px 12px #00c6ff;
+}
+
+.btn.blue:hover {
+  background: #0096c7;
+  box-shadow: 0px 0px 20px #00eaff;
+}
+
+.btn.red {
+  background: #ff00cc;
+  color: white;
+  box-shadow: 0px 0px 12px #ff00cc;
+}
+
+.btn.red:hover {
+  background: #d400a6;
+  box-shadow: 0px 0px 20px #ff4de1;
+}
+
+/* Hero Image */
+.hero-image img {
+  width: 380px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 0px 25px rgba(0, 198, 255, 0.6);
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
