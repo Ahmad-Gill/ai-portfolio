@@ -1,5 +1,5 @@
 import React from "react";
-import "../componentCssFiles/home.css"; // Reuse your CSS
+import "../componentCssFiles/project.css"; // Reuse your CSS
 import Buttons from "./Button"; // Optional, in case you want buttons here
 
 function Projects({ projectName }) {
