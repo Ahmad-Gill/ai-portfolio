@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Buttons from "./Button";
 import "../componentCssFiles/home.css";
 
 function Home() {
+  const navigate = useNavigate();
+
+  const heroButtons = [
+    { text: "Contact Me", href: "#contact", type: "blue" },
+    { text: "View Portfolio →", href: "#portfolio", type: "teal" }
+  ];
+
+  const projectOptions = [
+    "LUMS Academics",
+    "FAST Academics",
+    "Amazing AI Projects"
+  ];
+
+  const [selectedProject, setSelectedProject] = useState("Select a project");
+
+  const handleProjectChange = (e) => {
+    const project = e.target.value;
+    setSelectedProject(project);
+    // Navigate to Projects page dynamically
+    navigate(`/projects/${encodeURIComponent(project)}`);
+  };
+
   return (
     <div className="home-container">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">{"<Muhammad Ahmad Gill/>"}</div>
-        <ul>
-          <li className="active">Home</li>
-          <li>About</li>
-          <li>Skills</li>
-          <li>Projects</li>
-          <li>Contact</li>
-        </ul>
-      </nav>
-
       {/* Hero Section */}
       <div className="hero">
         <div className="hero-text">
@@ -28,16 +40,29 @@ function Home() {
             shaping the future of AI and technology.
           </p>
 
-          <div className="buttons">
-            <a href="#contact" className="btn blue">Contact Me</a>
-            <a href="#portfolio" className="btn red">View Portfolio →</a>
-          </div>
+          <Buttons buttons={heroButtons} />
         </div>
 
         <div className="hero-image">
-          {/* ✅ Using image from public folder */}
           <img src="/1.jpg" alt="Profile" />
         </div>
+      </div>
+
+      {/* Explore Projects Section */}
+      <div className="explore-projects">
+        <h2>Explore Projects</h2>
+        <select
+          value={selectedProject}
+          onChange={handleProjectChange}
+          className="projects-dropdown"
+        >
+          <option disabled>Select a project</option>
+          {projectOptions.map((project, index) => (
+            <option key={index} value={project}>
+              {project}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

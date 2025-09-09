@@ -1,0 +1,45 @@
+/* Buttons */
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Primary Blue Button */
+.btn.blue {
+  background: #203a43; /* mid-gradient shade */
+  color: #61dafb; /* accent color from text */
+  box-shadow: 0 0 15px rgba(97, 218, 251, 0.5);
+}
+
+.btn.blue:hover {
+  background: #2c5364; /* darkest gradient shade */
+  color: #00c6ff; 
+  box-shadow: 0 0 25px rgba(0, 198, 255, 0.7);
+}
+
+/* Secondary Teal Button */
+.btn.teal {
+  background: #1c3a4d; /* dark teal */
+  color: #00c6ff;
+  box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+}
+
+.btn.teal:hover {
+  background: #225b73; /* slightly lighter teal on hover */
+  color: #61dafb;
+  box-shadow: 0 0 25px rgba(0, 198, 255, 0.6);
+}
