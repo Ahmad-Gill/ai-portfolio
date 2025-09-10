@@ -47,8 +47,10 @@ jobs:
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
+        env:
+          SCM_DO_BUILD_DURING_DEPLOYMENT: true
         with:
           app-name: 'app-ai-protfolio-dev-cus'
-          slot-name: 'Production'
-          package: ./build           # This is where we downloaded it
+        # This is where we downloaded it
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_86CCCFCEBE4B4952872BDFF1FE74AFFE }}
+          package: ./build   
