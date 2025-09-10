@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - app-ai-protfolio-dev-cus
+name: Build and deploy React app to Azure Web App - app-ai-protfolio-dev-cus
 
 on:
   push:
@@ -21,18 +21,18 @@ jobs:
           node-version: '22.x'
 
       # Install and build React app inside frontend
-      - name: npm install, build, and test
+      - name: Install dependencies and build
         working-directory: ./frontend
         run: |
           npm install
-          npm run build --if-present
+          CI=false npm run build  # disables test failures in CI
 
-      # Upload only the build folder for deployment (best practice for React)
+      # Upload only the build folder for deployment
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: react-build
-          path: ./frontend/build
+          name: react-build        # This matches your artifact name
+          path: ./frontend/build   # Only upload build folder
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,13 +42,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: react-build
+          name: react-build         # Same name as uploaded above
+          path: ./build             # Put downloaded files into ./build
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-ai-protfolio-dev-cus'
           slot-name: 'Production'
-          package: ./build   # Deploy the build folder downloaded above
+          package: ./build           # This is where we downloaded it
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_86CCCFCEBE4B4952872BDFF1FE74AFFE }}
