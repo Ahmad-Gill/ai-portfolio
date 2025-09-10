@@ -50,6 +50,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'app-ai-protfolio-dev-cus-win'
-          slot-name: 'Production'
-          package: .
+          package: ./build
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_02C31BB1E9B2496EAFDC271BD4B57F3C }}
