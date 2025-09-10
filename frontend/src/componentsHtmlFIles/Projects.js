@@ -1,32 +1,38 @@
 import React from "react";
-import "../componentCssFiles/project.css"; // Reuse your CSS
-import Buttons from "./Button"; // Optional, in case you want buttons here
+import "../componentCssFiles/project.css";
+
+// Import all project data files
+import { amazingAI } from "../data/amazingAI";
+import { lumsProjects } from "../data/lumsProjects";
 
 function Projects({ projectName }) {
-  // Example buttons for project page
-  const projectButtons = [
-    { text: "Back to Home", href: "/", type: "blue" },
-    { text: "Contact Me", href: "#contact", type: "teal" }
-  ];
+  // Map projectName to the corresponding JS file
+  const projectDataMap = {
+    "Amazing AI Projects": amazingAI,
+    "LUMS Academics": lumsProjects
+  };
+
+  // Get projects for this category
+  const projects = projectDataMap[projectName] || [];
 
   return (
     <div className="projects-page">
-      {/* Hero-like header */}
       <div className="projects-header">
-        <h1>Projects: {projectName}</h1>
+        <h1>{projectName}</h1>
         <p>
           Here you can showcase all the projects related to <strong>{projectName}</strong>.
         </p>
       </div>
 
-      {/* Optional Buttons */}
-      <div className="buttons">
-        <Buttons buttons={projectButtons} />
-      </div>
-
-      {/* Project details / cards */}
       <div className="projects-list">
-        <p>Project content will go here. You can create cards or sections for each project.</p>
+        {projects.length === 0 && <p>No projects found for this category.</p>}
+        {projects.map((proj) => (
+          <div key={proj.name} className="project-card">
+            <img src={proj.image} alt={proj.name} className="project-image" />
+            <h2>{proj.name}</h2>
+            <p>{proj.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

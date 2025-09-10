@@ -11,18 +11,21 @@ function Home() {
     { text: "View Portfolio →", href: "#portfolio", type: "teal" }
   ];
 
+  // List of project categories
   const projectOptions = [
     "LUMS Academics",
     "FAST Academics",
     "Amazing AI Projects"
   ];
 
-  const [selectedProject, setSelectedProject] = useState("Select a project");
+  const [selectedProject, setSelectedProject] = useState("");
 
   const handleProjectChange = (e) => {
     const project = e.target.value;
     setSelectedProject(project);
-    // Navigate to Projects page dynamically
+
+    // Navigate to the projects page dynamically
+    // encodeURIComponent ensures spaces or special characters work in URL
     navigate(`/projects/${encodeURIComponent(project)}`);
   };
 
@@ -56,7 +59,9 @@ function Home() {
           onChange={handleProjectChange}
           className="projects-dropdown"
         >
-          <option disabled>Select a project</option>
+          <option disabled value="">
+            Select a project
+          </option>
           {projectOptions.map((project, index) => (
             <option key={index} value={project}>
               {project}

@@ -16,7 +16,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar /> {/* Navbar always visible */}
+
+
+      <Navbar /> 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:projectName" element={<ProjectsWrapper />} />

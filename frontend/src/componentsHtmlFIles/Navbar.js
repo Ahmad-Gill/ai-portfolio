@@ -1,17 +1,17 @@
 import React from "react";
-import "../componentCssFiles/navebar.css"; // Keep CSS shared for now
+import "../componentCssFiles/navebar.css"; // Navbar CSS
 
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="logo">{"<Muhammad Ahmad Gill/>"}</div>
-      <ul>
-        <li className="active">Home</li>
-        <li>About</li>
-        <li>Skills</li>
-        <li>Projects</li>
-        <li>Contact</li>
-      </ul>
+      <div className="logo-container">
+        <img 
+          src="/logo1.png" 
+          alt="Logo" 
+          className="navbar-logo"
+        />
+      </div>
+      <div className="logo-text">{"<Muhammad Ahmad Gill/>"}</div>
     </nav>
   );
 }

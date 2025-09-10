@@ -1,34 +1,29 @@
-/* Navbar */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(15, 32, 39, 0.8);
-  backdrop-filter: blur(10px);
+  justify-content: space-between; /* keeps logo left, text center */
+  padding: 10px 20px;
+  background: #0f2027;
+  color: white;
+  position: relative;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #61dafb;
-}
-
-.navbar ul {
+.logo-container {
   display: flex;
-  list-style: none;
-  gap: 30px;
+  align-items: center;
 }
 
-.navbar li {
-  cursor: pointer;
-  transition: 0.3s;
+.navbar-logo {
+  height: 40px;
+  width: auto;
 }
 
-.navbar li:hover,
-.navbar .active {
-  color: #ff00cc;
+/* ✅ Center the text absolutely */
+.logo-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
 }
