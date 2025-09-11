@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import Navbar from "./componentsHtmlFIles/Navbar";
 import Home from "./componentsHtmlFIles/home";
 import Projects from "./componentsHtmlFIles/Projects";
+import MultiTranslation from "./componentsHtmlFIles/amazing_ai_pojects/MultiTranslation";
+
 
 function ProjectsWrapper() {
   const { projectName } = useParams();
@@ -22,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:projectName" element={<ProjectsWrapper />} />
+         <Route path="/amazing_ai_projects/multi-translation" element={<MultiTranslation />} />
       </Routes>
     </BrowserRouter>
   );
