@@ -3,8 +3,6 @@ import "../../componentCssFiles/multitranslation.css";
 import Buttons from "../Button";
 import Animation from "../Animation";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
 function MultiTranslation() {
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("ur"); // default Urdu
