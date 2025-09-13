@@ -1,0 +1,62 @@
+/* --- PAGE LAYOUT --- */
+.project-details-page {
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.project-details-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* --- WRAPPER --- */
+.abstract-buttons-wrapper {
+  width: 100%;
+  margin: 20px 0;
+  box-sizing: border-box;
+}
+
+/* --- BUTTON CONTAINER (critical) --- */
+.abstract-buttons-wrapper .buttons {
+  display: flex;
+  flex-wrap: wrap;            /* ✅ ALLOW MULTIPLE ROWS */
+  justify-content: center;
+  gap: 12px;                  /* space between buttons */
+  width: 100%;
+}
+
+/* --- EACH BUTTON --- */
+.abstract-buttons-wrapper .btn {
+  flex: 1 1 140px;            /* at least 140px, grows if space */
+  max-width: 220px;           /* optional max width */
+  text-align: center;
+  white-space: normal;        /* allow multi-line */
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+/* --- IMAGE --- */
+.abstract-image {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 15px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+.abstract-result {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* --- SMALL SCREENS: FULL-WIDTH BUTTONS --- */
+@media (max-width: 480px) {
+  .abstract-buttons-wrapper .btn {
+    flex: 1 1 100%;           /* each button takes full width */
+    max-width: 100%;
+  }
+}

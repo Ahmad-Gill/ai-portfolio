@@ -7,7 +7,7 @@ import json
 from groq import Groq
 
 # API Keys (replace with environment variables if needed)
-GROQ_API_KEY      = "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"
+GROQ_API_KEY      =os.getenv("GROQ_API_KEY")
 FACTCHECK_API_KEY = "AIzaSyCHNSWmKuXKcr8TOwe1KXPJmakpa2VgMZs"  
 NEWS_API_KEY      = "f0341d1c65a3455e96764779d9a8ac01"
 

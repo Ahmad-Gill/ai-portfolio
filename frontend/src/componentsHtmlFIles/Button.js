@@ -2,11 +2,21 @@ import React from "react";
 import "../componentCssFiles/button.css"; // CSS for btn classes
 
 // Button Component
-function Button({ text, href, type = "blue" }) {
+function Button({ text, href, type = "blue", onClick }) {
+  if (href) {
+    // Render as a link
+    return (
+      <a href={href} className={`btn ${type}`}>
+        {text}
+      </a>
+    );
+  }
+
+  // Render as a clickable button
   return (
-    <a href={href} className={`btn ${type}`}>
+    <button className={`btn ${type}`} onClick={onClick} type="button">
       {text}
-    </a>
+    </button>
   );
 }
 
@@ -20,6 +30,7 @@ function Buttons({ buttons }) {
           text={btn.text}
           href={btn.href}
           type={btn.type}
+          onClick={btn.onClick} // <-- pass the click handler here
         />
       ))}
     </div>

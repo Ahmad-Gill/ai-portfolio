@@ -17,9 +17,9 @@ function Projects({ projectName }) {
   // Map project names to their detail page paths
   const projectRoutes = {
     "AI Chatbot": "/ai-chatbot",
-    "Image Generator": "/image-generator",
+    "Generate Abstract Painting": "/amazing_ai_projects/AbstractArt",
     "Multi Translation": "/amazing_ai_projects/multi-translation",
-    "AI Myth Buster": "/ai-myth-buster",
+    "AI Myth Buster": "/amazing_ai_projects/AIMythBuster",
     // add more if needed
   };
 

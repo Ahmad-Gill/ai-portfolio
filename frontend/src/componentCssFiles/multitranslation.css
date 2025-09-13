@@ -1,0 +1,127 @@
+/* Keep page + card styling same */
+.project-details-page {
+  padding: 40px;
+  color: white;
+  text-align: center;
+}
+
+.project-details-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.project-details-card h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.project-details-card p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+/* Form styles */
+.multitranslation-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;   /* 👈 align items to left, not center */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.multitranslation-form textarea {
+  resize: none;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  width: 100%;   /* 👈 full width */
+}
+
+.multitranslation-form textarea:focus {
+  border-color: teal;
+  box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
+}
+
+.multitranslation-form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  width: 100%;   /* 👈 full width dropdown */
+}
+
+/* Force dropdown options text white */
+.multitranslation-form select option {
+  background: #222;  /* dropdown background */
+  color: white;      /* 👈 option text white */
+}
+
+.multitranslation-form select:focus {
+  border-color: teal;
+  box-shadow: 0 0 8px rgba(0, 128, 128, 0.6);
+}
+
+/* Make button aligned left, not centered */
+.multitranslation-form .buttons-container {
+  align-self: flex-start;  /* 👈 align button to left */
+}
+
+/* Result table */
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid #555;
+  padding: 10px;
+  text-align: left;
+}
+
+.result-table th {
+  background: rgba(0, 128, 128, 0.3);
+  color: #fff;
+  width: 25%;
+}
+
+.result-table td {
+  background: rgba(255, 255, 255, 0.05);
+  color: #eee;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 10px;
+}
+.multitranslation-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 👈 center-aligns the button */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.multitranslation-form textarea,
+.multitranslation-form select {
+  width: 100%;   /* full width for input + dropdown */
+}
+
+/* Force dropdown options text white */
+.multitranslation-form select option {
+  background: #222;
+  color: white;
+}

@@ -7,14 +7,14 @@ function Home() {
   const navigate = useNavigate();
 
   const heroButtons = [
-    { text: "Contact Me", href: "#contact", type: "blue" },
-    { text: "View Portfolio →", href: "#portfolio", type: "teal" }
+    // { text: "Contact Me", href: "#contact", type: "blue" },
+    // { text: "View Portfolio →", href: "#portfolio", type: "teal" }
   ];
 
   // List of project categories
   const projectOptions = [
-    "LUMS Academics",
-    "FAST Academics",
+    // "LUMS Academics",
+    // "FAST Academics",
     "Amazing AI Projects"
   ];
 
