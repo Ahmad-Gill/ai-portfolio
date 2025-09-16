@@ -51,3 +51,4 @@ jobs:
           app-name: 'app-ai-protfolio-dev-we-be'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE }}
           package: ./django-backend.zip     # <-- note the path
+          clean: true  
