@@ -3,64 +3,75 @@
 # =========================
 import os
 import requests
-import json
 from groq import Groq
 
-# API Keys (replace with environment variables if needed)
-GROQ_API_KEY      =os.getenv("GROQ_API_KEY")
-FACTCHECK_API_KEY = "AIzaSyCHNSWmKuXKcr8TOwe1KXPJmakpa2VgMZs"  
-NEWS_API_KEY      = "f0341d1c65a3455e96764779d9a8ac01"
-
-client = Groq(api_key=GROQ_API_KEY)
+# Environment variables
+GROQ_API_KEY      = os.getenv("GROQ_API_KEY")
+FACTCHECK_API_KEY = os.getenv("FACTCHECK_API_KEY")     # <-- put in Azure config
+NEWS_API_KEY      = os.getenv("NEWS_API_KEY")          # <-- put in Azure config
 
 # -----------------------------
 # FactCheck API
 def get_factcheck(claim: str):
-    url = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
-    params = {"query": claim, "key": FACTCHECK_API_KEY}
-    resp = requests.get(url, params=params)
-    return resp.json()
+    try:
+        url = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
+        params = {"query": claim, "key": FACTCHECK_API_KEY}
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        return resp.json()
+    except Exception as e:
+        return {"error": f"FactCheck API failed: {e}"}
 
 # -----------------------------
 # News API
 def get_news(query: str):
-    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={NEWS_API_KEY}"
-    resp = requests.get(url)
-    return resp.json()
+    try:
+        url = f"https://newsapi.org/v2/everything?q={query}&apiKey={NEWS_API_KEY}"
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+        return resp.json()
+    except Exception as e:
+        return {"error": f"News API failed: {e}"}
 
 # -----------------------------
 # PubMed API
 def get_pubmed(query: str, retmax=3):
-    search_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-    params = {"db": "pubmed", "term": query, "retmode": "json", "retmax": retmax}
-    search_resp = requests.get(search_url, params=params).json()
-    pmids = search_resp.get("esearchresult", {}).get("idlist", [])
-    articles = []
-    for pmid in pmids:
-        summary_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
-        summary_params = {"db": "pubmed", "id": pmid, "retmode": "json"}
-        summary_resp = requests.get(summary_url, params=summary_params).json()
-        result = summary_resp.get("result", {}).get(pmid, {})
-        title = result.get("title", "")
-        source = result.get("source", "PubMed")
-        pubdate = result.get("pubdate", "")
-        url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
-        articles.append(f"{source} ({pubdate}) - {title}: {url}")
-    return articles
+    try:
+        search_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+        params = {"db": "pubmed", "term": query, "retmode": "json", "retmax": retmax}
+        search_resp = requests.get(search_url, params=params, timeout=10).json()
+        pmids = search_resp.get("esearchresult", {}).get("idlist", [])
+        articles = []
+        for pmid in pmids:
+            summary_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+            summary_params = {"db": "pubmed", "id": pmid, "retmode": "json"}
+            summary_resp = requests.get(summary_url, params=summary_params, timeout=10).json()
+            result = summary_resp.get("result", {}).get(pmid, {})
+            title = result.get("title", "")
+            source = result.get("source", "PubMed")
+            pubdate = result.get("pubdate", "")
+            url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
+            articles.append(f"{source} ({pubdate}) - {title}: {url}")
+        return articles
+    except Exception as e:
+        return {"error": f"PubMed API failed: {e}"}
 
 # -----------------------------
 # Groq Completion
 def groq_completion(prompt: str, model="llama-3.3-70b-versatile"):
+    if not GROQ_API_KEY:
+        raise RuntimeError("Missing GROQ_API_KEY environment variable.")
+    client = Groq(api_key=GROQ_API_KEY)
     chat_completion = client.chat.completions.create(
+        model=model,
         messages=[
             {"role": "system", "content": "You are an empathetic fact-checking assistant."},
             {"role": "user", "content": prompt}
         ],
-        model=model,
         max_tokens=500,
         temperature=0.7,
     )
-    return chat_completion.choices[0].message.content
+    return chat_completion.choices[0].message.content.strip()
 
 # =========================
 # 3. Mythbuster Pipeline
@@ -88,26 +99,24 @@ def mythbuster_answer(claim: str):
         sources.append({"type": "News", "publisher": publisher, "url": url, "snippet": description})
 
     # PubMed results
-    for article in pubmed_data:
-        sources.append({"type": "PubMed", "details": article})
+    if isinstance(pubmed_data, list):
+        for article in pubmed_data:
+            sources.append({"type": "PubMed", "details": article})
 
     sources_text = "\n".join(
-        [f"{s['publisher']}: {s['url']} -- {s.get('snippet','')}" for s in sources if s.get('publisher')]
+        [f"{s.get('publisher','')}: {s.get('url','')} -- {s.get('snippet','')}" for s in sources if s.get('publisher')]
     ) or "None found"
 
     prompt = (
         f"Claim: \"{claim}\"\n\n"
         f"Sources:\n{sources_text}\n\n"
         "Instructions:\n"
-        "1. Start with empathy; acknowledge the user's concern and feelings.\n"
+        "1. Start with empathy; acknowledge the user's concern.\n"
         "2. State clearly if the claim is True, False, Misleading, or Unproven.\n"
         "3. Keep explanation concise (2-3 sentences).\n"
-        "4. Educate the user with accurate medical or scientific facts.\n"
-        "5. Reassure the user that any issues are due to biological or medical factors, not their fault.\n"
-        "6. Include gentle emotional support, e.g., it's normal to feel worried, and they're not alone.\n"
-        "7. Suggest self-care and seeking support from loved ones or professionals if needed.\n"
-        "8. Encourage consulting a healthcare professional for personalized advice.\n"
-        "9. Include only concise, relevant sources (publisher + URL) if available.\n"
+        "4. Educate with accurate facts.\n"
+        "5. Reassure the user.\n"
+        "6. Suggest self-care and consulting professionals.\n"
     )
 
     try:
@@ -119,16 +128,12 @@ def mythbuster_answer(claim: str):
             claim_status = "False"
         elif "Misleading" in explanation:
             claim_status = "Misleading"
-        elif "Unproven" in explanation:
-            claim_status = "Unproven"
 
-        result_json = {
+        return {
             "claim": claim,
             "claim_status": claim_status,
             "explanation": explanation,
             "sources": sources
         }
-        return result_json
-
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": f"Mythbuster failed: {e}"}
