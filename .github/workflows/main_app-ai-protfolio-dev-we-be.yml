@@ -31,11 +31,17 @@ jobs:
         run: |
           python manage.py collectstatic --noinput
 
+      # 🔹 Zip the backend so Azure deploys from a single file
+      - name: Create deployment package
+        run: |
+          cd backend
+          zip -r ../django-backend.zip .
+
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: django-backend
-          path: ./backend
+          path: django-backend.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,11 +52,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: django-backend
-          path: ./backend
+          path: .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-ai-protfolio-dev-we-be'
-          package: ./backend
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC02E76216ED437DA1A2E2514C513DBC }}
+          package: django-backend.zip
