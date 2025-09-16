@@ -26,6 +26,10 @@ jobs:
         working-directory: ./backend
         run: python manage.py collectstatic --noinput
 
+      - name: Run database migrations      # <--- Added Step
+        working-directory: ./backend
+        run: python manage.py migrate --noinput
+
       - name: Create deployment package
         run: |
           cd backend
@@ -50,5 +54,5 @@ jobs:
         with:
           app-name: 'app-ai-protfolio-dev-we-be'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE }}
-          package: ./django-backend.zip     # <-- note the path
-          clean: true  
+          package: ./django-backend.zip
+          clean: true
