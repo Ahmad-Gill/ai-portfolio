@@ -58,5 +58,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-ai-protfolio-dev-we-be'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC02E76216ED437DA1A2E2514C513DBC }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE }}
           package: django-backend.zip
+
