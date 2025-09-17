@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import os
 
 # Load environment variables from .env
 load_dotenv()
@@ -14,9 +15,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = 'django-insecure-ea936%pm$%#xojr&szkb-^t6n21)(%n2n^dzyr8!*h-!3wt@ig'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-ea936%pm$%#xojr&szkb-^t6n21)(%n2n^dzyr8!*h-!3wt@ig")
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
+ALLOWED_HOSTS = ['*']  # adjust in production
 
 # APPLICATIONS
 INSTALLED_APPS = [
@@ -29,11 +30,11 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-# MIDDLEWARE - CorsMiddleware MUST be first
+# MIDDLEWARE
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # CORS must come first
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files in prod
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -43,20 +44,13 @@ MIDDLEWARE = [
 ]
 
 # CORS CONFIGURATION
-CORS_ALLOW_ALL_ORIGINS = False  # Keep False if you want to restrict to certain origins
+CORS_ALLOW_ALL_ORIGINS = False  # keep False in production
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://app-ai-protfolio-dev-cus-win.azurewebsites.net",
 ]
 
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
+CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
 CORS_ALLOW_HEADERS = [
     "accept",
@@ -70,7 +64,7 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # If using cookies or authentication
+CORS_ALLOW_CREDENTIALS = True
 
 # URLS
 ROOT_URLCONF = 'ai_portfolio.urls'
@@ -78,7 +72,8 @@ ROOT_URLCONF = 'ai_portfolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "frontend" / "build"],  # <-- make sure this points to your React/Vue build folder
+        # React build index.html (so Django can serve it)
+        'DIRS': [BASE_DIR / "frontend" / "build"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,10 +86,9 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'ai_portfolio.wsgi.application'
 
-# DATABASE
+# DATABASE (SQLite for now — replace with Postgres in prod)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -104,10 +98,10 @@ DATABASES = {
 
 # PASSWORD VALIDATION
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # INTERNATIONALIZATION
@@ -117,13 +111,14 @@ USE_I18N = True
 USE_TZ = True
 
 # STATIC FILES
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# settings.py
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / "frontend" / "build" / "static",
+    BASE_DIR / "frontend" / "build" / "static",  # React static files
 ]
+
+# WhiteNoise for compressed static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # DEFAULT PRIMARY KEY
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
