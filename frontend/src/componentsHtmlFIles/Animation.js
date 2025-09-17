@@ -5,7 +5,7 @@ function Animation({ fullscreen = false, width = "100%", height = "100%" }) {
   const [animationData, setAnimationData] = useState(null);
 
   useEffect(() => {
-    fetch("/animation.json") // load from public
+    fetch("/Animation.json") // load from public
       .then((res) => res.json())
       .then((data) => setAnimationData(data))
       .catch((err) => console.error("Failed to load animation:", err));
