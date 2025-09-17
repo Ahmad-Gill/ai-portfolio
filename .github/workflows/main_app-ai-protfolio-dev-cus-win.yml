@@ -3,7 +3,7 @@ name: Build and deploy Node.js app to Azure Web App - app-ai-protfolio-dev-cus-w
 on:
   push:
     branches:
-      - main
+      - none
   workflow_dispatch:
 
 jobs:
