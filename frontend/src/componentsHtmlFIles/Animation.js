@@ -5,7 +5,7 @@ function Animation({ fullscreen = false, width = "100%", height = "100%" }) {
   const [animationData, setAnimationData] = useState(null);
 
   useEffect(() => {
-    fetch("/static/animation.json")
+   fetch(process.env.PUBLIC_URL + "/Animation.json")
 // load from public
       .then((res) => res.json())
       .then((data) => setAnimationData(data))
