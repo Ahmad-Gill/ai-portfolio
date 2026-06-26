@@ -1,5 +1,4 @@
 /* Buttons */
-/* Buttons */
 .buttons {
   margin-top: 20px;
   display: flex;
@@ -14,15 +13,15 @@
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-block;
-  color: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  color: var(--btn-blue-text);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
 }
 
 /* Primary Blue Button */
 .btn.blue {
-  background: #203a43; /* mid-gradient shade */
-  color: #61dafb; /* accent color from text */
-  box-shadow: 0 0 15px rgba(97, 218, 251, 0.5);
+  background: var(--btn-blue-bg);
+  color: var(--btn-blue-text);
+  box-shadow: 0 0 15px rgba(97, 218, 251, 0.4);
 }
 
 .btn.blue:hover {

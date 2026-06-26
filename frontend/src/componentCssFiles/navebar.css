@@ -2,10 +2,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between; /* keeps logo left, text center */
-  padding: 10px 20px;
-  background: #0f2027;
-  color: white;
+  padding: 14px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface-border);
+  color: var(--text-primary);
   position: relative;
+  backdrop-filter: blur(15px);
+}
+
+.logo-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-primary);
 }
 
 .logo-container {
@@ -18,12 +29,29 @@
   width: auto;
 }
 
-/* ✅ Center the text absolutely */
-.logo-text {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(77, 214, 255, 0.25);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid rgba(77, 214, 255, 0.6);
+  outline-offset: 3px;
 }

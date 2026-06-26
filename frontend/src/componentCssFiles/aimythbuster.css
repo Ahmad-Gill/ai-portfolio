@@ -3,69 +3,71 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: transparent;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 .project-details-card {
-  background: rgba(44, 83, 100, 0.9);
+  background: var(--surface-strong);
   padding: 40px;
   border-radius: 16px;
   max-width: 850px;
   width: 100%;
-  text-align: center; /* center headings & p by default */
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.35);
-  color: white;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.18);
+  color: var(--text-primary);
 }
 
 .project-details-card h1 {
   font-size: 2.8rem;
   margin-bottom: 20px;
-  color: #1fdd9f;
+  color: var(--accent-strong);
 }
 
 .project-details-card p {
   font-size: 1.2rem;
   margin-bottom: 25px;
-  color: #ddd;
+  color: var(--text-secondary);
 }
 
 .project-details-card input[type="text"] {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--surface-border);
   margin-bottom: 15px;
   font-size: 1rem;
+  background: var(--input-bg);
+  color: var(--input-text);
 }
 
 .project-details-card button {
   padding: 12px 24px;
   border-radius: 8px;
   border: none;
-  background: #1fdd9f;
+  background: var(--accent-strong);
   font-size: 1rem;
   font-weight: 500;
-  color: white;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .project-details-card button:hover {
-  background: #17b37f;
+  background: var(--accent);
 }
 
 .aimythbuster-result {
   margin-top: 30px;
-  text-align: left; /* table-like layout */
+  text-align: left;
 }
 
 .aimythbuster-result h2 {
   margin-top: 25px;
   margin-bottom: 10px;
-  color: #1fdd9f;
-  border-bottom: 2px solid #1fdd9f;
+  color: var(--accent-strong);
+  border-bottom: 2px solid var(--accent-strong);
   padding-bottom: 5px;
 }
 
@@ -73,26 +75,26 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   overflow: hidden;
 }
 
-.result-table th, 
+.result-table th,
 .result-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .result-table th {
   background: rgba(31, 221, 159, 0.15);
-  color: #1fdd9f;
+  color: var(--accent-strong);
   text-align: left;
   font-weight: 600;
 }
 
 .result-table td {
-  color: #eee;
+  color: var(--text-primary);
 }
 
 .aimythbuster-result ul {
@@ -106,7 +108,7 @@
 }
 
 .aimythbuster-result a {
-  color: #1fdd9f;
+  color: var(--accent-strong);
   text-decoration: none;
 }
 
@@ -117,24 +119,24 @@
 .loading {
   margin-top: 15px;
   font-style: italic;
-  color: #ccc;
+  color: var(--text-secondary);
 }
 
 .error {
   margin-top: 15px;
-  color: #ff6b6b;
+  color: var(--error);
   font-weight: bold;
 }
 .aimythbuster-form {
   display: flex;
   flex-direction: column;
-  align-items: center; /* centers the button */
-  gap: 12px; /* space between input and button */
+  align-items: center;
+  gap: 12px;
 }
 
 .aimythbuster-form input[type="text"] {
   width: 100%;
-  max-width: 500px; /* keeps input nicely sized */
+  max-width: 500px;
 }
 
 .table-wrapper {

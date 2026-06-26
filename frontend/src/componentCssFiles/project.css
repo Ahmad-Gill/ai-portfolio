@@ -1,18 +1,19 @@
 .projects-page {
   padding: 40px;
-  color: white;
+  color: var(--text-primary);
   text-align: center;
 }
 
 .projects-header h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
+  color: var(--text-primary);
 }
 
 .projects-header p {
   font-size: 1.2rem;
   margin-bottom: 30px;
-  color: #ccc;
+  color: var(--text-secondary);
 }
 
 .projects-list {
@@ -21,7 +22,7 @@
   gap: 20px;
 }
 .project-card {
-  background: rgba(44, 83, 100, 0.8); /* Greenish-blue overlay matching page gradient */
+  background: var(--surface-strong);
   padding: 20px;
   border-radius: 12px;
   text-align: left;
@@ -29,26 +30,25 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: white;           /* White text */
-  text-decoration: none;  /* Remove underline */
-  backdrop-filter: blur(5px); /* Optional: subtle blur for nice effect */
+  color: var(--text-primary);
+  text-decoration: none;
+  backdrop-filter: blur(5px);
 }
 
 .project-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .project-image {
   width: 100%;
   height: 200px;
   object-fit: contain;
-  background: #1e2a38;
+  background: rgba(22, 35, 52, 0.85);
   border-radius: 8px;
   margin-bottom: 15px;
 }
 
-/* Optional: if you want square images instead */
 .project-image-square {
   width: 100%;
   height: 200px;
@@ -59,8 +59,8 @@
 
 .project-card h2,
 .project-card p {
-  color: white;           /* White text for title and description */
-  text-decoration: none;  /* No underline */
+  color: var(--text-primary);
+  text-decoration: none;
   margin: 0;
 }
 
@@ -73,8 +73,7 @@
   font-size: 1rem;
 }
 
-/* Make sure the Link itself has normal text style */
 .project-card a {
   text-decoration: none;
-  color: inherit; /* Inherit white from .project-card */
+  color: inherit;
 }
