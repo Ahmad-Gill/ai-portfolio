@@ -1,0 +1,88 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+  
+
+jobs:
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update Ubuntu Packages
+        run: |
+          sudo apt-get update
+
+      - name: Install Required Packages
+        run: |
+          sudo apt-get install -y \
+            nginx \
+            git \
+            curl \
+            wget \
+            unzip \
+            zip \
+            python3 \
+            python3-pip \
+            python3-venv \
+            build-essential \
+            ca-certificates
+
+      - name: Display Installed Versions
+        run: |
+          git --version
+          node --version || true
+          npm --version || true
+          python3 --version
+          pip3 --version
+          nginx -v
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Verify Node Installation
+        run: |
+          node --version
+          npm --version
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build React Application
+        run: npm run build
+
+      - name: Verify Build Output
+        run: |
+          ls -la
+          ls -la build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: frontend/build
+          if-no-files-found: error
+          retention-days: 7
