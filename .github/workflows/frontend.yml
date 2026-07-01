@@ -27,35 +27,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Update Ubuntu Packages
-        run: sudo apt-get update
-
-      - name: Install Required Packages
-        run: |
-          sudo apt-get install -y \
-            nginx \
-            git \
-            curl \
-            wget \
-            unzip \
-            zip \
-            python3 \
-            python3-pip \
-            python3-venv \
-            build-essential \
-            ca-certificates \
-            rsync
-
-      - name: Display Installed Versions
-        run: |
-          git --version
-          node --version || true
-          npm --version || true
-          python3 --version
-          pip3 --version
-          nginx -v
-          rsync --version | head -n 1
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -76,6 +47,7 @@ jobs:
 
       - name: Verify Build Output
         run: |
+          pwd
           ls -la
           ls -la build
 
@@ -86,19 +58,30 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H -p ${{ secrets.AWS_PORT }} ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Create Frontend Directory on Server
+      - name: Test SSH Connection
         run: |
           ssh -p ${{ secrets.AWS_PORT }} \
-          ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
-          "mkdir -p /var/www/frontend"
+            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
+            "echo 'Connected successfully'; whoami; pwd"
 
-      - name: Sync Frontend Files
+      - name: Create Frontend Directory
         run: |
-          rsync -azv \
-            --delete \
+          ssh -p ${{ secrets.AWS_PORT }} \
+            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
+            "mkdir -p ~/frontend"
+
+      - name: Deploy Frontend Build
+        run: |
+          rsync -avz --delete \
             -e "ssh -p ${{ secrets.AWS_PORT }}" \
-            ./ \
-            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }}:/var/www/frontend/
+            build/ \
+            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }}:~/frontend/
+
+      - name: Verify Deployment
+        run: |
+          ssh -p ${{ secrets.AWS_PORT }} \
+            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
+            "ls -lah ~/frontend"
 
       - name: Deployment Complete
-        run: echo "✅ Frontend deployed successfully."
+        run: echo "✅ Frontend deployed successfully to ~/frontend"
