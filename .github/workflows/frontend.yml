@@ -54,34 +54,31 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H -p ${{ secrets.AWS_PORT }} ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH Connection
         run: |
-          ssh -p ${{ secrets.AWS_PORT }} \
-            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
-            "echo 'Connected successfully'; whoami; pwd"
+          ssh -i ~/.ssh/id_rsa \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+            "echo '✅ Connected'; whoami; pwd"
 
       - name: Create Frontend Directory
         run: |
-          ssh -p ${{ secrets.AWS_PORT }} \
-            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
+          ssh -i ~/.ssh/id_rsa \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
             "mkdir -p ~/frontend"
 
-      - name: Deploy Frontend Build
+      - name: Deploy Frontend
         run: |
           rsync -avz --delete \
-            -e "ssh -p ${{ secrets.AWS_PORT }}" \
+            -e "ssh -i ~/.ssh/id_rsa" \
             build/ \
-            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }}:~/frontend/
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/frontend/
 
       - name: Verify Deployment
         run: |
-          ssh -p ${{ secrets.AWS_PORT }} \
-            ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }} \
+          ssh -i ~/.ssh/id_rsa \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
             "ls -lah ~/frontend"
-
-      - name: Deployment Complete
-        run: echo "✅ Frontend deployed successfully to ~/frontend"
