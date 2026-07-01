@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: npm
           cache-dependency-path: frontend/package-lock.json
 
       - name: Verify Node Installation
@@ -47,8 +47,13 @@ jobs:
 
       - name: Verify Build Output
         run: |
+          echo "Current Directory:"
           pwd
+
+          echo "Project Files:"
           ls -la
+
+          echo "Build Files:"
           ls -la build
 
       - name: Configure SSH
@@ -61,24 +66,45 @@ jobs:
       - name: Test SSH Connection
         run: |
           ssh -i ~/.ssh/id_rsa \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-            "echo '✅ Connected'; whoami; pwd"
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+              echo "Connected Successfully"
+              whoami
+              pwd
+          EOF
 
-      - name: Create Frontend Directory
+      - name: Create Deployment Directory
         run: |
           ssh -i ~/.ssh/id_rsa \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-            "mkdir -p ~/frontend"
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+              mkdir -p ~/frontend
+              rm -rf ~/frontend/*
+          EOF
 
-      - name: Deploy Frontend
+      - name: Deploy React Build
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/id_rsa" \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             build/ \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/frontend/
 
       - name: Verify Deployment
         run: |
           ssh -i ~/.ssh/id_rsa \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-            "ls -lah ~/frontend"
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+              echo "Deployment Directory:"
+              ls -lah ~/frontend
+
+              echo ""
+              echo "Index File:"
+              ls -lah ~/frontend/index.html
+
+              echo ""
+              echo "Static Assets:"
+              ls -lah ~/frontend/static || true
+          EOF
+
+      - name: Deployment Complete
+        run: echo "✅ Frontend deployed successfully to ~/frontend"
