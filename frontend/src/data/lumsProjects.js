@@ -11,6 +11,6 @@ const assets = {
   lumsResearch: `${publicUrl}/lums-research.png`
 };
 export const lumsProjects = [
-  { name: "Student Management", description: "Track students and courses efficiently.", image: lumsStudent },
-  { name: "Research Analyzer", description: "Analyze research papers automatically.", image: lumsResearch }
+  { name: "Student Management", description: "Track students and courses efficiently.", image: assets.lumsStudent },
+  { name: "Research Analyzer", description: "Analyze research papers automatically.", image: assets.lumsResearch }
 ];

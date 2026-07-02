@@ -9,23 +9,26 @@ const assets = {
   lottie: `${publicUrl}/Animation.lottie`,
   multiTranslation: `${publicUrl}/multi_translation.jpg`,
   aiMythBuster: `${publicUrl}/ai_mythbuster.png`,
-  abstractArt: `${publicUrl}/AbstractArt.png`
+  abstractArt: `${publicUrl}/AbstractArt.png`,
 };
 
 export const amazingAI = [
-  { 
-    name: "Multi Translation", 
-    description: "Translate text into multiple languages instantly with AI-powered accuracy.", 
-    image: multiTranslation
+  {
+    name: "Multi Translation",
+    description:
+      "Translate text into multiple languages instantly with AI-powered accuracy.",
+    image: assets.multiTranslation,
   },
-  { 
-    name: "AI Myth Buster", 
-    description: "Debunk myths and clarify misconceptions using verified AI knowledge.", 
-    image: aiMythBuster
+  {
+    name: "AI Myth Buster",
+    description:
+      "Debunk myths and clarify misconceptions using verified AI knowledge.",
+    image: assets.aiMythBuster,
   },
-  { 
-    name: "Generate Abstract Painting", 
-    description: "Create unique, AI-generated abstract paintings with vibrant colors and patterns.", 
-    image: abstractArt
-  }
+  {
+    name: "Generate Abstract Painting",
+    description:
+      "Create unique, AI-generated abstract paintings with vibrant colors and patterns.",
+    image: assets.abstractArt,
+  },
 ];
