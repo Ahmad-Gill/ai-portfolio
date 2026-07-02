@@ -27,16 +27,25 @@ function App() {
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
   };
-
+  const BASENAME = process.env.REACT_APP_PUBLIC_URL || "";
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASENAME}>
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:projectName" element={<ProjectsWrapper />} />
-        <Route path="/amazing_ai_projects/multi-translation" element={<MultiTranslation />} />
-        <Route path="/amazing_ai_projects/AIMythBuster" element={<AIMythBuster />} />
-        <Route path="/amazing_ai_projects/AbstractArt" element={<AbstractArt />} />
+        <Route
+          path="/amazing_ai_projects/multi-translation"
+          element={<MultiTranslation />}
+        />
+        <Route
+          path="/amazing_ai_projects/AIMythBuster"
+          element={<AIMythBuster />}
+        />
+        <Route
+          path="/amazing_ai_projects/AbstractArt"
+          element={<AbstractArt />}
+        />
       </Routes>
     </BrowserRouter>
   );
