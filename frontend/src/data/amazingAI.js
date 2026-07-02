@@ -7,8 +7,8 @@ const assets = {
   image2: `${publicUrl}/2.jpg`,
   animation: `${publicUrl}/Animation.json`,
   lottie: `${publicUrl}/Animation.lottie`,
-  multiTranslation: `${publicUrl}/Amazing AI projects/MultiTranslation.jpg`,
-  aiMythBuster: `${publicUrl}/Amazing AI projects/AIMythBuster.png`,
+  multiTranslation: `${publicUrl}/Amazing AI projects/multi_translation.jpg`,
+  aiMythBuster: `${publicUrl}/Amazing AI projects/ai_mythbuster.png`,
   abstractArt: `${publicUrl}/Amazing AI projects/AbstractArt.png`,
 };
 
