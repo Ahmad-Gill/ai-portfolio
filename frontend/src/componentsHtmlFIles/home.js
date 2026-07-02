@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Buttons from "./Button";
 import "../componentCssFiles/home.css";
 const publicUrl = process.env.PUBLIC_URL;
-
+const BASE_URL = process.env.REACT_APP_PUBLIC_URL || "";
 const assets = {
   logo1: `${publicUrl}/logo1.png`,
   logo3: `${publicUrl}/logo3.png`,
@@ -19,12 +19,17 @@ function Home() {
   const heroButtons = [
     {
       text: "Explore AI Projects",
-      href: "/projects/Amazing%20AI%20Projects",
+
+      href: `${BASE_URL}/projects/Amazing%20AI%20Projects`,
+
       type: "teal",
     },
+
     {
       text: "Download CV",
+
       href: "#",
+
       type: "blue",
     },
   ];
@@ -42,7 +47,9 @@ function Home() {
     <div className="home-container">
       <div className="hero">
         <div className="hero-copy">
-          <small className="eyebrow">AI Portfolio • Data Science • Innovation</small>
+          <small className="eyebrow">
+            AI Portfolio • Data Science • Innovation
+          </small>
           <h1 className="hero-title">Muhammad Ahmad</h1>
           <p className="hero-subtitle">
             I build intelligent systems with data science, NLP, and modern AI
@@ -87,8 +94,8 @@ function Home() {
           <p className="section-label">Featured Work</p>
           <h2>Explore my latest portfolio</h2>
           <p>
-            Choose a project category to jump straight into examples of my latest
-            AI and data science solutions.
+            Choose a project category to jump straight into examples of my
+            latest AI and data science solutions.
           </p>
         </div>
 
