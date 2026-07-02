@@ -1,4 +1,4 @@
-const publicUrl = process.env.PUBLIC_URL;
+const publicUrl = process.env.REACT_APP_PUBLIC_URL || "";
 
 const assets = {
   logo1: `${publicUrl}/logo1.png`,
