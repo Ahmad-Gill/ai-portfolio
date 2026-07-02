@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Buttons from "./Button";
 import "../componentCssFiles/home.css";
+const publicUrl = process.env.PUBLIC_URL;
+
+const assets = {
+  logo1: `${publicUrl}/logo1.png`,
+  logo3: `${publicUrl}/logo3.png`,
+  image1: `${publicUrl}/1.jpg`,
+  image2: `${publicUrl}/2.jpg`,
+  animation: `${publicUrl}/Animation.json`,
+  lottie: `${publicUrl}/Animation.lottie`,
+};
 
 function Home() {
   const navigate = useNavigate();
@@ -67,7 +77,7 @@ function Home() {
 
         <div className="hero-image">
           <div className="hero-card">
-            <img src="/1.jpg" alt="Profile" />
+            <img src={assets.image1} alt="Profile" />
           </div>
         </div>
       </div>
