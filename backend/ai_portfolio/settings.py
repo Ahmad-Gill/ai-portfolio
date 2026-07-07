@@ -71,16 +71,15 @@ ROOT_URLCONF = 'ai_portfolio.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # React build index.html (so Django can serve it)
-        'DIRS': [BASE_DIR / "frontend" / "build"],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR.parent / "frontend" / "build"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -114,10 +113,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / "frontend" / "build" / "static",  # React static files
-      BASE_DIR / "frontend" / "build",    
+    BASE_DIR.parent / "frontend" / "build",
+    BASE_DIR.parent / "frontend" / "build" / "static",
 ]
-
 # WhiteNoise for compressed static files in production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
