@@ -2,6 +2,9 @@ import json
 from django.http import JsonResponse
 from django.http import HttpResponse
 import os
+
+os.environ["COQUI_TOS_AGREED"] = "1"
+from TTS.api import TTS
 import tempfile
 from pydub import AudioSegment
 import io

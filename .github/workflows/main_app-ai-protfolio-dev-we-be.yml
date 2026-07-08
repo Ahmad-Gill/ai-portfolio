@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,6 +26,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Verify FFmpeg
+        run: |
+          ffmpeg -version
+          ffprobe -version
 
       - name: Install backend dependencies
         working-directory: ./backend
@@ -40,10 +53,14 @@ jobs:
 
       - name: Run database migrations
         working-directory: ./backend
+        env:
+          COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
         run: python manage.py migrate --noinput
 
       - name: Collect static files
         working-directory: ./backend
+        env:
+          COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
         run: python manage.py collectstatic --noinput
 
       - name: Create deployment package
@@ -60,6 +77,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
+    env:
+      COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
 
     steps:
       - name: Download deployment artifact
