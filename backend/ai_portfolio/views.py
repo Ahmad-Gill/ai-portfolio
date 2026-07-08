@@ -1,8 +1,13 @@
 import json
 from django.http import JsonResponse
 from django.http import HttpResponse
+import os
+import tempfile
+from pydub import AudioSegment
 import io
 from django.views.decorators.csrf import csrf_exempt
+
+from .amazing_AI_projects.textToSpeech import generate_voice
 from .amazing_AI_projects.mythBuster import mythbuster_answer
 from .amazing_AI_projects.translator import translate_and_correct  
 from .amazing_AI_projects.painting_generator1 import generate_meaningful_abstract_painting
@@ -106,5 +111,58 @@ def abstract_painting_view(request):
     painting.save(img_io, format="PNG")
     img_io.seek(0)
     return HttpResponse(img_io, content_type="image/png")
+@csrf_exempt
+def text_to_speech_view(request):
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "Only POST requests allowed."},
+            status=405
+        )
 
+    temp_wav = None
 
+    try:
+        text = request.POST.get("text")
+        audio_file = request.FILES.get("audio")
+
+        if not text:
+            return JsonResponse({"error": "Text is required."}, status=400)
+
+        if not audio_file:
+            return JsonResponse({"error": "Speaker audio is required."}, status=400)
+
+        # Convert any audio format to WAV
+        audio = AudioSegment.from_file(audio_file)
+
+        temp = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        temp_wav = temp.name
+        temp.close()
+
+        audio.export(temp_wav, format="wav")
+
+        output_path = generate_voice(
+            text=text,
+            speaker_wav=temp_wav,
+            language="en"
+        )
+
+        audio_url = request.build_absolute_uri(
+            "/media/tts/" + os.path.basename(output_path)
+        )
+
+        return JsonResponse({
+            "audio": audio_url
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+
+        return JsonResponse(
+            {"error": str(e)},
+            status=500
+        )
+
+    finally:
+        if temp_wav and os.path.exists(temp_wav):
+            os.remove(temp_wav)

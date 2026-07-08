@@ -1,10 +1,10 @@
 ﻿# Web framework
 Django>=5.0,<6.0
 
-# Image processing for PNG creation
+# Image processing
 Pillow>=10.0.0
 
-# CORS middleware
+# CORS
 django-cors-headers>=4.0.0
 
 # Environment variables
@@ -12,9 +12,9 @@ python-dotenv==1.1.1
 
 # HTTP clients
 requests==2.32.5
-httpx==0.27.0   # Pin this for groq compatibility
+httpx==0.27.0
 
-# AI + Translation
+# AI
 groq==0.9.0
 deep-translator
 
@@ -23,3 +23,21 @@ whitenoise==6.4.0
 
 # Numerical computing
 numpy
+scipy
+
+# PyTorch
+torch==2.1.2
+torchaudio==2.1.2
+torchvision==0.16.2
+
+# Hugging Face
+transformers==4.39.3
+
+# Coqui XTTS
+TTS==0.22.0
+soundfile
+setuptools<81
+pydub
+ffmpeg-python
+ffmpeg
+ffprobe
