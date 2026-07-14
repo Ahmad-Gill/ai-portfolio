@@ -51,12 +51,6 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      - name: Run database migrations
-        working-directory: ./backend
-        env:
-          COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
-        run: python manage.py migrate --noinput
-
       - name: Collect static files
         working-directory: ./backend
         env:
@@ -88,10 +82,21 @@ jobs:
           name: django-backend
           path: .
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Oryx build on App Service
+        run: |
+          az webapp config appsettings set \
+            --name app-ai-protfolio-dev-we-be \
+            --resource-group ASIA-AGRO-SILAGE \
+            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true ENABLE_ORYX_BUILD=true
+
+      - uses: azure/webapps-deploy@v3
         with:
           app-name: app-ai-protfolio-dev-we-be
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE }}
           package: ./django-backend.zip
           clean: true
