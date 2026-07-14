@@ -69,34 +69,22 @@ jobs:
           path: django-backend.zip
 
   deploy:
-    runs-on: ubuntu-latest
-    needs: build
+      runs-on: ubuntu-latest
+      needs: build
 
-    env:
-      COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
+      env:
+        COQUI_TOS_AGREED: ${{ secrets.COQUI_TOS_AGREED }}
 
-    steps:
-      - name: Download deployment artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: django-backend
-          path: .
+      steps:
+        - name: Download deployment artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: django-backend
+            path: .
 
-      - uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Configure Oryx build on App Service
-        run: |
-          az webapp config appsettings set \
-            --name app-ai-protfolio-dev-we-be \
-            --resource-group ASIA-AGRO-SILAGE \
-            --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true ENABLE_ORYX_BUILD=true
-
-      - uses: azure/webapps-deploy@v3
-        with:
-          app-name: app-ai-protfolio-dev-we-be
-          package: ./django-backend.zip
-          clean: true
+        - uses: azure/webapps-deploy@v3
+          with:
+            app-name: app-ai-protfolio-dev-we-be
+            publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BE }}
+            package: ./django-backend.zip
+            clean: true
