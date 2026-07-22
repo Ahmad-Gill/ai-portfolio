@@ -9,19 +9,31 @@ from TTS.api import TTS
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Optional GPU optimizations
 if DEVICE == "cuda":
     torch.backends.cudnn.benchmark = True
     torch.set_float32_matmul_precision("high")
 
-# Load model ONLY ONCE
-print(f"Loading XTTS model on {DEVICE}...")
+# ==========================================================
+# Lazy Load XTTS Model
+# ==========================================================
 
-tts = TTS(
-    model_name="tts_models/multilingual/multi-dataset/xtts_v2"
-).to(DEVICE)
+tts = None
 
-print("XTTS Loaded Successfully!")
+
+def get_tts():
+    global tts
+
+    if tts is None:
+        print(f"Loading XTTS model on {DEVICE}...")
+
+        tts = TTS(
+            model_name="tts_models/multilingual/multi-dataset/xtts_v2"
+        ).to(DEVICE)
+
+        print("XTTS Loaded Successfully!")
+
+    return tts
+
 
 # ==========================================================
 # TTS Function
@@ -51,9 +63,11 @@ def generate_voice(
     filename = f"{uuid.uuid4().hex}.wav"
     output_path = os.path.join(output_dir, filename)
 
-    with torch.inference_mode():
+    # Load model only on first request
+    model = get_tts()
 
-        tts.tts_to_file(
+    with torch.inference_mode():
+        model.tts_to_file(
             text=text,
             speaker_wav=speaker_wav,
             language=language,
