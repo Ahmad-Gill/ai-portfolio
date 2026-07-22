@@ -128,7 +128,7 @@ jobs:
 
           sudo systemctl restart gunicorn
 
-        EOF
+          EOF
       - name: Configure Nginx
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
