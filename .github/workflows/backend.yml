@@ -94,9 +94,8 @@ jobs:
 
       - name: Configure Gunicorn
         run: |
-
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} <<EOF
 
           if [ ! -f /etc/systemd/system/gunicorn.service ]; then
 
@@ -111,16 +110,16 @@ jobs:
           WorkingDirectory=/home/${{ secrets.EC2_USER }}/backend
           Environment="PATH=/home/${{ secrets.EC2_USER }}/backend/venv/bin"
 
-          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn \
-          ai_portfolio.wsgi:application \
-          --workers 3 \
-          --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
+          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn ai_portfolio.wsgi:application \
+              --workers 3 \
+              --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
 
           Restart=always
+          RestartSec=5
 
           [Install]
           WantedBy=multi-user.target
-SERVICE
+          SERVICE
 
           sudo systemctl daemon-reload
           sudo systemctl enable gunicorn
@@ -129,19 +128,16 @@ SERVICE
 
           sudo systemctl restart gunicorn
 
-          EOF
-
+        EOF
       - name: Configure Nginx
         run: |
-
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} <<EOF
 
           if [ ! -f /etc/nginx/sites-available/backend ]; then
 
           sudo tee /etc/nginx/sites-available/backend > /dev/null <<NGINX
           server {
-
               listen 80;
               server_name _;
 
@@ -159,24 +155,18 @@ SERVICE
                   include proxy_params;
                   proxy_pass http://unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock;
               }
-
           }
-NGINX
+          NGINX
 
-          sudo rm -f /etc/nginx/sites-enabled/default
+                    sudo rm -f /etc/nginx/sites-enabled/default
+                    sudo ln -sf /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/backend
 
-          sudo ln -sf \
-          /etc/nginx/sites-available/backend \
-          /etc/nginx/sites-enabled/backend
+                    fi
 
-          fi
-
-          sudo nginx -t
-
-          sudo systemctl restart nginx
+                    sudo nginx -t
+                    sudo systemctl restart nginx
 
           EOF
-
       - name: Verify Deployment
         run: |
 
