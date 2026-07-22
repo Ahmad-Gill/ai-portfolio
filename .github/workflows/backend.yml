@@ -29,77 +29,49 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.BACKEND_EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy Backend
+      - name: Install Packages & Sync Files
         run: |
-
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
           ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
-
           sudo apt-get update
-
           command -v nginx >/dev/null || sudo apt-get install -y nginx
-          command -v git >/dev/null || sudo apt-get install -y git
           command -v rsync >/dev/null || sudo apt-get install -y rsync
-          command -v unzip >/dev/null || sudo apt-get install -y unzip
-
-          if ! command -v python3.11 >/dev/null 2>&1; then
+          command -v python3.11 >/dev/null || {
             sudo apt-get install -y software-properties-common
             sudo add-apt-repository -y ppa:deadsnakes/ppa
             sudo apt-get update
             sudo apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip
-          fi
-
+          }
           mkdir -p ~/backend
-
           EOF
 
           rsync -avz --delete \
-            --exclude ".git" \
-            --exclude "__pycache__" \
-            --exclude "*.pyc" \
-            --exclude ".github" \
-            --exclude "venv" \
-            --exclude ".venv" \
+            --exclude ".git" --exclude "__pycache__" --exclude "*.pyc" \
+            --exclude ".github" --exclude "venv" --exclude ".venv" \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ \
             ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }}:~/backend/
 
-      - name: Configure Python
+      - name: Install Dependencies & Run Django Setup
         run: |
-
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
           ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
-
           cd ~/backend
-
-          if [ ! -d venv ]; then
-              python3.11 -m venv venv
-          fi
-
+          [ -d venv ] || python3.11 -m venv venv
           source venv/bin/activate
-
           python -m pip install --upgrade pip setuptools wheel
-
-          pip install -r requirements.txt
-
-          pip install gunicorn
-
+          pip install -r requirements.txt gunicorn
           python manage.py migrate --noinput
-
           python manage.py collectstatic --noinput
-
           deactivate
-
           EOF
 
-      - name: Configure Gunicorn
+      - name: Configure Gunicorn & Nginx
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} <<EOF
-
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
           if [ ! -f /etc/systemd/system/gunicorn.service ]; then
-
-          sudo tee /etc/systemd/system/gunicorn.service > /dev/null <<SERVICE
+            sudo tee /etc/systemd/system/gunicorn.service > /dev/null << 'SERVICE'
           [Unit]
           Description=Gunicorn Django Service
           After=network.target
@@ -109,38 +81,23 @@ jobs:
           Group=www-data
           WorkingDirectory=/home/${{ secrets.EC2_USER }}/backend
           Environment="PATH=/home/${{ secrets.EC2_USER }}/backend/venv/bin"
-
-          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn ai_portfolio.wsgi:application \
-              --workers 3 \
-              --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
-
+          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn ai_portfolio.wsgi:application --workers 3 --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
           Restart=always
           RestartSec=5
 
           [Install]
           WantedBy=multi-user.target
           SERVICE
-
-          sudo systemctl daemon-reload
-          sudo systemctl enable gunicorn
-
+            sudo systemctl daemon-reload
+            sudo systemctl enable gunicorn
           fi
-
           sudo systemctl restart gunicorn
 
-          EOF
-      - name: Configure Nginx
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} <<EOF
-
           if [ ! -f /etc/nginx/sites-available/backend ]; then
-
-          sudo tee /etc/nginx/sites-available/backend > /dev/null <<NGINX
+            sudo tee /etc/nginx/sites-available/backend > /dev/null << 'NGINX'
           server {
               listen 80;
               server_name _;
-
               client_max_body_size 100M;
 
               location /static/ {
@@ -157,31 +114,17 @@ jobs:
               }
           }
           NGINX
-
-                    sudo rm -f /etc/nginx/sites-enabled/default
-                    sudo ln -sf /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/backend
-
-                    fi
-
-                    sudo nginx -t
-                    sudo systemctl restart nginx
-
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo ln -sf /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/backend
+          fi
+          sudo nginx -t
+          sudo systemctl restart nginx
           EOF
+
       - name: Verify Deployment
         run: |
-
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
           ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
-
-          echo "===== Gunicorn ====="
-          sudo systemctl status gunicorn --no-pager
-
-          echo
-          echo "===== Nginx ====="
-          sudo systemctl status nginx --no-pager
-
-          echo
-          echo "===== Socket ====="
+          sudo systemctl is-active gunicorn nginx
           ls -lah ~/backend/gunicorn.sock
-
           EOF
