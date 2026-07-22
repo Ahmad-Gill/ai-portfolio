@@ -3,11 +3,10 @@ name: Backend CI/CD
 on:
   push:
     branches:
-      - none
+      - main
     paths:
-      - none
-      # - "backend/**"
-      # - ".github/workflows/backend.yml"
+      - "backend/**"
+      - ".github/workflows/backend.yml"
 
   workflow_dispatch:
 
@@ -28,94 +27,62 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.BACKEND_EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Test SSH Connection
+      - name: Deploy Backend
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          echo "Connected Successfully"
-          hostname
-          whoami
-          pwd
-          EOF
 
-      - name: Install Required Packages on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
 
           sudo apt-get update
 
-          sudo apt-get install -y \
-            software-properties-common \
-            build-essential \
-            git \
-            unzip \
-            rsync \
-            nginx
+          command -v nginx >/dev/null || sudo apt-get install -y nginx
+          command -v git >/dev/null || sudo apt-get install -y git
+          command -v rsync >/dev/null || sudo apt-get install -y rsync
+          command -v unzip >/dev/null || sudo apt-get install -y unzip
 
           if ! command -v python3.11 >/dev/null 2>&1; then
+            sudo apt-get install -y software-properties-common
             sudo add-apt-repository -y ppa:deadsnakes/ppa
             sudo apt-get update
-            sudo apt-get install -y \
-              python3.11 \
-              python3.11-dev \
-              python3.11-venv \
-              python3-pip
+            sudo apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip
           fi
-
-          python3.11 --version
-          pip3 --version
-
-          EOF
-
-      - name: Create Backend Folder
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
 
           mkdir -p ~/backend
 
           EOF
 
-      - name: Deploy Backend Files
-        run: |
           rsync -avz --delete \
-          --exclude '.git' \
-          --exclude '__pycache__' \
-          --exclude '*.pyc' \
-          --exclude 'venv' \
-          --exclude '.venv' \
-          --exclude '.github' \
-          -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-          ./ \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/backend/
+            --exclude ".git" \
+            --exclude "__pycache__" \
+            --exclude "*.pyc" \
+            --exclude ".github" \
+            --exclude "venv" \
+            --exclude ".venv" \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+            ./ \
+            ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }}:~/backend/
 
-      - name: Setup Python 3.11 Virtual Environment
+      - name: Configure Python
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
 
           cd ~/backend
 
-          # Remove old Python 3.14 virtual environment
-          rm -rf venv
-
-          # Create a new Python 3.11 virtual environment
-          python3.11 -m venv venv
+          if [ ! -d venv ]; then
+              python3.11 -m venv venv
+          fi
 
           source venv/bin/activate
 
           python -m pip install --upgrade pip setuptools wheel
 
-          pip install gunicorn
-
           pip install -r requirements.txt
+
+          pip install gunicorn
 
           python manage.py migrate --noinput
 
@@ -125,13 +92,15 @@ jobs:
 
           EOF
 
-      - name: Create Gunicorn Systemd Service
+      - name: Configure Gunicorn
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
 
-          sudo tee /etc/systemd/system/gunicorn.service > /dev/null << 'SERVICE'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
+
+          if [ ! -f /etc/systemd/system/gunicorn.service ]; then
+
+          sudo tee /etc/systemd/system/gunicorn.service > /dev/null <<SERVICE
           [Unit]
           Description=Gunicorn Django Service
           After=network.target
@@ -139,90 +108,40 @@ jobs:
           [Service]
           User=${{ secrets.EC2_USER }}
           Group=www-data
-
           WorkingDirectory=/home/${{ secrets.EC2_USER }}/backend
-
           Environment="PATH=/home/${{ secrets.EC2_USER }}/backend/venv/bin"
 
           ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn \
           ai_portfolio.wsgi:application \
           --workers 3 \
-          --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock \
-          --access-logfile - \
-          --error-logfile -
+          --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
 
           Restart=always
-          RestartSec=5
 
           [Install]
           WantedBy=multi-user.target
-          SERVICE
+SERVICE
 
           sudo systemctl daemon-reload
           sudo systemctl enable gunicorn
 
-          EOF
-
-      - name: Start Gunicorn
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          fi
 
           sudo systemctl restart gunicorn
 
-          sleep 5
-
-          sudo systemctl status gunicorn --no-pager
-
           EOF
 
-      - name: Verify Gunicorn Socket
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-
-          ls -lah ~/backend
-
-          if [ -S ~/backend/gunicorn.sock ]; then
-              echo "Gunicorn socket created successfully."
-          else
-              echo "Gunicorn socket not found."
-              sudo journalctl -u gunicorn -n 100 --no-pager
-              exit 1
-          fi
-
-          EOF
-
-      - name: Create Static Directory
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-
-          mkdir -p ~/backend/staticfiles
-
-          EOF
-
-      # NOTE: this writes a *separate* Nginx server block for the backend.
-      # Since your frontend is already deployed on the same EC2 instance
-      # (likely also served by Nginx on port 80), a second "server_name _;"
-      # catch-all block here can conflict with / override your frontend's
-      # Nginx config. This version assumes you want the API reachable at
-      # /api/ on the SAME server your frontend already uses, and reverse
-      # proxies that path to Gunicorn, leaving "/" for the frontend.
-      # If your frontend has its own separate Nginx site file, tell me
-      # and I'll adjust this to add a location block into that file instead
-      # of creating a new server block.
       - name: Configure Nginx
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
 
-          sudo tee /etc/nginx/sites-available/backend > /dev/null << 'NGINX'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
+
+          if [ ! -f /etc/nginx/sites-available/backend ]; then
+
+          sudo tee /etc/nginx/sites-available/backend > /dev/null <<NGINX
           server {
+
               listen 80;
               server_name _;
 
@@ -240,8 +159,9 @@ jobs:
                   include proxy_params;
                   proxy_pass http://unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock;
               }
+
           }
-          NGINX
+NGINX
 
           sudo rm -f /etc/nginx/sites-enabled/default
 
@@ -249,68 +169,29 @@ jobs:
           /etc/nginx/sites-available/backend \
           /etc/nginx/sites-enabled/backend
 
+          fi
+
           sudo nginx -t
 
-          sudo systemctl enable nginx
           sudo systemctl restart nginx
 
           EOF
 
-      - name: Verify Nginx
+      - name: Verify Deployment
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
 
-          echo "===== Nginx Status ====="
-          sudo systemctl status nginx --no-pager
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
 
-          echo ""
-
-          echo "===== Listening Ports ====="
-          sudo ss -tulpn
-
-          echo ""
-
-          echo "===== Enabled Sites ====="
-          ls -lah /etc/nginx/sites-enabled
-
-          EOF
-
-      - name: Verify Gunicorn
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-
-          echo "===== Gunicorn Status ====="
-
+          echo "===== Gunicorn ====="
           sudo systemctl status gunicorn --no-pager
 
-          echo ""
+          echo
+          echo "===== Nginx ====="
+          sudo systemctl status nginx --no-pager
 
-          echo "===== Gunicorn Logs ====="
-
-          sudo journalctl -u gunicorn -n 50 --no-pager
-
-          EOF
-
-      - name: Check Django Files
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -i ~/.ssh/id_rsa \
-          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-
-          cd ~/backend
-
-          echo "===== Backend Files ====="
-
-          ls -lah
-
-          echo ""
-
-          echo "===== Django Project ====="
-
-          ls -lah ai_portfolio
+          echo
+          echo "===== Socket ====="
+          ls -lah ~/backend/gunicorn.sock
 
           EOF
