@@ -13,6 +13,32 @@ FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
 FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
 AudioSegment.converter = FFMPEG_PATH
 AudioSegment.ffprobe = FFPROBE_PATH
+import subprocess
+
+import shutil
+
+from pydub.utils import get_prober_name
+print("=" * 50)
+
+print("ffmpeg:", shutil.which("ffmpeg"))
+
+print("ffprobe:", shutil.which("ffprobe"))
+
+print("AudioSegment.converter:", AudioSegment.converter)
+
+print("AudioSegment.ffprobe:", getattr(AudioSegment, "ffprobe", None))
+
+print("get_prober_name():", get_prober_name())
+
+print("=" * 50)
+
+subprocess.run(
+
+    [FFPROBE_PATH, "-version"],
+
+    check=True
+
+)
 import io
 from django.views.decorators.csrf import csrf_exempt
 
