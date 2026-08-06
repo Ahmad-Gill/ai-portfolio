@@ -9,6 +9,10 @@ os.environ["COQUI_TOS_AGREED"] = "1"
 from TTS.api import TTS
 import tempfile
 from pydub import AudioSegment
+FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
+FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
+AudioSegment.converter = FFMPEG_PATH
+AudioSegment.ffprobe = FFPROBE_PATH
 import io
 from django.views.decorators.csrf import csrf_exempt
 
