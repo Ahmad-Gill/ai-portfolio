@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import os
 
+from ai_portfolio.amazing_AI_projects.imageToPdf import image_to_pdf
+
 os.environ["COQUI_TOS_AGREED"] = "1"
 from TTS.api import TTS
 import tempfile
@@ -116,6 +118,7 @@ def abstract_painting_view(request):
     return HttpResponse(img_io, content_type="image/png")
 @csrf_exempt
 def text_to_speech_view(request):
+    print("text_to_speech_view called")
     if request.method != "POST":
         return JsonResponse(
             {"error": "Only POST requests allowed."},
@@ -169,3 +172,37 @@ def text_to_speech_view(request):
     finally:
         if temp_wav and os.path.exists(temp_wav):
             os.remove(temp_wav)
+            
+@csrf_exempt
+
+def image_to_pdf_view(request):
+
+    if request.method != "POST":
+
+        return JsonResponse({"error": "Only POST requests allowed."}, status=405)
+
+    image = request.FILES.get("image")
+
+    if not image:
+
+        return JsonResponse({"error": "Image is required."}, status=400)
+
+    try:
+
+        pdf_path = image_to_pdf(image)
+
+        pdf_url = request.build_absolute_uri(
+
+            "/media/pdfs/" + os.path.basename(pdf_path)
+
+        )
+
+        return JsonResponse({
+
+            "pdf": pdf_url
+
+        })
+
+    except Exception as e:
+
+        return JsonResponse({"error": str(e)}, status=500)

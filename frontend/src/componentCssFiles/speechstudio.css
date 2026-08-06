@@ -1,0 +1,132 @@
+.project-details-card.speechstudio-card {
+  max-width: 900px;
+}
+
+.speechstudio-form {
+  display: grid;
+  gap: 24px;
+  text-align: left;
+}
+
+.speechstudio-form label {
+  display: grid;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+}
+
+.speechstudio-form textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--surface-border);
+  background: var(--input-bg);
+  color: var(--input-text);
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.speechstudio-input-row {
+  display: grid;
+  gap: 16px;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.file-upload-label input[type="file"] {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--surface-border);
+  padding: 12px 14px;
+  background: var(--input-bg);
+  color: var(--input-text);
+  cursor: pointer;
+}
+
+.record-controls {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.record-controls .btn {
+  min-width: 190px;
+  padding: 14px 20px;
+}
+
+.record-controls .btn.recording {
+  background: #d95c5c;
+  box-shadow: 0 0 18px rgba(217, 92, 92, 0.28);
+}
+
+.speechstudio-preview {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.speechstudio-preview span {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.speechstudio-preview audio {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.speechstudio-result {
+  margin-top: 30px;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(80, 112, 162, 0.14);
+  border: 1px solid rgba(108, 169, 255, 0.12);
+}
+
+.speechstudio-result h2 {
+  margin-bottom: 12px;
+  color: var(--accent-strong);
+}
+
+.speechstudio-result p {
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+.result-audio {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: var(--btn-blue-bg);
+  color: var(--btn-blue-text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(77, 214, 255, 0.18);
+}
+
+@media (max-width: 740px) {
+  .speechstudio-input-row {
+    grid-template-columns: 1fr;
+  }
+}

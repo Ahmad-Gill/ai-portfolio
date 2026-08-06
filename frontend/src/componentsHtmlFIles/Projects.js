@@ -20,7 +20,7 @@ function Projects({ projectName }) {
     "Generate Abstract Painting": "/amazing_ai_projects/AbstractArt",
     "Multi Translation": "/amazing_ai_projects/multi-translation",
     "AI Myth Buster": "/amazing_ai_projects/AIMythBuster",
-    // add more if needed
+    "Speech Studio": "/amazing_ai_projects/speech-studio",
   };
 
   return (

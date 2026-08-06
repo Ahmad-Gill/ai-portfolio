@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
-const publicUrl = process.env.PUBLIC_URL;
+
+const getPublicAsset = (path) => {
+  const base = (process.env.REACT_APP_PUBLIC_URL || process.env.PUBLIC_URL || "").replace(/\/+$/, "");
+  return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(/^\/+/, "")}`;
+};
 
 const assets = {
-  logo1: `${publicUrl}/logo1.png`,
-  logo3: `${publicUrl}/logo3.png`,
-  image1: `${publicUrl}/1.jpg`,
-  image2: `${publicUrl}/2.jpg`,
-  animation: `${publicUrl}/Animation.json`,
-  lottie: `${publicUrl}/Animation.lottie`,
+  logo1: getPublicAsset("logo1.png"),
+  logo3: getPublicAsset("logo3.png"),
+  image1: getPublicAsset("1.jpg"),
+  image2: getPublicAsset("2.jpg"),
+  animation: getPublicAsset("Animation.json"),
+  lottie: getPublicAsset("Animation.lottie"),
 };
 
 function Animation({ fullscreen = false, width = "100%", height = "100%" }) {

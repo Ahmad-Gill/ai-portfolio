@@ -1,15 +1,19 @@
-const publicUrl = process.env.REACT_APP_PUBLIC_URL || "";
+const getPublicAsset = (path) => {
+  const base = (process.env.REACT_APP_PUBLIC_URL || process.env.PUBLIC_URL || "").replace(/\/+$/, "");
+  return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(/^\/+/, "")}`;
+};
 
 const assets = {
-  logo1: `${publicUrl}/logo1.png`,
-  logo3: `${publicUrl}/logo3.png`,
-  image1: `${publicUrl}/1.jpg`,
-  image2: `${publicUrl}/2.jpg`,
-  animation: `${publicUrl}/Animation.json`,
-  lottie: `${publicUrl}/Animation.lottie`,
-  multiTranslation: `${publicUrl}/Amazing AI projects/multi_translation.jpg`,
-  aiMythBuster: `${publicUrl}/Amazing AI projects/ai_mythbuster.png`,
-  abstractArt: `${publicUrl}/Amazing AI projects/AbstractArt.png`,
+  logo1: getPublicAsset("logo1.png"),
+  logo3: getPublicAsset("logo3.png"),
+  image1: getPublicAsset("1.jpg"),
+  image2: getPublicAsset("2.jpg"),
+  animation: getPublicAsset("Animation.json"),
+  lottie: getPublicAsset("Animation.lottie"),
+  multiTranslation: getPublicAsset("Amazing AI projects/multi_translation.jpg"),
+  aiMythBuster: getPublicAsset("Amazing AI projects/ai_mythbuster.png"),
+  abstractArt: getPublicAsset("Amazing AI projects/AbstractArt.png"),
+  speechStudio: getPublicAsset("speach.png"),
 };
 
 export const amazingAI = [
@@ -30,5 +34,11 @@ export const amazingAI = [
     description:
       "Create unique, AI-generated abstract paintings with vibrant colors and patterns.",
     image: assets.abstractArt,
+  },
+  {
+    name: "Speech Studio",
+    description:
+      "Upload or record a short audio clip, add a prompt, and receive a clean AI-generated audio response.",
+    image: assets.speechStudio,
   },
 ];

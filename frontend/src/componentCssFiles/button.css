@@ -2,43 +2,62 @@
 .buttons {
   margin-top: 20px;
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
 .btn {
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 0.96rem;
+  font-weight: 700;
   text-decoration: none;
-  transition: all 0.3s ease;
-  display: inline-block;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--btn-blue-text);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+  border: 1px solid transparent;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.16);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Primary Blue Button */
 .btn.blue {
-  background: var(--btn-blue-bg);
+  background: linear-gradient(135deg, var(--btn-blue-bg), var(--btn-blue-hover));
   color: var(--btn-blue-text);
-  box-shadow: 0 0 15px rgba(97, 218, 251, 0.4);
 }
 
-.btn.blue:hover {
-  background: #2c5364; /* darkest gradient shade */
-  color: #00c6ff; 
-  box-shadow: 0 0 25px rgba(0, 198, 255, 0.7);
+.btn.blue:hover,
+.btn.blue:focus-visible {
+  background: linear-gradient(135deg, var(--btn-blue-hover), var(--btn-blue-bg));
 }
 
 /* Secondary Teal Button */
 .btn.teal {
-  background: #1c3a4d; /* dark teal */
-  color: #00c6ff;
-  box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+  background: linear-gradient(135deg, var(--btn-teal-bg), var(--btn-teal-hover));
+  color: var(--btn-teal-text);
 }
 
-.btn.teal:hover {
-  background: #225b73; /* slightly lighter teal on hover */
-  color: #61dafb;
-  box-shadow: 0 0 25px rgba(0, 198, 255, 0.6);
+.btn.teal:hover,
+.btn.teal:focus-visible {
+  background: linear-gradient(135deg, var(--btn-teal-hover), var(--btn-teal-bg));
 }

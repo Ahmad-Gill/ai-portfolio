@@ -6,6 +6,7 @@ import Projects from "./componentsHtmlFIles/Projects";
 import MultiTranslation from "./componentsHtmlFIles/amazing_ai_pojects/MultiTranslation";
 import AIMythBuster from "./componentsHtmlFIles/amazing_ai_pojects/AIMythBuster";
 import AbstractArt from "./componentsHtmlFIles/amazing_ai_pojects/AbstractArt";
+import SpeechStudio from "./componentsHtmlFIles/amazing_ai_pojects/SpeechStudio";
 
 function ProjectsWrapper() {
   const { projectName } = useParams();
@@ -45,6 +46,10 @@ function App() {
         <Route
           path="/amazing_ai_projects/AbstractArt"
           element={<AbstractArt />}
+        />
+        <Route
+          path="/amazing_ai_projects/speech-studio"
+          element={<SpeechStudio />}
         />
       </Routes>
     </BrowserRouter>

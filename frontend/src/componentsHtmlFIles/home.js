@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Buttons from "./Button";
 import "../componentCssFiles/home.css";
-const publicUrl = process.env.PUBLIC_URL;
-const BASE_URL = process.env.REACT_APP_PUBLIC_URL || "";
+
+const getPublicAsset = (path) => {
+  const base = (process.env.REACT_APP_PUBLIC_URL || process.env.PUBLIC_URL || "").replace(/\/+$/, "");
+  return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(/^\/+/, "")}`;
+};
+
+const BASE_URL = (process.env.REACT_APP_PUBLIC_URL || "").replace(/\/+$/, "");
 const assets = {
-  logo1: `${publicUrl}/logo1.png`,
-  logo3: `${publicUrl}/logo3.png`,
-  image1: `${publicUrl}/1.jpg`,
-  image2: `${publicUrl}/2.jpg`,
-  animation: `${publicUrl}/Animation.json`,
-  lottie: `${publicUrl}/Animation.lottie`,
+  logo1: getPublicAsset("logo1.png"),
+  logo3: getPublicAsset("logo3.png"),
+  image1: getPublicAsset("1.jpg"),
+  image2: getPublicAsset("2.jpg"),
+  animation: getPublicAsset("Animation.json"),
+  lottie: getPublicAsset("Animation.lottie"),
 };
 
 function Home() {
@@ -19,18 +24,14 @@ function Home() {
   const heroButtons = [
     {
       text: "Explore AI Projects",
-
       href: `${BASE_URL}/projects/Amazing%20AI%20Projects`,
-
       type: "teal",
     },
-
     {
       text: "Download CV",
-
-      href: "#",
-
+      href: getPublicAsset("CV/MUHAMMAD AHMAD.pdf"),
       type: "blue",
+      target: "_blank",
     },
   ];
 

@@ -8,7 +8,7 @@
 
 .home-container {
   position: relative;
-  padding: 40px 40px 80px;
+  padding: 48px 40px 90px;
 }
 
 .home-container::before {
@@ -18,7 +18,7 @@
   right: -8%;
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(0, 198, 255, 0.16), transparent 58%);
+  background: radial-gradient(circle, rgba(108, 169, 255, 0.10), transparent 58%);
   filter: blur(72px);
   pointer-events: none;
 }
@@ -33,18 +33,18 @@
 
 .hero-copy {
   position: relative;
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(255,255,255,0.04) 100%);
   border: 1px solid var(--surface-border);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
   border-radius: 32px;
   padding: 50px 50px 42px;
-  box-shadow: 0 40px 120px var(--shadow);
-  animation: fadeInUp 1s ease both;
+  box-shadow: 0 24px 80px var(--shadow);
+  animation: fadeInUp 0.8s ease both;
 }
 
 .eyebrow {
   display: inline-block;
-  color: #7ec8ff;
+  color: #95b4e4;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-size: 0.78rem;
@@ -53,9 +53,10 @@
 
 .hero-title {
   font-size: clamp(3rem, 5vw, 5.2rem);
-  line-height: 0.92;
-  letter-spacing: -0.05em;
-  background: linear-gradient(100deg, #49d5ff 0%, #f14d9a 50%, #f5b746 100%);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  background: linear-gradient(100deg, var(--accent) 0%, #9fc3ff 48%, var(--text-primary) 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 22px;
@@ -129,8 +130,8 @@
   border-radius: 40px;
   overflow: hidden;
   border: 1px solid var(--surface-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-  box-shadow: 0 40px 120px var(--shadow);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  box-shadow: 0 30px 90px var(--shadow);
   animation: float 5s ease-in-out infinite;
 }
 
@@ -149,16 +150,17 @@
   grid-template-columns: 1.8fr 1fr;
   gap: 32px;
   align-items: center;
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(255,255,255,0.04) 100%);
   border: 1px solid var(--surface-border);
   backdrop-filter: blur(16px);
   border-radius: 32px;
   padding: 42px 45px;
+  box-shadow: 0 20px 60px var(--shadow);
 }
 
 .explore-copy .section-label {
   display: inline-block;
-  color: #7ec8ff;
+  color: #95b4e4;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: 0.78rem;
@@ -190,7 +192,7 @@
   padding: 16px 22px;
   font-size: 1rem;
   border-radius: 18px;
-  border: 1px solid rgba(74, 210, 255, 0.35);
+  border: 1px solid var(--surface-border);
   background: var(--input-bg);
   color: var(--input-text);
   outline: none;
@@ -201,7 +203,7 @@
 .projects-dropdown:hover,
 .projects-dropdown:focus {
   transform: translateY(-2px);
-  border-color: rgba(74, 210, 255, 0.6);
+  border-color: var(--accent);
   background: var(--input-bg-hover);
 }
 

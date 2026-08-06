@@ -53,6 +53,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://ahmadgill.com"
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "https://ahmadgill.com",
+]
 
 CORS_ALLOW_METHODS = [
     "DELETE",
