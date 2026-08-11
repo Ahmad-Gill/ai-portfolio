@@ -48,16 +48,19 @@ scipy
 # PyTorch
 # ============================================================
 
+# Keep Torch 2.1.2 for the low-memory EC2 instance.
 torch==2.1.2
 torchaudio==2.1.2
 torchvision==0.16.2
 
 
 # ============================================================
-# Hugging Face
+# Hugging Face / Sentence Transformers
 # ============================================================
 
-transformers==4.39.3
+# Compatible with the Torch 2.1.x stack.
+transformers==4.36.2
+tokenizers==0.15.2
 sentence-transformers==2.6.1
 
 
@@ -78,7 +81,7 @@ ffmpeg-python
 
 langchain
 langchain-community
-langchain-huggingface
+langchain-huggingface==0.0.3
 langchain-experimental
 langchain-text-splitters
 
