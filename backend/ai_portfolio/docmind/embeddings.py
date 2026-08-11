@@ -1,7 +1,7 @@
 import os
 
 # ============================================================
-# Low-memory configuration
+# Low Memory Configuration
 # ============================================================
 
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
@@ -38,56 +38,60 @@ _embeddings = None
 
 def get_embeddings():
     """
-    Load the HuggingFace embedding model only when required.
-
-    This prevents Django/Gunicorn from loading the model
-    during application startup.
+    Create the embedding model only when it is actually needed.
     """
 
     global _embeddings
 
-    if _embeddings is not None:
-        return _embeddings
+    if _embeddings is None:
 
-    print("Loading HuggingFace embedding model...")
+        print("Loading HuggingFace embedding model...")
 
-    _embeddings = HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL,
-        model_kwargs={
-            "device": "cpu",
-        },
-        encode_kwargs={
-            "normalize_embeddings": True,
-        },
-    )
+        _embeddings = HuggingFaceEmbeddings(
+            model_name=EMBEDDING_MODEL,
+            model_kwargs={
+                "device": "cpu",
+            },
+            encode_kwargs={
+                "normalize_embeddings": True,
+            },
+        )
 
-    print("HuggingFace embedding model loaded.")
+        print("HuggingFace embedding model loaded.")
 
     return _embeddings
 
 
 # ============================================================
-# Backward-Compatible Lazy Proxy
+# Backward Compatibility
 # ============================================================
 
 class LazyEmbeddings:
     """
-    Allows existing code such as:
+    Lazy wrapper around HuggingFaceEmbeddings.
 
-        from .embeddings import embeddings
+    Supports existing code such as:
 
-    to continue working without loading the model during
-    Django startup.
+        embeddings.embed_documents(...)
+        embeddings.embed_query(...)
+
+    and also:
+
+        embeddings()
     """
 
+    def __call__(self):
+
+        return get_embeddings()
+
     def __getattr__(self, name):
+
         return getattr(
             get_embeddings(),
             name,
         )
 
 
-# Keep this name because other files may import it.
 embeddings = LazyEmbeddings()
 
 
@@ -119,9 +123,11 @@ def load_vector_store():
 
         print("Loading FAISS vector store...")
 
+        embedding_model = get_embeddings()
+
         _vector_store = FAISS.load_local(
             FAISS_INDEX_PATH,
-            get_embeddings(),
+            embedding_model,
             allow_dangerous_deserialization=True,
         )
 
@@ -205,10 +211,9 @@ def get_embedding_model():
 # IMPORTANT
 # ============================================================
 #
-# DO NOT call load_vector_store() here.
+# Do NOT call load_vector_store() here.
 #
-# Calling it during Django startup would load the HuggingFace
-# model immediately and can cause OOM on the 1 GB EC2 instance.
+# The model must NOT be loaded during Django/Gunicorn startup.
 #
 # load_vector_store()
 # ============================================================
