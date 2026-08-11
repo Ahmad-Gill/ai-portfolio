@@ -1,45 +1,54 @@
 import json
 from django.http import JsonResponse
 from django.http import HttpResponse
+import traceback
 import os
 
 from ai_portfolio.amazing_AI_projects.imageToPdf import image_to_pdf
 
 os.environ["COQUI_TOS_AGREED"] = "1"
-from TTS.api import TTS
 import tempfile
 from pydub import AudioSegment
-FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
-FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
-AudioSegment.converter = FFMPEG_PATH
-AudioSegment.ffprobe = FFPROBE_PATH
-import subprocess
+
+
+# for live 
+# FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
+# FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
+# AudioSegment.converter = FFMPEG_PATH
+# AudioSegment.ffprobe = FFPROBE_PATH
+# import subprocess
+
+# subprocess.run(
+
+#     [FFPROBE_PATH, "-version"],
+
+#     check=True
+
+# )
+
+# for local 
 
 import shutil
 
-from pydub.utils import get_prober_name
-print("=" * 50)
-
-print("ffmpeg:", shutil.which("ffmpeg"))
-
-print("ffprobe:", shutil.which("ffprobe"))
-
-print("AudioSegment.converter:", AudioSegment.converter)
-
-print("AudioSegment.ffprobe:", getattr(AudioSegment, "ffprobe", None))
-
-print("get_prober_name():", get_prober_name())
-
-print("=" * 50)
-
-subprocess.run(
-
-    [FFPROBE_PATH, "-version"],
-
-    check=True
-
+FFMPEG_PATH = os.environ.get(
+    "FFMPEG_PATH",
+    shutil.which("ffmpeg") or "/usr/bin/ffmpeg"
 )
+
+FFPROBE_PATH = os.environ.get(
+    "FFPROBE_PATH",
+    shutil.which("ffprobe") or "/usr/bin/ffprobe"
+)
+
+AudioSegment.converter = FFMPEG_PATH
+AudioSegment.ffprobe = FFPROBE_PATH
 import io
+
+
+#RAG IMports 
+
+
+
 from django.views.decorators.csrf import csrf_exempt
 
 from .amazing_AI_projects.textToSpeech import generate_voice
@@ -50,7 +59,15 @@ from .amazing_AI_projects.painting_generator2 import generate_meaningful_abstrac
 from .amazing_AI_projects.painting_generator3 import generate_abstract_painting_with_faces
 from .amazing_AI_projects.painting_generator4 import generate_abstract_painting
 
+from .docmind.config import (
+    DOCMIND_UPLOAD_PASSWORD,
+    SUPPORTED_DOCUMENT_EXTENSIONS,
+)
 
+from .docmind.rag import (
+    create_embeddings,
+    generate_answer,
+)
 
 
 
@@ -236,3 +253,179 @@ def image_to_pdf_view(request):
     except Exception as e:
 
         return JsonResponse({"error": str(e)}, status=500)
+    
+    
+    
+@csrf_exempt
+def docmind_upload_document(request):
+
+    if request.method != "POST":
+
+        return JsonResponse({
+            "success": False,
+            "error": "Only POST requests allowed."
+        }, status=405)
+
+    try:
+
+        password = request.headers.get(
+            "X-DocMind-Password"
+        )
+
+        if not DOCMIND_UPLOAD_PASSWORD:
+
+            return JsonResponse({
+                "success": False,
+                "error": "Upload password is not configured."
+            }, status=500)
+
+        if not password:
+
+            return JsonResponse({
+                "success": False,
+                "error": "Authentication password is required."
+            }, status=401)
+
+        if password != DOCMIND_UPLOAD_PASSWORD:
+
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid authentication password."
+            }, status=401)
+
+        document = request.FILES.get(
+            "document"
+        )
+
+        if not document:
+
+            return JsonResponse({
+                "success": False,
+                "error": "Document is required."
+            }, status=400)
+
+        file_name = document.name
+
+        extension = os.path.splitext(
+            file_name
+        )[1].lower()
+
+        if extension not in SUPPORTED_DOCUMENT_EXTENSIONS:
+
+            return JsonResponse({
+                "success": False,
+                "error": (
+                    "Unsupported document type. "
+                    "Allowed: PDF, DOCX, TXT."
+                )
+            }, status=400)
+
+        temp_file_path = None
+
+        try:
+
+            with tempfile.NamedTemporaryFile(
+                delete=False,
+                suffix=extension
+            ) as temp_file:
+
+                for chunk in document.chunks():
+
+                    temp_file.write(chunk)
+
+                temp_file_path = temp_file.name
+
+            chunk_count = create_embeddings(
+                temp_file_path,
+                extension
+            )
+
+        finally:
+
+            if (
+                temp_file_path
+                and os.path.exists(temp_file_path)
+            ):
+
+                os.remove(temp_file_path)
+
+        return JsonResponse({
+            "success": True,
+            "message": (
+                "Document uploaded and "
+                "embeddings created successfully."
+            ),
+            "document": file_name,
+            "chunks": chunk_count
+        })
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=500)
+
+
+@csrf_exempt
+def docmind_ask_question(request):
+
+    if request.method != "POST":
+
+        return JsonResponse({
+            "success": False,
+            "error": "Only POST requests allowed."
+        }, status=405)
+
+    try:
+
+        if request.content_type != "application/json":
+
+            return JsonResponse({
+                "success": False,
+                "error": "Content-Type must be application/json."
+            }, status=400)
+
+        data = json.loads(
+            request.body.decode("utf-8")
+        )
+
+        question = data.get(
+            "question",
+            ""
+        ).strip()
+
+        if not question:
+
+            return JsonResponse({
+                "success": False,
+                "error": "Question is required."
+            }, status=400)
+
+        answer = generate_answer(
+            question
+        )
+
+        return JsonResponse({
+            "success": True,
+            "question": question,
+            "answer": answer
+        })
+
+    except json.JSONDecodeError:
+
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid JSON payload."
+        }, status=400)
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=500)
