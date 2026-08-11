@@ -12,36 +12,36 @@ from pydub import AudioSegment
 
 
 # for live 
-# FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
-# FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
-# AudioSegment.converter = FFMPEG_PATH
-# AudioSegment.ffprobe = FFPROBE_PATH
-# import subprocess
+FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
+FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
+AudioSegment.converter = FFMPEG_PATH
+AudioSegment.ffprobe = FFPROBE_PATH
+import subprocess
 
-# subprocess.run(
+subprocess.run(
 
-#     [FFPROBE_PATH, "-version"],
+    [FFPROBE_PATH, "-version"],
 
-#     check=True
+    check=True
 
-# )
+)
 
 # for local 
 
 import shutil
 
-FFMPEG_PATH = os.environ.get(
-    "FFMPEG_PATH",
-    shutil.which("ffmpeg") or "/usr/bin/ffmpeg"
-)
+# FFMPEG_PATH = os.environ.get(
+#     "FFMPEG_PATH",
+#     shutil.which("ffmpeg") or "/usr/bin/ffmpeg"
+# )
 
-FFPROBE_PATH = os.environ.get(
-    "FFPROBE_PATH",
-    shutil.which("ffprobe") or "/usr/bin/ffprobe"
-)
+# FFPROBE_PATH = os.environ.get(
+#     "FFPROBE_PATH",
+#     shutil.which("ffprobe") or "/usr/bin/ffprobe"
+# )
 
-AudioSegment.converter = FFMPEG_PATH
-AudioSegment.ffprobe = FFPROBE_PATH
+# AudioSegment.converter = FFMPEG_PATH
+# AudioSegment.ffprobe = FFPROBE_PATH
 import io
 
 
