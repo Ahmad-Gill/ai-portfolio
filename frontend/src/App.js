@@ -7,6 +7,10 @@ import MultiTranslation from "./componentsHtmlFIles/amazing_ai_pojects/MultiTran
 import AIMythBuster from "./componentsHtmlFIles/amazing_ai_pojects/AIMythBuster";
 import AbstractArt from "./componentsHtmlFIles/amazing_ai_pojects/AbstractArt";
 import SpeechStudio from "./componentsHtmlFIles/amazing_ai_pojects/SpeechStudio";
+import Toolbox from "./componentsHtmlFIles/amazing_ai_pojects/Toolbox";
+import ImageToPDF from "./componentsHtmlFIles/amazing_ai_pojects/ImageToPDF";
+import RagDocMind from "./componentsHtmlFIles/amazing_ai_pojects/RagDocMind";
+import ChatWidget from "./componentsHtmlFIles/ChatWidget";
 
 function ProjectsWrapper() {
   const { projectName } = useParams();
@@ -51,7 +55,20 @@ function App() {
           path="/amazing_ai_projects/speech-studio"
           element={<SpeechStudio />}
         />
+        <Route
+          path="/amazing_ai_projects/toolbox"
+          element={<Toolbox />}
+        />
+        <Route
+          path="/amazing_ai_projects/toolbox/image-to-pdf"
+          element={<ImageToPDF />}
+        />
+        <Route
+          path="/amazing_ai_projects/docmind-rag"
+          element={<RagDocMind />}
+        />
       </Routes>
+      <ChatWidget />
     </BrowserRouter>
   );
 }

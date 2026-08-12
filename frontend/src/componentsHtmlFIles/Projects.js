@@ -21,6 +21,8 @@ function Projects({ projectName }) {
     "Multi Translation": "/amazing_ai_projects/multi-translation",
     "AI Myth Buster": "/amazing_ai_projects/AIMythBuster",
     "Speech Studio": "/amazing_ai_projects/speech-studio",
+    "AI Tool Box": "/amazing_ai_projects/toolbox",
+    "DocMind (RAG)": "/amazing_ai_projects/docmind-rag",
   };
 
   return (
@@ -42,7 +44,7 @@ function Projects({ projectName }) {
           >
             <img src={proj.image} alt={proj.name} className="project-image" />
             <h2>{proj.name}</h2>
-            <p>{proj.description}</p>
+            <p>Explore this AI project in detail.</p>
           </Link>
         ))}
       </div>

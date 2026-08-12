@@ -14,6 +14,8 @@ const assets = {
   aiMythBuster: getPublicAsset("Amazing AI projects/ai_mythbuster.png"),
   abstractArt: getPublicAsset("Amazing AI projects/AbstractArt.png"),
   speechStudio: getPublicAsset("speach.png"),
+  toolbox: getPublicAsset("Amazing AI projects/tool.png"),
+  docmind: getPublicAsset("Amazing AI projects/RAG.png"),
 };
 
 export const amazingAI = [
@@ -40,5 +42,17 @@ export const amazingAI = [
     description:
       "Upload or record a short audio clip, add a prompt, and receive a clean AI-generated audio response.",
     image: assets.speechStudio,
+  },
+  {
+    name: "AI Tool Box",
+    description:
+      "Access multiple AI utilities in one place, starting with image-to-PDF conversion.",
+    image: assets.toolbox,
+  },
+  {
+    name: "DocMind (RAG)",
+    description:
+      "Upload documents (PDF, TXT, DOCX) and ask questions — a simple RAG pipeline.",
+    image: assets.docmind,
   },
 ];
