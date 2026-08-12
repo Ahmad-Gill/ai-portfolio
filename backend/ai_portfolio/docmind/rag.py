@@ -16,11 +16,10 @@ from .config import (
 from .document_loader import load_document
 
 from .embeddings import (
-    embeddings,
+    get_embeddings,
     set_vector_store,
     get_retriever,
 )
-
 
 # ============================================================
 # Groq Client
@@ -69,8 +68,10 @@ def create_embeddings(
     # 2. Semantic Chunking
     # ========================================================
 
+    embedding_model = get_embeddings()
+
     text_splitter = SemanticChunker(
-        embeddings,
+        embedding_model,
         breakpoint_threshold_type="percentile"
     )
 
@@ -93,7 +94,7 @@ def create_embeddings(
 
     new_vector_store = FAISS.from_documents(
         chunks,
-        embeddings
+        embedding_model
     )
 
 
