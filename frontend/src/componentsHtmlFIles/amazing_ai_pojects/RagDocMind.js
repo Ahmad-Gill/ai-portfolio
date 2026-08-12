@@ -4,8 +4,7 @@ import "../../componentCssFiles/ragdocmind.css";
 function RagDocMind() {
   const [file, setFile] = useState(null);
   const [password, setPassword] = useState("");
-  const [uploadResult, setUploadResult] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [, setUploadResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalFile, setModalFile] = useState(null);
   const [modalPassword, setModalPassword] = useState("");
