@@ -7,7 +7,7 @@ const assets = {
   speechStudio: getPublicAsset("speach.png"),
   toolbox: getPublicAsset("Amazing AI projects/tool.png"),
   docmind: getPublicAsset("Amazing AI projects/RAG.png"),
-  urduAudioRag: getPublicAsset("Amazing AI projects/UrduRAg.png"),
+  urduAudioRag: getPublicAsset("Amazing AI projects/urduRAg.png"),
 };
 
 // Maps a project's display name to its detail page route.
