@@ -7,6 +7,7 @@ const assets = {
   speechStudio: getPublicAsset("speach.png"),
   toolbox: getPublicAsset("Amazing AI projects/tool.png"),
   docmind: getPublicAsset("Amazing AI projects/RAG.png"),
+  urduAudioRag: getPublicAsset("Amazing AI projects/UrduRAg.png"),
 };
 
 // Maps a project's display name to its detail page route.
@@ -18,6 +19,7 @@ export const projectRoutes = {
   "Speech Studio": "/amazing_ai_projects/speech-studio",
   "AI Tool Box": "/amazing_ai_projects/toolbox",
   "DocMind (RAG)": "/amazing_ai_projects/docmind-rag",
+  "Urdu Audio RAG": "/amazing_ai_projects/urdu-audio-rag",
 };
 
 export const amazingAI = [
@@ -56,5 +58,11 @@ export const amazingAI = [
     description:
       "Upload documents (PDF, TXT, DOCX) and ask questions   a simple RAG pipeline.",
     image: assets.docmind,
+  },
+  {
+    name: "Urdu Audio RAG",
+    description:
+      "Speak a question in Urdu and get a spoken answer back   a full voice-in, voice-out RAG pipeline.",
+    image: assets.urduAudioRag,
   },
 ];

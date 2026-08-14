@@ -10,6 +10,7 @@ import SpeechStudio from "./componentsHtmlFIles/amazing_ai_pojects/SpeechStudio"
 import Toolbox from "./componentsHtmlFIles/amazing_ai_pojects/Toolbox";
 import ImageToPDF from "./componentsHtmlFIles/amazing_ai_pojects/ImageToPDF";
 import RagDocMind from "./componentsHtmlFIles/amazing_ai_pojects/RagDocMind";
+import UrduAudioRag from "./componentsHtmlFIles/amazing_ai_pojects/UrduAudioRag";
 import ChatWidget from "./componentsHtmlFIles/ChatWidget";
 
 function ProjectsWrapper() {
@@ -66,6 +67,10 @@ function App() {
         <Route
           path="/amazing_ai_projects/docmind-rag"
           element={<RagDocMind />}
+        />
+        <Route
+          path="/amazing_ai_projects/urdu-audio-rag"
+          element={<UrduAudioRag />}
         />
       </Routes>
       <ChatWidget />
