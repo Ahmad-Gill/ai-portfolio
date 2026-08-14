@@ -1,21 +1,23 @@
-const getPublicAsset = (path) => {
-  const base = (process.env.REACT_APP_PUBLIC_URL || process.env.PUBLIC_URL || "").replace(/\/+$/, "");
-  return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(/^\/+/, "")}`;
-};
+import { getPublicAsset } from "../utils/publicAsset";
 
 const assets = {
-  logo1: getPublicAsset("logo1.png"),
-  logo3: getPublicAsset("logo3.png"),
-  image1: getPublicAsset("1.jpg"),
-  image2: getPublicAsset("2.jpg"),
-  animation: getPublicAsset("Animation.json"),
-  lottie: getPublicAsset("Animation.lottie"),
   multiTranslation: getPublicAsset("Amazing AI projects/multi_translation.jpg"),
   aiMythBuster: getPublicAsset("Amazing AI projects/ai_mythbuster.png"),
   abstractArt: getPublicAsset("Amazing AI projects/AbstractArt.png"),
   speechStudio: getPublicAsset("speach.png"),
   toolbox: getPublicAsset("Amazing AI projects/tool.png"),
   docmind: getPublicAsset("Amazing AI projects/RAG.png"),
+};
+
+// Maps a project's display name to its detail page route.
+export const projectRoutes = {
+  "AI Chatbot": "/ai-chatbot",
+  "Generate Abstract Painting": "/amazing_ai_projects/AbstractArt",
+  "Multi Translation": "/amazing_ai_projects/multi-translation",
+  "AI Myth Buster": "/amazing_ai_projects/AIMythBuster",
+  "Speech Studio": "/amazing_ai_projects/speech-studio",
+  "AI Tool Box": "/amazing_ai_projects/toolbox",
+  "DocMind (RAG)": "/amazing_ai_projects/docmind-rag",
 };
 
 export const amazingAI = [
@@ -52,7 +54,7 @@ export const amazingAI = [
   {
     name: "DocMind (RAG)",
     description:
-      "Upload documents (PDF, TXT, DOCX) and ask questions — a simple RAG pipeline.",
+      "Upload documents (PDF, TXT, DOCX) and ask questions   a simple RAG pipeline.",
     image: assets.docmind,
   },
 ];

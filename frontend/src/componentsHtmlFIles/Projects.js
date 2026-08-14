@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../componentCssFiles/project.css";
 
 // Import all project data files
-import { amazingAI } from "../data/amazingAI";
+import { amazingAI, projectRoutes } from "../data/amazingAI";
 import { lumsProjects } from "../data/lumsProjects";
 
 function Projects({ projectName }) {
@@ -13,17 +13,6 @@ function Projects({ projectName }) {
   };
 
   const projects = projectDataMap[projectName] || [];
-
-  // Map project names to their detail page paths
-  const projectRoutes = {
-    "AI Chatbot": "/ai-chatbot",
-    "Generate Abstract Painting": "/amazing_ai_projects/AbstractArt",
-    "Multi Translation": "/amazing_ai_projects/multi-translation",
-    "AI Myth Buster": "/amazing_ai_projects/AIMythBuster",
-    "Speech Studio": "/amazing_ai_projects/speech-studio",
-    "AI Tool Box": "/amazing_ai_projects/toolbox",
-    "DocMind (RAG)": "/amazing_ai_projects/docmind-rag",
-  };
 
   return (
     <div className="projects-page">

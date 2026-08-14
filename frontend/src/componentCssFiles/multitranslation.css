@@ -1,4 +1,4 @@
-/* Keep page + card styling same */
+/* Page + card styling */
 .project-details-page {
   padding: 48px 24px 72px;
   color: var(--text-primary);
@@ -6,24 +6,29 @@
 }
 
 .project-details-card {
-  background: linear-gradient(135deg, var(--surface-strong) 0%, rgba(255,255,255,0.04) 100%);
-  border-radius: 28px;
-  padding: 32px;
+  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px;
   max-width: 860px;
   margin: 0 auto;
-  box-shadow: 0 20px 60px var(--shadow);
+  box-shadow: var(--shadow-lg);
   border: 1px solid var(--surface-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .project-details-card h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
   font-size: clamp(1.9rem, 2.6vw, 2.4rem);
   margin-bottom: 12px;
-  color: var(--accent);
+  color: var(--text-primary);
 }
 
 .project-details-card p {
-  font-size: 1rem;
-  margin-bottom: 22px;
+  font-size: 1.02rem;
+  margin-bottom: 26px;
   color: var(--text-secondary);
 }
 
@@ -32,16 +37,18 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  text-align: left;
 }
 
 .multitranslation-form textarea,
 .multitranslation-form select {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 16px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--surface-border);
   font-size: 1rem;
+  font-family: var(--font-sans);
   background: var(--input-bg);
   color: var(--input-text);
   outline: none;
@@ -53,14 +60,18 @@
   min-height: 120px;
 }
 
+.multitranslation-form select {
+  cursor: pointer;
+}
+
 .multitranslation-form textarea:focus,
 .multitranslation-form select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(118, 179, 255, 0.16);
+  box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
 .multitranslation-form select option {
-  background: var(--surface);
+  background: var(--surface-strong);
   color: var(--input-text);
 }
 
@@ -68,34 +79,49 @@
   align-self: flex-start;
 }
 
+.multitranslation-result {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--table-border);
+}
+
 .result-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
-  overflow: hidden;
-  border-radius: 16px;
+  background: var(--table-bg);
 }
 
 .result-table th,
 .result-table td {
-  border: 1px solid var(--surface-border);
-  padding: 12px 14px;
+  border-bottom: 1px solid var(--table-border);
+  padding: 13px 16px;
   text-align: left;
 }
 
+.result-table tr:last-child th,
+.result-table tr:last-child td {
+  border-bottom: none;
+}
+
 .result-table th {
-  background: rgba(118, 179, 255, 0.14);
-  color: var(--text-primary);
+  background: var(--table-header-bg);
+  color: var(--accent);
+  font-weight: 700;
   width: 25%;
 }
 
 .result-table td {
-  background: var(--surface);
-  color: var(--input-text);
+  color: var(--text-primary);
 }
 
 .error {
   color: var(--error);
   margin-top: 12px;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .project-details-card {
+    padding: 28px 22px;
+  }
 }

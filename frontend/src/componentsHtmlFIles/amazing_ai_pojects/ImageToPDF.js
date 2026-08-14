@@ -81,6 +81,7 @@ function ImageToPDF() {
 
   return (
     <div className="project-details-page">
+      {loading && <Animation fullscreen />}
       <div className="project-details-card toolbox-card">
         <h1>Image to PDF Converter</h1>
         <p>Upload an image file and generate a downloadable PDF document using the AI toolbox API.</p>
@@ -98,7 +99,6 @@ function ImageToPDF() {
           )}
 
           <Buttons buttons={heroButtons} />
-          {loading && <Animation fullscreen />}
           {error && <p className="error">{error}</p>}
 
           {pdfUrl && (

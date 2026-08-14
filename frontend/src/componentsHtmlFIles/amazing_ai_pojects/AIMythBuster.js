@@ -56,6 +56,7 @@ function AIMythBuster() {
 
   return (
     <div className="project-details-page">
+      {loading && <Animation fullscreen />}
       <div className="project-details-card">
         <h1>AI Myth Buster</h1>
         <p>Enter any claim and find out if it is misleading, true, or unproven.</p>
@@ -72,7 +73,6 @@ function AIMythBuster() {
           <Buttons buttons={heroButtons} />
         </div>
 
-        {loading && <Animation fullscreen />}
         {error && <p className="error">{error}</p>}
 
         {/* Results */}
@@ -117,7 +117,7 @@ function AIMythBuster() {
                       {result.sources.map((src, idx) => (
                         <tr key={idx}>
                           <td>{src.publisher || "Unknown"}</td>
-                          <td>{src.snippet || src.details || "—"}</td>
+                          <td>{src.snippet || src.details || " "}</td>
                           <td>
                             {src.url ? (
                               <a

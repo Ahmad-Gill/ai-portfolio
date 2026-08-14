@@ -54,6 +54,7 @@ function MultiTranslation() {
 
   return (
     <div className="project-details-page">
+      {loading && <Animation fullscreen />}
       <div className="project-details-card">
         <h1>Multi Translation</h1>
         <p>Translate text into multiple languages instantly with AI-powered accuracy.</p>
@@ -81,7 +82,6 @@ function MultiTranslation() {
           <Buttons buttons={heroButtons} />
         </div>
 
-        {loading && <Animation fullscreen />}
         {error && <p className="error">{error}</p>}
 
         {result && (

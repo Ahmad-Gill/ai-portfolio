@@ -1,3 +1,36 @@
+.project-details-page {
+  padding: 48px 24px 72px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.project-details-card {
+  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  max-width: 850px;
+  margin: 0 auto;
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-details-card h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 2.4rem;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.project-details-card p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
 .project-details-card.speechstudio-card {
   max-width: 900px;
 }
@@ -6,6 +39,7 @@
   display: grid;
   gap: 24px;
   text-align: left;
+  margin-top: 26px;
 }
 
 .speechstudio-form label {
@@ -13,23 +47,34 @@
   gap: 12px;
   color: var(--text-secondary);
   font-size: 0.96rem;
+  font-weight: 600;
 }
 
 .speechstudio-form textarea {
   width: 100%;
   min-height: 140px;
   padding: 16px;
-  border-radius: 18px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--surface-border);
   background: var(--input-bg);
   color: var(--input-text);
   resize: vertical;
   font-size: 1rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.speechstudio-form textarea:focus {
+  border-color: var(--accent);
+  background: var(--input-bg-hover);
 }
 
 .speechstudio-input-row {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
+  align-items: end;
 }
 
 .file-upload-label {
@@ -42,7 +87,7 @@
 
 .file-upload-label input[type="file"] {
   width: 100%;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--surface-border);
   padding: 12px 14px;
   background: var(--input-bg);
@@ -61,17 +106,17 @@
 }
 
 .record-controls .btn.recording {
-  background: #d95c5c;
-  box-shadow: 0 0 18px rgba(217, 92, 92, 0.28);
+  background: var(--danger);
+  box-shadow: 0 0 18px var(--danger-soft);
 }
 
 .speechstudio-preview {
   display: grid;
   gap: 14px;
   padding: 18px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  border: 1px solid var(--surface-border);
 }
 
 .speechstudio-preview span {
@@ -81,20 +126,28 @@
 
 .speechstudio-preview audio {
   width: 100%;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
+}
+
+.error {
+  margin-top: 4px;
+  color: var(--error);
+  font-weight: 600;
 }
 
 .speechstudio-result {
-  margin-top: 30px;
-  padding: 24px;
-  border-radius: 24px;
-  background: rgba(80, 112, 162, 0.14);
-  border: 1px solid rgba(108, 169, 255, 0.12);
+  margin-top: 32px;
+  padding: 26px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  border: 1px solid var(--surface-border);
+  text-align: left;
 }
 
 .speechstudio-result h2 {
-  margin-bottom: 12px;
-  color: var(--accent-strong);
+  font-family: var(--font-display);
+  margin: 0 0 12px;
+  color: var(--text-primary);
 }
 
 .speechstudio-result p {
@@ -111,22 +164,29 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 22px;
-  border-radius: 999px;
-  background: var(--btn-blue-bg);
+  padding: 13px 24px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--btn-blue-hover), var(--btn-blue-bg));
   color: var(--btn-blue-text);
   text-decoration: none;
   font-weight: 600;
+  box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .download-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(77, 214, 255, 0.18);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 @media (max-width: 740px) {
   .speechstudio-input-row {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .project-details-card {
+    padding: 30px 22px;
   }
 }

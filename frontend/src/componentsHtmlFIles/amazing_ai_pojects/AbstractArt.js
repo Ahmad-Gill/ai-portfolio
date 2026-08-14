@@ -42,6 +42,7 @@ function GenerateAbstractArt() {
 
   return (
     <div className="project-details-page">
+      {loading && <Animation fullscreen />}
       <div className="project-details-card">
         <h1>Generate Abstract Art</h1>
         <p>Click any button to generate unique abstract art using AI.</p>
@@ -51,7 +52,6 @@ function GenerateAbstractArt() {
           <Buttons buttons={heroButtons} />
         </div>
 
-        {loading && <Animation fullscreen />}
         {error && <p className="error">{error}</p>}
 
         {imageSrc && (

@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
+import { getPublicAsset } from "../utils/publicAsset";
 
-const getPublicAsset = (path) => {
-  const base = (process.env.REACT_APP_PUBLIC_URL || process.env.PUBLIC_URL || "").replace(/\/+$/, "");
-  return `${base}${path.startsWith("/") ? "" : "/"}${path.replace(/^\/+/, "")}`;
-};
-
-const assets = {
-  logo1: getPublicAsset("logo1.png"),
-  logo3: getPublicAsset("logo3.png"),
-  image1: getPublicAsset("1.jpg"),
-  image2: getPublicAsset("2.jpg"),
-  animation: getPublicAsset("Animation.json"),
-  lottie: getPublicAsset("Animation.lottie"),
-};
+const ANIMATION_URL = getPublicAsset("Animation.json");
 
 function Animation({ fullscreen = false, width = "100%", height = "100%" }) {
   const [animationData, setAnimationData] = useState(null);
 
   useEffect(() => {
-   fetch(assets.animation) // load from public
-// load from public
+    fetch(ANIMATION_URL) // load from public
       .then((res) => res.json())
       .then((data) => setAnimationData(data))
       .catch((err) => console.error("Failed to load animation:", err));

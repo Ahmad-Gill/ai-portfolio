@@ -1,42 +1,61 @@
 /* --- PAGE LAYOUT --- */
 .project-details-page {
-  padding: 20px;
+  padding: 48px 24px;
   color: var(--text-primary);
   text-align: center;
   background: transparent;
 }
 
 .project-details-card {
-  background: var(--surface-strong);
-  border-radius: 12px;
-  padding: 20px;
+  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
+  border-radius: var(--radius-lg);
+  padding: 44px;
   max-width: 800px;
   margin: 0 auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-details-card h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.project-details-card p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
 }
 
 /* --- WRAPPER --- */
 .abstract-buttons-wrapper {
   width: 100%;
-  margin: 20px 0;
+  margin: 24px 0 4px;
   box-sizing: border-box;
 }
 
-/* --- BUTTON CONTAINER (critical) --- */
+/* --- BUTTON CONTAINER --- */
 .abstract-buttons-wrapper .buttons {
   display: flex;
-  flex-wrap: wrap;            /* ✅ ALLOW MULTIPLE ROWS */
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;                  /* space between buttons */
+  gap: 12px;
   width: 100%;
+  margin-top: 0;
 }
 
 /* --- EACH BUTTON --- */
 .abstract-buttons-wrapper .btn {
-  flex: 1 1 140px;            /* at least 140px, grows if space */
-  max-width: 220px;           /* optional max width */
+  flex: 1 1 160px;
+  max-width: 240px;
   text-align: center;
-  white-space: normal;        /* allow multi-line */
+  white-space: normal;
   overflow-wrap: break-word;
   box-sizing: border-box;
 }
@@ -44,9 +63,10 @@
 /* --- IMAGE --- */
 .abstract-image {
   max-width: 100%;
-  border-radius: 12px;
-  margin-top: 15px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-md);
+  margin-top: 6px;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
 }
 
 .abstract-result {
@@ -54,10 +74,28 @@
   text-align: center;
 }
 
+.loading {
+  margin-top: 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.error {
+  margin-top: 16px;
+  color: var(--error);
+  font-weight: 600;
+}
+
 /* --- SMALL SCREENS: FULL-WIDTH BUTTONS --- */
+@media (max-width: 640px) {
+  .project-details-card {
+    padding: 30px 22px;
+  }
+}
+
 @media (max-width: 480px) {
   .abstract-buttons-wrapper .btn {
-    flex: 1 1 100%;           /* each button takes full width */
+    flex: 1 1 100%;
     max-width: 100%;
   }
 }

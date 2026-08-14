@@ -1,107 +1,131 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --body-bg-top: #07111f;
-  --body-bg-mid: #101b30;
-  --body-bg-bot: #0a1422;
-  --text-primary: #f4f7ff;
-  --text-secondary: #aab7d0;
-  --surface: rgba(12, 20, 36, 0.78);
-  --surface-strong: rgba(9, 15, 28, 0.95);
-  --surface-border: rgba(214, 224, 255, 0.12);
-  --input-bg: rgba(11, 19, 34, 0.88);
-  --input-bg-hover: rgba(19, 28, 44, 0.95);
-  --input-text: #f4f7ff;
-  --badge-bg: rgba(255, 255, 255, 0.06);
-  --shadow: rgba(3, 8, 20, 0.28);
-  --accent: #76b3ff;
-  --accent-strong: #4e89d8;
-  --error: #ff7b7b;
-  --btn-blue-bg: #19324f;
-  --btn-blue-hover: #234866;
-  --btn-blue-text: #f8fbff;
-  --btn-teal-bg: #135668;
-  --btn-teal-hover: #1a7388;
-  --btn-teal-text: #f8fbff;
-  --toggle-bg: linear-gradient(135deg, #7bb7ff, #4e89d8);
-  --toggle-text: #07111f;
-  --table-bg: rgba(255, 255, 255, 0.05);
-  --table-border: rgba(255, 255, 255, 0.1);
-  --table-header-bg: rgba(78, 137, 216, 0.16);
+  --font-sans: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-display: 'Sora', 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 30px;
+  --radius-pill: 999px;
 }
 
-body.light-theme {
-  --body-bg-top: #f7faff;
-  --body-bg-mid: #eef4ff;
-  --body-bg-bot: #dfe9f7;
-  --text-primary: #10213b;
-  --text-secondary: #51627d;
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-strong: rgba(255, 255, 255, 0.96);
-  --surface-border: rgba(16, 33, 59, 0.12);
-  --input-bg: rgba(255, 255, 255, 0.98);
-  --input-bg-hover: rgba(240, 246, 255, 0.98);
-  --input-text: #10213b;
-  --badge-bg: rgba(16, 33, 59, 0.06);
-  --shadow: rgba(18, 36, 80, 0.12);
-  --accent: #2563eb;
-  --accent-strong: #1547a4;
-  --error: #d64545;
-  --btn-blue-bg: #3b5f93;
-  --btn-blue-hover: #30507b;
-  --btn-blue-text: #ffffff;
-  --btn-teal-bg: #16728d;
-  --btn-teal-hover: #1b86a8;
-  --btn-teal-text: #ffffff;
-  --toggle-bg: linear-gradient(135deg, #6fb2ff, #3f73c4);
-  --toggle-text: #f8fbff;
-  --table-bg: rgba(15, 36, 72, 0.08);
-  --table-border: rgba(16, 33, 59, 0.12);
-  --table-header-bg: rgba(37, 99, 235, 0.1);
-}
-
+/* ---------------------------------------------------------------------- */
+/* Dark theme   warm graphite base, amber-bronze signal accent             */
+/* ---------------------------------------------------------------------- */
+:root,
 body.dark-theme {
-  --body-bg-top: #07121f;
-  --body-bg-mid: #08172f;
-  --body-bg-bot: #0c2241;
-  --text-primary: #f1f7ff;
-  --text-secondary: #c8d5ff;
-  --surface: rgba(10, 18, 34, 0.72);
-  --surface-strong: rgba(8, 16, 30, 0.9);
-  --surface-border: rgba(255, 255, 255, 0.08);
-  --input-bg: rgba(10, 19, 36, 0.96);
-  --input-bg-hover: rgba(15, 30, 53, 0.98);
-  --input-text: #eef4ff;
-  --badge-bg: rgba(255, 255, 255, 0.08);
-  --shadow: rgba(0, 0, 0, 0.24);
-  --accent: #58d6ff;
-  --accent-strong: #32c8ff;
-  --error: #ff6b6b;
-  --btn-blue-bg: #203a43;
-  --btn-blue-hover: #2c5364;
-  --btn-blue-text: #ffffff;
-  --btn-teal-bg: #145d70;
-  --btn-teal-hover: #1e7d97;
-  --btn-teal-text: #ffffff;
-  --toggle-bg: linear-gradient(135deg, #4dd6ff, #ff6aa7);
-  --toggle-text: #081424;
-  --table-bg: rgba(255, 255, 255, 0.05);
+  --body-bg-top: #0e1015;
+  --body-bg-mid: #121419;
+  --body-bg-bot: #0a0b0e;
+  --text-primary: #f2efe9;
+  --text-secondary: #9b9fae;
+  --text-muted: #6f7482;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-strong: rgba(255, 255, 255, 0.055);
+  --surface-muted: rgba(255, 255, 255, 0.025);
+  --surface-hover: rgba(255, 255, 255, 0.07);
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-bg-hover: rgba(255, 255, 255, 0.065);
+  --input-text: #f2efe9;
+  --badge-bg: rgba(255, 255, 255, 0.05);
+
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.36);
+  --shadow-lg: 0 34px 90px rgba(0, 0, 0, 0.5);
+
+  --accent: #e0a458;
+  --accent-strong: #c98936;
+  --accent-soft: rgba(224, 164, 88, 0.14);
+  --accent-secondary: #7c8aa0;
+  --accent-secondary-soft: rgba(124, 138, 160, 0.14);
+
+  --success: #7ba57e;
+  --success-soft: rgba(123, 165, 126, 0.14);
+  --error: #d1786a;
+  --danger: #d1786a;
+  --danger-soft: rgba(209, 120, 106, 0.16);
+
+  --btn-blue-bg: #1a1c22;
+  --btn-blue-hover: #23262e;
+  --btn-blue-text: #f2efe9;
+  --btn-teal-bg: #b5813a;
+  --btn-teal-hover: #c98936;
+  --btn-teal-text: #14100a;
+  --toggle-bg: linear-gradient(135deg, #e0a458, #c98936);
+  --toggle-text: #14100a;
+
+  --table-bg: rgba(255, 255, 255, 0.025);
   --table-border: rgba(255, 255, 255, 0.1);
-  --table-header-bg: rgba(31, 221, 159, 0.15);
+  --table-header-bg: rgba(224, 164, 88, 0.12);
+  --table-row-alt: rgba(255, 255, 255, 0.02);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Light theme   warm ivory base, deeper bronze accent for contrast        */
+/* Not an inverted dark theme: intentionally softer, paper-like surfaces   */
+/* ---------------------------------------------------------------------- */
+body.light-theme {
+  --body-bg-top: #faf7f2;
+  --body-bg-mid: #f6f2eb;
+  --body-bg-bot: #f0ebe1;
+  --text-primary: #1c1a17;
+  --text-secondary: #635f56;
+  --text-muted: #8a8577;
+  --surface: rgba(28, 26, 23, 0.03);
+  --surface-strong: #ffffff;
+  --surface-muted: rgba(28, 26, 23, 0.025);
+  --surface-hover: rgba(28, 26, 23, 0.05);
+  --surface-border: rgba(28, 26, 23, 0.1);
+  --input-bg: #ffffff;
+  --input-bg-hover: #ffffff;
+  --input-text: #1c1a17;
+  --badge-bg: rgba(28, 26, 23, 0.05);
+
+  --shadow: rgba(28, 26, 23, 0.1);
+  --shadow-sm: 0 6px 16px rgba(28, 26, 23, 0.06);
+  --shadow-md: 0 16px 36px rgba(28, 26, 23, 0.08);
+  --shadow-lg: 0 30px 80px rgba(28, 26, 23, 0.12);
+
+  --accent: #b5701f;
+  --accent-strong: #96591a;
+  --accent-soft: rgba(181, 112, 31, 0.1);
+  --accent-secondary: #55627a;
+  --accent-secondary-soft: rgba(85, 98, 122, 0.1);
+
+  --success: #4f7a52;
+  --success-soft: rgba(79, 122, 82, 0.1);
+  --error: #a8432f;
+  --danger: #a8432f;
+  --danger-soft: rgba(168, 67, 47, 0.1);
+
+  --btn-blue-bg: #201d19;
+  --btn-blue-hover: #322c25;
+  --btn-blue-text: #faf7f2;
+  --btn-teal-bg: #b5701f;
+  --btn-teal-hover: #96591a;
+  --btn-teal-text: #ffffff;
+  --toggle-bg: linear-gradient(135deg, #c98336, #96591a);
+  --toggle-text: #faf7f2;
+
+  --table-bg: rgba(28, 26, 23, 0.02);
+  --table-border: rgba(28, 26, 23, 0.1);
+  --table-header-bg: rgba(181, 112, 31, 0.08);
+  --table-row-alt: rgba(28, 26, 23, 0.02);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background:
-    radial-gradient(circle at top left, rgba(118, 179, 255, 0.16), transparent 24%),
-    radial-gradient(circle at bottom right, rgba(113, 138, 255, 0.12), transparent 26%),
-    linear-gradient(135deg, var(--body-bg-top) 0%, var(--body-bg-mid) 45%, var(--body-bg-bot) 100%);
+    radial-gradient(circle at 12% 8%, var(--accent-soft), transparent 32%),
+    radial-gradient(circle at 88% 92%, var(--accent-secondary-soft), transparent 34%),
+    linear-gradient(180deg, var(--body-bg-top) 0%, var(--body-bg-mid) 45%, var(--body-bg-bot) 100%);
+  background-attachment: fixed;
   color: var(--text-primary);
   overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
@@ -115,7 +139,120 @@ html {
   scroll-behavior: smooth;
 }
 
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Shared section utilities   used by Hero + all home-page sections        */
+/* ---------------------------------------------------------------------- */
+.section {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 96px 40px;
+  scroll-margin-top: 90px;
+}
+
+.section-head {
+  max-width: 700px;
+  margin: 0 0 48px;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 14px;
+}
+
+.section-intro {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Scroll-reveal utility, driven by src/hooks/useReveal.js toggling
+   .reveal-active on a container; children with .reveal stagger via
+   nth-child transition-delay defined per-section as needed. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-active .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 22px;
+  }
 }

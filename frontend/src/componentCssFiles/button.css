@@ -7,25 +7,32 @@
 }
 
 .btn {
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-size: 0.96rem;
-  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   color: var(--btn-blue-text);
   border: 1px solid transparent;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
 }
 
 .btn:hover,
 .btn:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn:focus-visible {
@@ -34,7 +41,7 @@
 }
 
 .btn:disabled {
-  opacity: 0.65;
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -42,22 +49,41 @@
 
 /* Primary Blue Button */
 .btn.blue {
-  background: linear-gradient(135deg, var(--btn-blue-bg), var(--btn-blue-hover));
+  background: linear-gradient(135deg, var(--btn-blue-hover), var(--btn-blue-bg));
   color: var(--btn-blue-text);
+  border-color: var(--surface-border);
 }
 
 .btn.blue:hover,
 .btn.blue:focus-visible {
-  background: linear-gradient(135deg, var(--btn-blue-hover), var(--btn-blue-bg));
+  background: linear-gradient(135deg, var(--btn-blue-bg), var(--btn-blue-hover));
+  border-color: var(--accent);
 }
 
 /* Secondary Teal Button */
 .btn.teal {
-  background: linear-gradient(135deg, var(--btn-teal-bg), var(--btn-teal-hover));
+  background: linear-gradient(135deg, var(--btn-teal-hover), var(--btn-teal-bg));
   color: var(--btn-teal-text);
+  border-color: var(--surface-border);
 }
 
 .btn.teal:hover,
 .btn.teal:focus-visible {
-  background: linear-gradient(135deg, var(--btn-teal-hover), var(--btn-teal-bg));
+  background: linear-gradient(135deg, var(--btn-teal-bg), var(--btn-teal-hover));
+  border-color: var(--accent-strong);
+}
+
+/* Ghost / outline variant   for secondary actions (cancel, close, etc.) */
+.btn.ghost {
+  background: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--surface-border);
+  box-shadow: none;
+}
+
+.btn.ghost:hover,
+.btn.ghost:focus-visible {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
 }

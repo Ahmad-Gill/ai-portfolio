@@ -1,14 +1,98 @@
 @import "./project.css";
 
 .toolbox-page {
-  padding: 48px 32px 72px;
+  padding: 52px 32px 80px;
   color: var(--text-primary);
 }
 
+/* Image to PDF (and other toolbox sub-tools) reuse the shared detail-page card shell */
+.project-details-page {
+  padding: 48px 24px 72px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.project-details-card {
+  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  max-width: 850px;
+  margin: 0 auto;
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-details-card h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.project-details-card p {
+  font-size: 1.02rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.toolbox-form {
+  display: grid;
+  gap: 20px;
+  text-align: left;
+  margin-top: 26px;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.file-upload-label input[type="file"] {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--surface-border);
+  padding: 12px 14px;
+  background: var(--input-bg);
+  color: var(--input-text);
+  cursor: pointer;
+}
+
+.error {
+  margin-top: 4px;
+  color: var(--error);
+  font-weight: 600;
+}
+
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 24px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--btn-blue-hover), var(--btn-blue-bg));
+  color: var(--btn-blue-text);
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
 .toolbox-card-button {
-  background: linear-gradient(135deg, var(--surface-strong) 0%, rgba(255,255,255,0.04) 100%);
+  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
   padding: 0;
-  border-radius: 24px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--surface-border);
   display: flex;
   flex-direction: column;
@@ -19,11 +103,12 @@
   width: 100%;
   cursor: pointer;
   overflow: hidden;
+  box-shadow: var(--shadow-md);
 }
 
 .toolbox-card-button:hover {
   transform: translateY(-4px);
-  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
   border-color: var(--accent);
 }
 
@@ -31,6 +116,7 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  background: var(--surface-muted);
 }
 
 .toolbox-card-image img {
@@ -47,6 +133,9 @@
 
 .toolbox-card-button h2 {
   margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 .toolbox-card-button p {
@@ -55,45 +144,15 @@
 }
 
 .toolbox-card-button.disabled {
-  opacity: 0.65;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-.toolbox-card-button h2 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
-.toolbox-card-button p {
-  margin: 0;
-  color: var(--text-secondary);
-}
-
-.projects-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 22px;
-}
-
-.projects-page {
-  padding: 48px 32px 72px;
-}
-
-.projects-header h1 {
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  margin-bottom: 10px;
-}
-
-.projects-header p {
-  color: var(--text-secondary);
-  margin-bottom: 28px;
-}
-
 .toolbox-preview {
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-border);
+  background: var(--surface-muted);
   max-width: 100%;
 }
 
@@ -106,10 +165,11 @@
 }
 
 .toolbox-result {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .toolbox-result h2 {
+  font-family: var(--font-display);
   margin: 0 0 10px;
 }
 
@@ -122,10 +182,10 @@
   width: 100%;
   min-height: 320px;
   max-height: 620px;
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-border);
+  background: var(--surface-muted);
 }
 
 .toolbox-pdf-preview iframe {
@@ -136,8 +196,7 @@
 }
 
 @media (max-width: 640px) {
-  .projects-page,
   .toolbox-page {
-    padding: 32px 20px 48px;
+    padding: 36px 20px 56px;
   }
 }

@@ -221,6 +221,7 @@ function SpeechStudio() {
 
   return (
     <div className="project-details-page">
+      {loading && <Animation fullscreen />}
       <div className="project-details-card speechstudio-card">
         <h1>Speech Studio</h1>
         <p>
@@ -268,7 +269,6 @@ function SpeechStudio() {
           </div>
 
           <Buttons buttons={heroButtons} />
-          {loading && <Animation fullscreen />}
           {error && <p className="error">{error}</p>}
         </div>
 
