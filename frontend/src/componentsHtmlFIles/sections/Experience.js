@@ -41,19 +41,32 @@ function Experience() {
       </div>
 
       <div className="notable-projects reveal">
-        <h3 className="notable-projects-title">Notable Academic &amp; Research Projects</h3>
+        <span className="section-eyebrow">Beyond the Job</span>
+        <h3 className="section-title notable-projects-title">
+          <span className="notable-projects-title-base">Notable Academic &amp;</span>{" "}
+          <span className="notable-projects-title-highlight">Research Projects</span>
+        </h3>
         <div className="notable-projects-grid">
-          {notableProjects.map((project, i) => (
-            <div
-              className="notable-project-card reveal"
-              key={project.title}
-              style={{ transitionDelay: `${i * 60}ms` }}
-            >
-              <span className="notable-project-tag">{project.tag}</span>
-              <h4>{project.title}</h4>
-              <p>{project.description}</p>
-            </div>
-          ))}
+          {notableProjects.map((project, i) => {
+            const words = project.title.split(" ");
+            const titleAccent = words.pop();
+            const titleBase = words.join(" ");
+
+            return (
+              <div
+                className="notable-project-card reveal"
+                key={project.title}
+                style={{ transitionDelay: `${i * 60}ms`, "--project-color": project.color }}
+              >
+                <span className="notable-project-shine" aria-hidden="true" />
+                <h4>
+                  <span className="notable-project-title-base">{titleBase}</span>{" "}
+                  <span className="notable-project-title-accent">{titleAccent}</span>
+                </h4>
+                <p className="notable-project-desc">{project.description}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

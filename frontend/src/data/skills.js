@@ -1,16 +1,22 @@
 export const skillGroups = [
   {
     category: "Data Science & AI",
+    color: "#9b7bff",
     skills: [
       { name: "Machine Learning", detail: "Predictive modeling" },
       { name: "Deep Learning", detail: "Neural network architectures" },
       { name: "NLP", detail: "Text & language models" },
       { name: "Generative AI", detail: "LLMs & generative models" },
       { name: "Computer Vision", detail: "Detection & segmentation" },
+      { name: "Time Series Analysis", detail: "Forecasting & trend analysis" },
+      { name: "Reinforcement Learning", detail: "Reward-based learning" },
+      { name: "Feature Engineering", detail: "Signal extraction from raw data" },
+      { name: "A/B Testing", detail: "Experiment design & analysis" },
     ],
   },
   {
     category: "Frameworks & Libraries",
+    color: "#4f9dff",
     skills: [
       { name: "TensorFlow", detail: "Model training" },
       { name: "PyTorch", detail: "Model training" },
@@ -19,29 +25,41 @@ export const skillGroups = [
       { name: "Pandas", detail: "Data wrangling" },
       { name: "NumPy", detail: "Numerical computing" },
       { name: "OpenCV", detail: "Computer vision" },
+      { name: "Hugging Face", detail: "Pretrained model fine-tuning" },
+      { name: "LangChain", detail: "LLM app orchestration" },
     ],
   },
   {
     category: "MLOps & Data Engineering",
+    color: "#e0a458",
     skills: [
       { name: "Databricks", detail: "Stream & batch processing" },
       { name: "Stream Data Processing", detail: "Real-time pipelines" },
       { name: "MLOps", detail: "Model deployment & monitoring" },
       { name: "Catalog Management", detail: "Gold / Silver / Bronze layers" },
+      { name: "Apache Spark", detail: "Distributed data processing" },
+      { name: "Vector Databases", detail: "FAISS / Pinecone / Chroma" },
+
+      { name: "Model Monitoring", detail: "Drift & performance tracking" },
     ],
   },
   {
     category: "DevOps & Cloud",
+    color: "#35c9b5",
     skills: [
       { name: "Azure", detail: "Cloud infrastructure" },
       { name: "Terraform", detail: "Infrastructure as code" },
       { name: "Docker", detail: "Containerized deployments" },
       { name: "CI/CD", detail: "Azure DevOps pipelines" },
       { name: "Bash", detail: "Automation scripting" },
+      { name: "AWS", detail: "Cloud infrastructure" },
+      { name: "Kubernetes", detail: "Container orchestration" },
+      { name: "GitHub Actions", detail: "CI/CD automation" },
     ],
   },
   {
     category: "Programming & Development",
+    color: "#ff7aa8",
     skills: [
       { name: "Python", detail: "Primary language" },
       { name: "C / C++", detail: "Systems programming" },
@@ -49,14 +67,22 @@ export const skillGroups = [
       { name: "JavaScript", detail: "Web development" },
       { name: "MERN Stack", detail: "Full-stack web apps" },
       { name: "Django", detail: "Backend APIs" },
+      { name: "SQL", detail: "Relational databases" },
+      { name: "FastAPI", detail: "REST API development" },
     ],
   },
   {
     category: "Other Tools",
+    color: "#6fcf7a",
     skills: [
       { name: "Git", detail: "Version control" },
       { name: "Selenium", detail: "Test automation" },
       { name: "Matplotlib", detail: "Data visualization" },
+      { name: "Jupyter", detail: "Interactive notebooks" },
+      { name: "Seaborn", detail: "Statistical visualization" },
+      { name: "MLflow", detail: "Experiment tracking" },
+      { name: "Power BI", detail: "BI dashboards" },
+      { name: "Postman", detail: "API testing" },
     ],
   },
 ];

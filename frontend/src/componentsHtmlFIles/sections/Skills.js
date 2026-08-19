@@ -12,19 +12,25 @@ function Skills() {
         <span className="section-eyebrow">Toolkit</span>
         <h2 className="section-title">Skills &amp; technologies</h2>
         <p className="section-intro">
-          Hover or focus a skill for a quick note on how I use it.
+          The tools and technologies I use most, grouped by area.
         </p>
       </div>
 
       <div className="skills-groups">
         {skillGroups.map((group, gi) => (
-          <div className="skills-group reveal" key={group.category} style={{ transitionDelay: `${gi * 80}ms` }}>
-            <h3 className="skills-group-title">{group.category}</h3>
+          <div
+            className="skills-group reveal"
+            key={group.category}
+            style={{ transitionDelay: `${gi * 80}ms`, "--group-color": group.color }}
+          >
+            <h3 className="skills-group-title">
+              <span className="skills-group-marker" aria-hidden="true" />
+              {group.category}
+            </h3>
             <div className="skills-chip-row">
               {group.skills.map((skill) => (
-                <span className="skill-chip" tabIndex={0} key={skill.name}>
+                <span className="skill-chip" key={skill.name}>
                   {skill.name}
-                  <span className="skill-chip-detail">{skill.detail}</span>
                 </span>
               ))}
             </div>

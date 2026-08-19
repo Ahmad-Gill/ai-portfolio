@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../componentCssFiles/navebar.css"; // Navbar CSS
 import { getPublicAsset } from "../utils/publicAsset";
 
@@ -39,36 +39,51 @@ function ThemeToggle({ theme, onToggleTheme }) {
 
 function Navbar({ theme, onToggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">
-        <div className="logo-container">
-          <img src={getPublicAsset("logo1.png")} alt="Logo" className="navbar-logo" />
+      <div className={`navbar-inner ${scrolled ? "is-scrolled" : ""}`}>
+        <div className="navbar-brand">
+          <div className="logo-container">
+            <img src={getPublicAsset("logo1.png")} alt="Logo" className="navbar-logo" />
+          </div>
         </div>
-        <div className="logo-text">{"<Muhammad Ahmad Gill/>"}</div>
-      </div>
 
-      <div className="navbar-links">
-        {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href}>
-            {link.label}
-          </a>
-        ))}
-      </div>
+        <div className="navbar-links">
+          {NAV_LINKS.map((link) =>
+            link.label === "Contact" ? (
+              <a key={link.label} href={link.href} className="navbar-cta">
+                {link.label}
+              </a>
+            ) : (
+              <a key={link.label} href={link.href} className="navbar-link">
+                {link.label}
+              </a>
+            )
+          )}
+        </div>
 
-      <div className="navbar-actions">
-        <ThemeToggle theme={theme} onToggleTheme={onToggleTheme} />
-        <button
-          className="navbar-menu-toggle"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label="Toggle navigation menu"
-          aria-expanded={menuOpen}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <div className="navbar-actions">
+          <ThemeToggle theme={theme} onToggleTheme={onToggleTheme} />
+          <button
+            className="navbar-menu-toggle"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={menuOpen}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       {menuOpen && (

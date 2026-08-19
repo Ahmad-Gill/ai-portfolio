@@ -1,9 +1,3 @@
 .home-page {
   overflow-x: hidden;
 }
-
-/* Gentle alternating tint gives the long page some rhythm without hard
-   section borders. */
-.home-page > section:nth-of-type(even) {
-  background: var(--surface-muted);
-}
