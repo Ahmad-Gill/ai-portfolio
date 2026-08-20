@@ -288,7 +288,7 @@
 }
 
 .about-certifications {
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 .about-certifications-label {
@@ -301,12 +301,41 @@
   margin-bottom: 10px;
 }
 
-.about-certifications ul {
+.about-certifications-list {
   margin: 0;
-  padding-left: 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.about-certifications-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.about-certifications-list li:first-child {
+  padding-top: 0;
+}
+
+.about-certifications-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.about-cert-title {
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  font-size: 0.86rem;
-  line-height: 1.8;
+  line-height: 1.4;
+}
+
+.about-cert-issuer {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {

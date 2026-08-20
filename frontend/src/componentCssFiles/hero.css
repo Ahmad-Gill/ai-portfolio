@@ -110,6 +110,21 @@
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
+.hero-greeting {
+  display: block;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.hero-greeting-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05em;
+  color: color-mix(in srgb, var(--accent-secondary) 75%, white);
+}
+
 .hero-title {
   display: flex;
   flex-direction: column;
@@ -122,19 +137,19 @@
   display: inline-block;
   font-family: var(--font-display);
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.06em;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   text-transform: none;
 }
 
 .hero-name-primary {
-  font-size: clamp(2.9rem, 5.3vw, 5rem);
+  font-size: clamp(2.1rem, 3.6vw, 3.4rem);
   color: var(--text-primary);
   text-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
 }
 
 .hero-name-accent {
-  font-size: clamp(3.1rem, 5.8vw, 5.3rem);
+  font-size: clamp(2.1rem, 3.6vw, 3.4rem);
   color: transparent;
   background: linear-gradient(135deg, #f4d8ad 0%, var(--accent) 24%, #f9efe1 52%, #d5a36c 100%);
   -webkit-background-clip: text;

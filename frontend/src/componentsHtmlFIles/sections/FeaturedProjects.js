@@ -32,9 +32,6 @@ function FeaturedProjects() {
             <div className="featured-project-body">
               <h3>{proj.name}</h3>
               <p>{proj.description}</p>
-              <span className="featured-project-cta">
-                View project <span className="featured-project-arrow">→</span>
-              </span>
             </div>
           </Link>
         ))}

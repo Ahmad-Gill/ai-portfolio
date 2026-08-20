@@ -2,14 +2,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  align-items: start;
 }
 
 @media (max-width: 860px) {
   .skills-groups {
     grid-template-columns: repeat(2, 1fr);
   }
-} 
+}
 
 @media (max-width: 560px) {
   .skills-groups {
@@ -18,6 +17,9 @@
 }
 
 .skills-group {
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
   padding: 26px 26px 28px;
   border-radius: 22px;
   background: var(--surface);

@@ -76,15 +76,8 @@
   margin-bottom: 4px;
 }
 
-.site-footer-logo {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-primary);
-}
-
 .site-footer-brand p {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   color: var(--text-secondary);
   font-size: 0.9rem;
   max-width: 320px;
@@ -95,7 +88,6 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 18px;
   padding: 7px 14px;
   width: fit-content;
   border-radius: var(--radius-pill);

@@ -39,7 +39,6 @@ export const skillGroups = [
       { name: "Catalog Management", detail: "Gold / Silver / Bronze layers" },
       { name: "Apache Spark", detail: "Distributed data processing" },
       { name: "Vector Databases", detail: "FAISS / Pinecone / Chroma" },
-
       { name: "Model Monitoring", detail: "Drift & performance tracking" },
     ],
   },

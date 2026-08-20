@@ -82,13 +82,17 @@ function Hero() {
             <span className="eyebrow-dot" aria-hidden="true" /> MLOps
           </span>
 
-           <h1 className="hero-title" aria-label="Muhammad Ahmad">
-            <span className="hero-name hero-name-primary">Muhammad</span>
-            <span className="hero-name hero-name-accent">Ahmad</span>
+          <span className="hero-greeting">
+            Hi, I&rsquo;m <strong className="hero-greeting-name">Muhammad Ahmad</strong>
+          </span>
+
+          <h1 className="hero-title" aria-label="I build intelligent systems from data to deployment.">
+            <span className="hero-name hero-name-primary">I build intelligent systems from</span>
+            <span className="hero-name hero-name-accent">data to deployment.</span>
           </h1>
 
           <p className="hero-role-line">
-            I build <RoleCycler />
+            Focused on <RoleCycler />
           </p>
 
           <p className="hero-subtitle">

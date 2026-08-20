@@ -65,11 +65,16 @@ const EDUCATION = [
 ];
 
 const CERTIFICATIONS = [
-  "Machine Learning, AI, and Data Science (Government of Pakistan)",
-  "Foundations: Data, Data, Everywhere (Google)",
-  "Prepare Data for Exploration (Google)",
-  "Process Data from Dirty to Clean (Google)",
-  "Analyze Data to Answer Questions (Google)",
+  { title: "Machine Learning, AI, and Data Science", issuer: "Government of Pakistan" },
+  { title: "Data Analysis with Python", issuer: "freeCodeCamp" },
+  { title: "Share Data Through the Art of Visualization", issuer: "Google" },
+  { title: "Google Data Analytics Capstone: Complete a Case Study", issuer: "Google" },
+  { title: "Data Analysis with R Programming", issuer: "Google" },
+  { title: "Process Data from Dirty to Clean", issuer: "Google" },
+  { title: "Analyze Data to Answer Questions", issuer: "Google" },
+  { title: "Prepare Data for Exploration", issuer: "Google" },
+  { title: "Ask Questions to Make Data-Driven Decisions", issuer: "Google" },
+  { title: "Foundations: Data, Data, Everywhere", issuer: "Google" },
 ];
 
 function About() {
@@ -123,9 +128,12 @@ function About() {
 
           <div className="about-certifications">
             <span className="about-certifications-label">Certifications</span>
-            <ul>
+            <ul className="about-certifications-list">
               {CERTIFICATIONS.map((cert) => (
-                <li key={cert}>{cert}</li>
+                <li key={cert.title}>
+                  <span className="about-cert-title">{cert.title}</span>
+                  <span className="about-cert-issuer">{cert.issuer}</span>
+                </li>
               ))}
             </ul>
           </div>

@@ -87,12 +87,11 @@ function Footer() {
 
       <div className="site-footer-inner">
         <div className="site-footer-brand">
-          <span className="site-footer-logo">{"<Muhammad Ahmad Gill/>"}</span>
-          <p>AI &amp; Data Science Specialist · MLOps Engineer · Building intelligent systems.</p>
           <span className="site-footer-status">
             <span className="site-footer-status-dot" aria-hidden="true" />
             Open to new opportunities
           </span>
+          <p>AI &amp; Data Science Specialist · MLOps Engineer · Building intelligent systems.</p>
         </div>
 
         <div className="site-footer-col">
