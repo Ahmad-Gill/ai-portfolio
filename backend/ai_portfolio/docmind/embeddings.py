@@ -129,6 +129,12 @@ def set_vector_store(new_vector_store):
 
 def get_retriever():
 
+    global _retriever
+
+    if _retriever is None:
+
+        load_vector_store()
+
     return _retriever
 
 

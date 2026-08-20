@@ -207,7 +207,7 @@ def generate_answer(
 
     if retriever is None:
 
-        return get_fallback()
+        return get_fallback(question)
 
     # ========================================================
     # Retrieve Relevant Chunks
@@ -219,7 +219,7 @@ def generate_answer(
 
     if not documents:
 
-        return get_fallback()
+        return get_fallback(question)
 
     # ========================================================
     # Build Context
@@ -248,16 +248,24 @@ STRICT RULES:
 4. Never assume information.
 5. If the answer is not available in the context,
    use the fallback response.
-6. Respond only in English.
+6. Detect the language of the USER QUESTION. If it is
+   written in Urdu (Urdu script or Roman Urdu), respond
+   in Urdu. Otherwise, respond in English.
 7. Keep the answer clear, natural, helpful, and concise.
 8. Never mention FAISS, embeddings, retrieval,
    semantic chunking, or internal system details.
 
 If the requested information is not present
-in the document context, respond exactly with:
+in the document context, respond exactly with the
+fallback in the same language as the USER QUESTION:
 
-"Sorry, I don't have that information. Please call
-+92 300 1234567 and our representative will guide you."
+English: "Sorry, I don't have that information. Please
+call +92 300 1234567 and our representative will guide
+you."
+
+Urdu: "معذرت، میرے پاس یہ معلومات نہیں ہیں۔ براہ کرم
++92 300 1234567 پر رابطہ کریں، ہمارا نمائندہ آپ کی
+رہنمائی کرے گا۔"
 
 DOCUMENT CONTEXT:
 
@@ -302,7 +310,20 @@ ANSWER:
 # Fallback
 # ============================================================
 
-def get_fallback():
+def get_fallback(question=""):
+
+    is_urdu = any(
+        "؀" <= character <= "ۿ"
+        for character in question
+    )
+
+    if is_urdu:
+
+        return (
+            "معذرت، میرے پاس یہ معلومات نہیں ہیں۔ "
+            "براہ کرم +92 300 1234567 پر رابطہ کریں، "
+            "ہمارا نمائندہ آپ کی رہنمائی کرے گا۔"
+        )
 
     return (
         "Sorry, I don't have that information. "

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../componentCssFiles/urduaudiorag.css";
 import Animation from "../Animation";
 
-const BASE_API_URL = (process.env.REACT_APP_API_URL || "https://api.ahmadgill.com").replace(/\/+$/, "");
+const BASE_API_URL = (process.env.REACT_APP_API_URL || "").replace(/\/+$/, "");
 const VOICE_TOKEN = process.env.REACT_APP_VOICE_APP_API_TOKEN;
 
 const STT_URL = "https://api.upliftai.org/v1/transcribe/speech-to-text";

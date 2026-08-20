@@ -3,7 +3,7 @@ import "../../componentCssFiles/speechstudio.css";
 import Buttons from "../Button";
 import Animation from "../Animation";
 
-const BASE_API_URL = (process.env.REACT_APP_API_URL || "https://api.ahmadgill.com").replace(/\/+$/, "");
+const BASE_API_URL = (process.env.REACT_APP_API_URL || "").replace(/\/+$/, "");
 const SPEECH_API_URL = `${BASE_API_URL}/amazing_ai_project/speechToText/`;
 
 function SpeechStudio() {

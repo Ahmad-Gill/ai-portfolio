@@ -58,7 +58,7 @@ def get_pubmed(query: str, retmax=3):
 
 # -----------------------------
 # Groq Completion
-def groq_completion(prompt: str, model="llama-3.3-70b-versatile"):
+def groq_completion(prompt: str, model="openai/gpt-oss-120b"):
     if not GROQ_API_KEY:
         raise RuntimeError("Missing GROQ_API_KEY environment variable.")
     client = Groq(api_key=GROQ_API_KEY)

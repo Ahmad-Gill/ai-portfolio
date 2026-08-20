@@ -77,6 +77,7 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
+    "x-docmind-password",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

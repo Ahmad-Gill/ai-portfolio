@@ -45,7 +45,7 @@ function RagDocMind() {
       formData.append("document", modalFile);
 
       const res = await fetch(
-        "https://api.ahmadgill.com/api/amazing_ai_project/upload-document/",
+        `${process.env.REACT_APP_API_URL}amazing_ai_project/upload-document/`,
         {
           method: "POST",
           headers: {
@@ -74,7 +74,7 @@ function RagDocMind() {
     setAnswer(null);
     try {
       const res = await fetch(
-        "https://api.ahmadgill.com/api/amazing_ai_project/docmind/ask/",
+        `${process.env.REACT_APP_API_URL}amazing_ai_project/docmind/ask/`,
         {
           method: "POST",
           headers: {

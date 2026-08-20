@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../componentCssFiles/chatwidget.css";
 
-const RAG_ASK_URL = "https://api.ahmadgill.com/api/amazing_ai_project/docmind/ask/";
+const RAG_ASK_URL = `${process.env.REACT_APP_API_URL}amazing_ai_project/docmind/ask/`;
 const STT_URL = "https://api.upliftai.org/v1/transcribe/speech-to-text";
 const TTS_URL = "https://ap-southeast-1.api.upliftai.org/v1/synthesis/text-to-speech";
 const TTS_VOICE_ID = "v_8eelc901";

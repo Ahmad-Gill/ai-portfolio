@@ -3,7 +3,7 @@ from groq import Groq
 import os
 
 # Groq API function
-def groq_completion(prompt: str, model="llama-3.3-70b-versatile"):
+def groq_completion(prompt: str, model="openai/gpt-oss-120b"):
     """
     Sends a prompt to Groq and returns the completion.
     """

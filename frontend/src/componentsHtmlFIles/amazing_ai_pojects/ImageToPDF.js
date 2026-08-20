@@ -3,7 +3,7 @@ import "../../componentCssFiles/toolbox.css";
 import Buttons from "../Button";
 import Animation from "../Animation";
 
-const API_BASE_URL = (process.env.REACT_APP_API_URL || "https://api.ahmadgill.com/api/").replace(/\/+$/g, "");
+const API_BASE_URL = (process.env.REACT_APP_API_URL || "").replace(/\/+$/g, "");
 const IMAGE_TO_PDF_URL = `${API_BASE_URL}/amazing_ai_project/image-to-pdf/`;
 
 function ImageToPDF() {
