@@ -12,7 +12,12 @@ const STATS = [
   { value: "7", label: "live tools" },
 ];
 
-const ROLES = ["intelligent systems", "ML pipelines", "data platforms", "AI products"];
+const ROLES = [
+  "intelligent systems",
+  "ML pipelines",
+  "data platforms",
+  "AI products",
+];
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia
@@ -82,13 +87,9 @@ function Hero() {
             <span className="eyebrow-dot" aria-hidden="true" /> MLOps
           </span>
 
-          <span className="hero-greeting">
-            Hi, I&rsquo;m <strong className="hero-greeting-name">Muhammad Ahmad</strong>
-          </span>
-
-          <h1 className="hero-title" aria-label="I build intelligent systems from data to deployment.">
-            <span className="hero-name hero-name-primary">I build intelligent systems from</span>
-            <span className="hero-name hero-name-accent">data to deployment.</span>
+          <h1 className="hero-title" aria-label="Muhammad Ahmad">
+            <span className="hero-name hero-name-primary">Muhammad</span>
+            <span className="hero-name hero-name-accent">Ahmad</span>
           </h1>
 
           <p className="hero-role-line">
@@ -96,8 +97,8 @@ function Hero() {
           </p>
 
           <p className="hero-subtitle">
-            I design and ship applied AI systems   from NLP and generative models
-            to production-grade data pipelines on Azure   turning research-grade
+            I design and ship applied AI systems from NLP and generative models
+            to production-grade data pipelines on Azure turning research-grade
             ideas into tools people actually use.
           </p>
 
@@ -145,7 +146,11 @@ function Hero() {
               <span>AWS</span>
             </div>
 
-            <a href="#projects" className="hero-orbit-chip hero-orbit-chip-cta" aria-label="View AI projects">
+            <a
+              href="#projects"
+              className="hero-orbit-chip hero-orbit-chip-cta"
+              aria-label="View AI projects"
+            >
               <span aria-hidden="true">↗</span>
             </a>
 
@@ -159,7 +164,11 @@ function Hero() {
         </div>
       </div>
 
-      <a href="#projects" className="hero-scroll-cue" aria-label="Scroll to projects">
+      <a
+        href="#projects"
+        className="hero-scroll-cue"
+        aria-label="Scroll to projects"
+      >
         <span className="hero-scroll-cue-line" />
         Scroll
       </a>

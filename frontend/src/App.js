@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "./componentsHtmlFIles/Navbar";
 import Home from "./componentsHtmlFIles/home";
 import Projects from "./componentsHtmlFIles/Projects";
@@ -19,24 +19,15 @@ function ProjectsWrapper() {
 }
 
 function App() {
-  const [theme, setTheme] = useState("dark");
-
   useEffect(() => {
     document.title = "AI Portfolio";
+    document.body.classList.add("dark-theme");
   }, []);
 
-  useEffect(() => {
-    document.body.classList.toggle("light-theme", theme === "light");
-    document.body.classList.toggle("dark-theme", theme === "dark");
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
-  };
   const BASENAME = process.env.REACT_APP_PUBLIC_URL || "";
   return (
     <BrowserRouter basename={BASENAME}>
-      <Navbar theme={theme} onToggleTheme={toggleTheme} />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:projectName" element={<ProjectsWrapper />} />

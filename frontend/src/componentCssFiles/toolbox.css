@@ -1,49 +1,87 @@
 @import "./project.css";
 
 .toolbox-page {
-  padding: 52px 32px 80px;
+  padding: 180px 32px 80px;
   color: var(--text-primary);
 }
 
-/* Image to PDF (and other toolbox sub-tools) reuse the shared detail-page card shell */
-.project-details-page {
-  padding: 48px 24px 72px;
+/* Image to PDF page shell */
+.project-details-page.imagetopdf-page {
+  padding: 180px 24px 96px;
   color: var(--text-primary);
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.project-details-card {
-  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
-  border-radius: var(--radius-lg);
-  padding: 40px;
+.imagetopdf-card {
+  width: 100%;
   max-width: 850px;
-  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   border: 1px solid var(--surface-border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: var(--surface-strong);
   box-shadow: var(--shadow-lg);
+  text-align: left;
 }
 
-.project-details-card h1 {
+.imagetopdf-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 30px 34px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.imagetopdf-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent));
+}
+
+.imagetopdf-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #1c1406;
+  box-shadow: 0 10px 24px var(--accent-soft);
+}
+
+.imagetopdf-header h1 {
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.02em;
-  font-size: 2.2rem;
-  margin-bottom: 14px;
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
   color: var(--text-primary);
 }
 
-.project-details-card p {
-  font-size: 1.02rem;
+.imagetopdf-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.94rem;
+  line-height: 1.5;
   color: var(--text-secondary);
-  margin-bottom: 4px;
+}
+
+.imagetopdf-body {
+  padding: 32px 34px 34px;
 }
 
 .toolbox-form {
   display: grid;
   gap: 20px;
   text-align: left;
-  margin-top: 26px;
 }
 
 .file-upload-label {
@@ -106,13 +144,19 @@
   box-shadow: var(--shadow-md);
 }
 
-.toolbox-card-button:hover {
+.toolbox-card-button:hover:not(.disabled) {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 44px var(--accent-soft), var(--shadow-lg);
   border-color: var(--accent);
 }
 
+.toolbox-card-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .toolbox-card-image {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
@@ -124,6 +168,28 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.35s ease;
+}
+
+.toolbox-card-button:hover:not(.disabled) .toolbox-card-image img {
+  transform: scale(1.05);
+}
+
+.toolbox-card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(14, 16, 21, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2efe9;
 }
 
 .toolbox-card-button h2,
@@ -144,8 +210,12 @@
 }
 
 .toolbox-card-button.disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
+}
+
+.toolbox-card-button.disabled .toolbox-card-image img {
+  filter: grayscale(0.4);
 }
 
 .toolbox-preview {
@@ -197,6 +267,18 @@
 
 @media (max-width: 640px) {
   .toolbox-page {
-    padding: 36px 20px 56px;
+    padding: 150px 20px 56px;
+  }
+
+  .project-details-page.imagetopdf-page {
+    padding: 150px 16px 72px;
+  }
+
+  .imagetopdf-header {
+    padding: 24px 22px;
+  }
+
+  .imagetopdf-body {
+    padding: 26px 22px 28px;
   }
 }

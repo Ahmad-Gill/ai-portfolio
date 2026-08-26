@@ -195,6 +195,22 @@
   margin-bottom: 38px;
 }
 
+.hero-buttons .btn.teal {
+  background: linear-gradient(135deg, #f4d8ad 0%, var(--accent) 55%, #c98936 100%);
+  color: #1c1406;
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 16px 36px rgba(224, 164, 88, 0.35);
+}
+
+.hero-buttons .btn.teal:hover,
+.hero-buttons .btn.teal:focus-visible {
+  background: linear-gradient(135deg, var(--accent) 0%, #f4d8ad 55%, var(--accent) 100%);
+  border-color: transparent;
+  box-shadow: 0 20px 44px rgba(224, 164, 88, 0.5);
+  transform: translateY(-3px);
+}
+
 .hero-credibility {
   display: flex;
   align-items: stretch;

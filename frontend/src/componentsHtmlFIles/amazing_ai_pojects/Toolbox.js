@@ -28,13 +28,6 @@ const tools = [
     active: false,
     image: `${publicUrl}/speach.png`,
   },
-    {
-    id: "audio-summary",
-    title: "Audio Summary",
-    description: "Coming soon: summarize audio recordings into notes.",
-    active: false,
-    image: `${publicUrl}/speach.png`,
-  },
 ];
 
 function Toolbox() {
@@ -63,6 +56,7 @@ function Toolbox() {
           >
             <div className="toolbox-card-image">
               <img src={tool.image} alt={tool.title} />
+              {!tool.active && <span className="toolbox-card-badge">Coming soon</span>}
             </div>
             <h2>{tool.title}</h2>
             <p>{tool.description}</p>

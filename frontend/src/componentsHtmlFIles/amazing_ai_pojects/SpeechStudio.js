@@ -220,72 +220,96 @@ function SpeechStudio() {
   ];
 
   return (
-    <div className="project-details-page">
+    <div className="project-details-page speechstudio-page">
       {loading && <Animation fullscreen />}
-      <div className="project-details-card speechstudio-card">
-        <h1>Speech Studio</h1>
-        <p>
-          Upload a short audio file or record your voice, add instructions, and
-          receive a polished AI-generated audio response that you can preview
-          and download.
-        </p>
-
-        <div className="speechstudio-form">
-          <label>
-            Instruction or text prompt
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Enter the text prompt or instructions for the audio output..."
-              rows={4}
-            />
-          </label>
-
-          <div className="speechstudio-input-row">
-            <label className="file-upload-label">
-              Upload audio file
-              <input
-                type="file"
-                accept="audio/*"
-                onChange={handleFileChange}
-              />
-            </label>
-            <div className="record-controls">
-              <button
-                type="button"
-                className={`btn blue ${recording ? "recording" : ""}`}
-                onClick={recording ? handleStopRecording : handleStartRecording}
-              >
-                {recording ? "Stop recording" : "Record voice (6s)"}
-              </button>
-            </div>
+      <div className="speechstudio-card">
+        <div className="speechstudio-header">
+          <span className="speechstudio-header-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <rect x="9" y="3" width="6" height="11" rx="3" />
+              <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21m-3.5 0h7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <div>
+            <h1>Speech Studio</h1>
+            <p className="speechstudio-subtitle">
+              Upload a short audio file or record your voice, add instructions, and
+              receive a polished AI-generated audio response that you can preview
+              and download.
+            </p>
           </div>
-
-          <div className="speechstudio-preview">
-            <span>{previewLabel}</span>
-            {uploadedSource && audioUrl && (
-              <audio controls src={audioUrl} />
-            )}
-          </div>
-
-          <Buttons buttons={heroButtons} />
-          {error && <p className="error">{error}</p>}
         </div>
 
-        {responseAudioUrl && (
-          <div className="speechstudio-result">
-            <h2>Audio Output</h2>
-            <p>Preview the AI-generated audio and download it as a WAV file.</p>
-            <audio controls src={responseAudioUrl} className="result-audio" />
-            <a
-              className="download-link"
-              href={responseAudioUrl}
-              download="speech-studio-output.wav"
-            >
-              Download result
-            </a>
+        <div className="speechstudio-body">
+          <div className="speechstudio-form">
+            <label>
+              Instruction or text prompt
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Enter the text prompt or instructions for the audio output..."
+                rows={4}
+              />
+            </label>
+
+            <div className="speechstudio-input-row">
+              <label className="file-upload-label">
+                <span className="input-tile-label">Upload audio file</span>
+                <input
+                  type="file"
+                  accept="audio/*"
+                  onChange={handleFileChange}
+                />
+              </label>
+              <div className="record-controls">
+                <span className="input-tile-label">Or record your voice</span>
+                <button
+                  type="button"
+                  className={`btn blue record-btn ${recording ? "recording" : ""}`}
+                  onClick={recording ? handleStopRecording : handleStartRecording}
+                >
+                  {recording && <span className="record-dot" aria-hidden="true" />}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <rect x="9" y="3" width="6" height="11" rx="3" />
+                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21m-3.5 0h7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {recording ? "Stop recording" : "Record voice (6s)"}
+                </button>
+              </div>
+            </div>
+
+            <div className="speechstudio-preview">
+              <span className="speechstudio-preview-label">{previewLabel}</span>
+              {uploadedSource && audioUrl && (
+                <audio controls src={audioUrl} />
+              )}
+            </div>
+
+            <Buttons buttons={heroButtons} />
+            {error && <p className="error">{error}</p>}
           </div>
-        )}
+
+          {responseAudioUrl && (
+            <div className="speechstudio-result">
+              <h2>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                  <path d="M4 15V9a1 1 0 0 1 1-1h3l5-4v16l-5-4H5a1 1 0 0 1-1-1Z" strokeLinejoin="round" />
+                  <path d="M16.5 9a4 4 0 0 1 0 6" strokeLinecap="round" />
+                </svg>
+                Audio Output
+              </h2>
+              <p>Preview the AI-generated audio and download it as a WAV file.</p>
+              <audio controls src={responseAudioUrl} className="result-audio" />
+              <a
+                className="download-link"
+                href={responseAudioUrl}
+                download="speech-studio-output.wav"
+              >
+                Download result
+              </a>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

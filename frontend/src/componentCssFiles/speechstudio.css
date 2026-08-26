@@ -1,45 +1,80 @@
-.project-details-page {
-  padding: 48px 24px 72px;
+.project-details-page.speechstudio-page {
+  padding: 180px 24px 96px;
   color: var(--text-primary);
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.project-details-card {
-  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
+/* Card */
+.speechstudio-card {
+  width: 100%;
+  max-width: 900px;
   border-radius: var(--radius-lg);
-  padding: 40px;
-  max-width: 850px;
-  margin: 0 auto;
+  overflow: hidden;
   border: 1px solid var(--surface-border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: var(--surface-strong);
   box-shadow: var(--shadow-lg);
+  text-align: left;
 }
 
-.project-details-card h1 {
+.speechstudio-header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 30px 34px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.speechstudio-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent));
+}
+
+.speechstudio-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #1c1406;
+  box-shadow: 0 10px 24px var(--accent-soft);
+}
+
+.speechstudio-header h1 {
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.02em;
-  font-size: 2.4rem;
-  margin-bottom: 14px;
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
   color: var(--text-primary);
 }
 
-.project-details-card p {
-  font-size: 1.05rem;
+.speechstudio-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.94rem;
+  line-height: 1.55;
   color: var(--text-secondary);
-  margin-bottom: 4px;
 }
 
-.project-details-card.speechstudio-card {
-  max-width: 900px;
+.speechstudio-body {
+  padding: 32px 34px 34px;
 }
 
 .speechstudio-form {
   display: grid;
   gap: 24px;
   text-align: left;
-  margin-top: 26px;
 }
 
 .speechstudio-form label {
@@ -74,58 +109,92 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  align-items: end;
 }
 
-.file-upload-label {
+.input-tile-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.file-upload-label,
+.record-controls {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  border: 1px solid var(--surface-border);
 }
 
 .file-upload-label input[type="file"] {
   width: 100%;
   border-radius: var(--radius-sm);
   border: 1px solid var(--surface-border);
-  padding: 12px 14px;
+  padding: 10px 12px;
   background: var(--input-bg);
   color: var(--input-text);
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
 .record-controls {
-  display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
-.record-controls .btn {
-  min-width: 190px;
-  padding: 14px 20px;
+.record-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  padding: 12px 18px;
 }
 
-.record-controls .btn.recording {
-  background: var(--danger);
+.speechstudio-card .record-btn.recording {
+  background: linear-gradient(135deg, var(--danger), #a8432f);
   box-shadow: 0 0 18px var(--danger-soft);
 }
 
+.record-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: recordPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes recordPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.75); }
+}
+
 .speechstudio-preview {
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 14px;
-  padding: 18px;
+  padding: 16px 18px;
   border-radius: var(--radius-md);
   background: var(--surface-muted);
   border: 1px solid var(--surface-border);
 }
 
-.speechstudio-preview span {
+.speechstudio-preview-label {
+  flex-shrink: 0;
   font-weight: 600;
+  font-size: 0.9rem;
   color: var(--accent);
 }
 
 .speechstudio-preview audio {
-  width: 100%;
+  flex: 1;
+  min-width: 200px;
+  height: 40px;
   border-radius: var(--radius-sm);
 }
 
@@ -145,9 +214,17 @@
 }
 
 .speechstudio-result h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   font-family: var(--font-display);
   margin: 0 0 12px;
   color: var(--text-primary);
+}
+
+.speechstudio-result h2 svg {
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 .speechstudio-result p {
@@ -186,7 +263,15 @@
 }
 
 @media (max-width: 640px) {
-  .project-details-card {
-    padding: 30px 22px;
+  .project-details-page.speechstudio-page {
+    padding: 150px 16px 72px;
+  }
+
+  .speechstudio-header {
+    padding: 24px 22px;
+  }
+
+  .speechstudio-body {
+    padding: 26px 22px 28px;
   }
 }

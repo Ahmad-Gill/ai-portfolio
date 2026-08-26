@@ -80,44 +80,57 @@ function ImageToPDF() {
   ];
 
   return (
-    <div className="project-details-page">
+    <div className="project-details-page imagetopdf-page">
       {loading && <Animation fullscreen />}
-      <div className="project-details-card toolbox-card">
-        <h1>Image to PDF Converter</h1>
-        <p>Upload an image file and generate a downloadable PDF document using the AI toolbox API.</p>
+      <div className="imagetopdf-card">
+        <div className="imagetopdf-header">
+          <span className="imagetopdf-header-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M6 3.5h8l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 19V5A1.5 1.5 0 0 1 6 3.5Z" strokeLinejoin="round" />
+              <path d="M14 3.5V8h4" strokeLinejoin="round" />
+              <path d="M8 15.5l2-3 1.6 2 1.4-2 2 3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <div>
+            <h1>Image to PDF Converter</h1>
+            <p className="imagetopdf-subtitle">Upload an image file and generate a downloadable PDF document using the AI toolbox API.</p>
+          </div>
+        </div>
 
-        <div className="toolbox-form">
-          <label className="file-upload-label">
-            Upload image file
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </label>
+        <div className="imagetopdf-body">
+          <div className="toolbox-form">
+            <label className="file-upload-label">
+              Upload image file
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+            </label>
 
-          {previewUrl && (
-            <div className="toolbox-preview">
-              <img src={previewUrl} alt="Selected preview" />
-            </div>
-          )}
-
-          <Buttons buttons={heroButtons} />
-          {error && <p className="error">{error}</p>}
-
-          {pdfUrl && (
-            <div className="toolbox-result">
-              <h2>PDF ready</h2>
-              <p>Your image has been converted successfully.</p>
-              <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="download-link">
-                Download PDF
-              </a>
-              <div className="toolbox-pdf-preview">
-                <iframe
-                  src={pdfUrl}
-                  title="Generated PDF preview"
-                  frameBorder="0"
-                  loading="lazy"
-                />
+            {previewUrl && (
+              <div className="toolbox-preview">
+                <img src={previewUrl} alt="Selected preview" />
               </div>
-            </div>
-          )}
+            )}
+
+            <Buttons buttons={heroButtons} />
+            {error && <p className="error">{error}</p>}
+
+            {pdfUrl && (
+              <div className="toolbox-result">
+                <h2>PDF ready</h2>
+                <p>Your image has been converted successfully.</p>
+                <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="download-link">
+                  Download PDF
+                </a>
+                <div className="toolbox-pdf-preview">
+                  <iframe
+                    src={pdfUrl}
+                    title="Generated PDF preview"
+                    frameBorder="0"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

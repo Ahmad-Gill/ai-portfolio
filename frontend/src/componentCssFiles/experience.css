@@ -25,7 +25,7 @@
 
 .experience-marker {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 6px;
 }
 

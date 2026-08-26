@@ -76,12 +76,35 @@
   margin-bottom: 4px;
 }
 
-.site-footer-brand p {
-  margin: 14px 0 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+.site-footer-brand-name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.site-footer-tagline {
+  margin: 10px 0 0;
+  color: var(--accent);
+  font-size: 0.86rem;
+  font-weight: 600;
   max-width: 320px;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+.site-footer-stack {
+  margin: 18px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+
+.site-footer-stack span {
+  margin: 0 6px;
+  color: var(--accent);
 }
 
 .site-footer-status {

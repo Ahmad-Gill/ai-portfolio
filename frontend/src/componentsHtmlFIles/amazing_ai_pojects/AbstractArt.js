@@ -41,24 +41,38 @@ function GenerateAbstractArt() {
   ];
 
   return (
-    <div className="project-details-page">
+    <div className="project-details-page abstractart-page">
       {loading && <Animation fullscreen />}
-      <div className="project-details-card">
-        <h1>Generate Abstract Art</h1>
-        <p>Click any button to generate unique abstract art using AI.</p>
-
-        {/* ✅ Responsive wrapper */}
-        <div className="abstract-buttons-wrapper">
-          <Buttons buttons={heroButtons} />
+      <div className="abstractart-card">
+        <div className="abstractart-header">
+          <span className="abstractart-header-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.9 1.2-1.8-.3-.5-.1-1.2.5-1.4.9-.3 1.7-.9 1.7-2 0-.7-.4-1.2-1-1.5-.4-.2-.5-.8-.1-1 .8-.5 1.7-1.2 1.7-2.3 0-2.5-3.5-5-4-8Z" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="8" cy="10.5" r="1.1" fill="currentColor" stroke="none" />
+              <circle cx="8.5" cy="15" r="1.1" fill="currentColor" stroke="none" />
+              <circle cx="13" cy="7" r="1.1" fill="currentColor" stroke="none" />
+            </svg>
+          </span>
+          <div>
+            <h1>Generate Abstract Art</h1>
+            <p className="abstractart-subtitle">Click any button to generate unique abstract art using AI.</p>
+          </div>
         </div>
 
-        {error && <p className="error">{error}</p>}
-
-        {imageSrc && (
-          <div className="abstract-result">
-            <img src={imageSrc} alt="Abstract Art" className="abstract-image" />
+        <div className="abstractart-body">
+          {/* ✅ Responsive wrapper */}
+          <div className="abstract-buttons-wrapper">
+            <Buttons buttons={heroButtons} />
           </div>
-        )}
+
+          {error && <p className="error">{error}</p>}
+
+          {imageSrc && (
+            <div className="abstract-result">
+              <img src={imageSrc} alt="Abstract Art" className="abstract-image" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

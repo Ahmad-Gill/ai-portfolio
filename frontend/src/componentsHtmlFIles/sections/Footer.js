@@ -1,5 +1,6 @@
 import React from "react";
 import "../../componentCssFiles/footer.css";
+import { getPublicAsset } from "../../utils/publicAsset";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -87,11 +88,13 @@ function Footer() {
 
       <div className="site-footer-inner">
         <div className="site-footer-brand">
-          <span className="site-footer-status">
-            <span className="site-footer-status-dot" aria-hidden="true" />
-            Open to new opportunities
-          </span>
-          <p>AI &amp; Data Science Specialist · MLOps Engineer · Building intelligent systems.</p>
+          <span className="site-footer-brand-name">Muhammad Ahmad</span>
+
+          <p className="site-footer-tagline">AI &amp; Data Science Specialist · MLOps Engineer</p>
+
+          <p className="site-footer-stack" aria-label="Core stack">
+            Python <span aria-hidden="true">·</span> PyTorch <span aria-hidden="true">·</span> LangChain <span aria-hidden="true">·</span> Azure
+          </p>
         </div>
 
         <div className="site-footer-col">

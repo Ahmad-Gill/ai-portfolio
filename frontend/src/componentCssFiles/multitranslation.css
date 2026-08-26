@@ -1,48 +1,85 @@
-/* Page + card styling */
-.project-details-page {
-  padding: 48px 24px 72px;
+/* Page shell */
+.project-details-page.multitranslation-page {
+  padding: 180px 24px 96px;
   color: var(--text-primary);
   text-align: center;
-}
-
-.project-details-card {
-  background: linear-gradient(160deg, var(--surface-strong) 0%, var(--surface-muted) 100%);
-  border-radius: var(--radius-lg);
-  padding: 40px;
-  max-width: 860px;
-  margin: 0 auto;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--surface-border);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.project-details-card h1 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
-  margin-bottom: 12px;
-  color: var(--text-primary);
-}
-
-.project-details-card p {
-  font-size: 1.02rem;
-  margin-bottom: 26px;
-  color: var(--text-secondary);
-}
-
-/* Form styles */
-.multitranslation-form {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 22px;
+  justify-content: center;
+}
+
+/* Card */
+.translate-card {
+  width: 100%;
+  max-width: 760px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-lg);
   text-align: left;
 }
 
-.multitranslation-form textarea,
-.multitranslation-form select {
+.translate-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 30px 34px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.translate-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent));
+}
+
+.translate-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #1c1406;
+  box-shadow: 0 10px 24px var(--accent-soft);
+}
+
+.translate-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+  color: var(--text-primary);
+}
+
+.translate-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+}
+
+.translate-body {
+  padding: 32px 34px 34px;
+}
+
+/* Form */
+.multitranslation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.multitranslation-form textarea {
   width: 100%;
   padding: 14px 18px;
   border-radius: var(--radius-sm);
@@ -52,34 +89,99 @@
   background: var(--input-bg);
   color: var(--input-text);
   outline: none;
+  resize: vertical;
+  min-height: 120px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.multitranslation-form textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.multitranslation-form select {
-  cursor: pointer;
-}
-
-.multitranslation-form textarea:focus,
-.multitranslation-form select:focus {
+.multitranslation-form textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
-.multitranslation-form select option {
+/* Controls row: language select + translate button */
+.multitranslation-controls {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.multitranslation-select-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+
+.multitranslation-select-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.multitranslation-select-wrap select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 13px 40px 13px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--surface-border);
+  font-size: 0.98rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  background: var(--input-bg);
+  color: var(--input-text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.multitranslation-select-wrap select:hover {
+  border-color: var(--accent-secondary);
+}
+
+.multitranslation-select-wrap select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.multitranslation-select-wrap select option {
   background: var(--surface-strong);
   color: var(--input-text);
 }
 
-.multitranslation-form .buttons-container {
-  align-self: flex-start;
+.multitranslation-select-arrow {
+  position: absolute;
+  right: 16px;
+  bottom: 17px;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  border-right: 2px solid var(--text-secondary);
+  border-bottom: 2px solid var(--text-secondary);
+  transform: rotate(45deg);
+  transition: border-color 0.2s ease;
 }
 
+.multitranslation-select-wrap select:focus ~ .multitranslation-select-arrow {
+  border-color: var(--accent);
+}
+
+.multitranslation-controls .buttons {
+  margin-top: 0;
+}
+
+.multitranslation-controls .btn {
+  height: 48px;
+}
+
+/* Result */
 .multitranslation-result {
+  margin-top: 24px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 1px solid var(--table-border);
@@ -116,12 +218,32 @@
 
 .error {
   color: var(--error);
-  margin-top: 12px;
+  margin-top: 14px;
   font-weight: 600;
 }
 
 @media (max-width: 640px) {
-  .project-details-card {
-    padding: 28px 22px;
+  .project-details-page.multitranslation-page {
+    padding: 150px 16px 72px;
+  }
+
+  .translate-header {
+    padding: 24px 22px;
+  }
+
+  .translate-body {
+    padding: 26px 22px 28px;
+  }
+
+  .multitranslation-controls {
+    align-items: stretch;
+  }
+
+  .multitranslation-controls .buttons {
+    width: 100%;
+  }
+
+  .multitranslation-controls .btn {
+    width: 100%;
   }
 }
