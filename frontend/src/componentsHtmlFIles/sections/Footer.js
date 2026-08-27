@@ -1,6 +1,5 @@
 import React from "react";
 import "../../componentCssFiles/footer.css";
-import { getPublicAsset } from "../../utils/publicAsset";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
