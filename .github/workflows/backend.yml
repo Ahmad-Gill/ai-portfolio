@@ -36,6 +36,7 @@ jobs:
           sudo apt-get update
           command -v nginx >/dev/null || sudo apt-get install -y nginx
           command -v rsync >/dev/null || sudo apt-get install -y rsync
+          command -v ffmpeg >/dev/null || sudo apt-get install -y ffmpeg
           command -v python3.11 >/dev/null || {
             sudo apt-get install -y software-properties-common
             sudo add-apt-repository -y ppa:deadsnakes/ppa
