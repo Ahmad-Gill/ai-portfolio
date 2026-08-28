@@ -1,56 +1,16 @@
 import json
-from django.http import JsonResponse
-from django.http import HttpResponse
-import traceback
 import os
-
-from ai_portfolio.amazing_AI_projects.imageToPdf import image_to_pdf
-
-os.environ["COQUI_TOS_AGREED"] = "1"
+import io
 import tempfile
-from pydub import AudioSegment
-
-
-# for live 
-FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "/usr/bin/ffmpeg")
-FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "/usr/bin/ffprobe")
-AudioSegment.converter = FFMPEG_PATH
-AudioSegment.ffprobe = FFPROBE_PATH
+import traceback
 import subprocess
-
-subprocess.run(
-
-    [FFPROBE_PATH, "-version"],
-
-    check=True
-
-)
-
-# for local 
-
 import shutil
 
-# FFMPEG_PATH = os.environ.get(
-#     "FFMPEG_PATH",
-#     shutil.which("ffmpeg") or "/usr/bin/ffmpeg"
-# )
-
-# FFPROBE_PATH = os.environ.get(
-#     "FFPROBE_PATH",
-#     shutil.which("ffprobe") or "/usr/bin/ffprobe"
-# )
-
-# AudioSegment.converter = FFMPEG_PATH
-# AudioSegment.ffprobe = FFPROBE_PATH
-import io
-
-
-#RAG IMports 
-
-
-
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from pydub import AudioSegment
 
+from ai_portfolio.amazing_AI_projects.imageToPdf import image_to_pdf
 from .amazing_AI_projects.textToSpeech import generate_voice
 from .amazing_AI_projects.mythBuster import mythbuster_answer
 from .amazing_AI_projects.translator import translate_and_correct  
@@ -63,53 +23,58 @@ from .docmind.config import (
     DOCMIND_UPLOAD_PASSWORD,
     SUPPORTED_DOCUMENT_EXTENSIONS,
 )
-
 from .docmind.rag import (
     create_embeddings,
     generate_answer,
 )
 
+os.environ["COQUI_TOS_AGREED"] = "1"
+
+# Automatically resolve system paths for FFmpeg and FFprobe
+FFMPEG_PATH = os.environ.get("FFMPEG_PATH") or shutil.which("ffmpeg") or "/usr/bin/ffmpeg"
+FFPROBE_PATH = os.environ.get("FFPROBE_PATH") or shutil.which("ffprobe") or "/usr/bin/ffprobe"
+
+AudioSegment.converter = FFMPEG_PATH
+AudioSegment.ffprobe = FFPROBE_PATH
+
+# Safe check that won't crash WSGI startup if missing
+try:
+    subprocess.run([FFPROBE_PATH, "-version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+except Exception as e:
+    print(f"Warning: ffprobe verification failed at {FFPROBE_PATH}: {e}")
 
 
+# --- Views ---
 
-
-# amazing ai projects mythbuter
 @csrf_exempt
 def check_claim(request):
     if request.method != "POST":
         return JsonResponse({"error": "Only POST requests allowed."}, status=405)
 
     try:
-        # Parse the incoming JSON
         data = json.loads(request.body.decode("utf-8"))
         claim = data.get("claim", "").strip()
         if not claim:
             return JsonResponse({"error": "Claim text is required."}, status=400)
 
-        # Your business logic
         result = mythbuster_answer(claim)
         return JsonResponse(result, safe=False)
 
     except json.JSONDecodeError as e:
-        # Invalid JSON in request
         return JsonResponse({"error": "Invalid JSON payload.", "details": str(e)}, status=400)
 
     except Exception as e:
-        # Capture full traceback for debugging
         tb = traceback.format_exc()
-        print("Error in check_claim:\n", tb)  # This prints full traceback to your runserver console
-
-        # Return error to the frontend
+        print("Error in check_claim:\n", tb)
         return JsonResponse({
             "error": "Internal Server Error",
             "message": str(e),
-            "traceback": tb  # You can remove this in production
+            "traceback": tb
         }, status=500)
 
-# amazing ai projects translation
+
 @csrf_exempt
 def translate_text(request):
-
     if request.method != "POST":
         return JsonResponse({"error": "Only POST requests allowed."}, status=405)
 
@@ -124,53 +89,49 @@ def translate_text(request):
         if not text or not language:
             return JsonResponse({"error": "Both 'text' and 'language' are required."}, status=400)
 
-        try:
-            result = translate_and_correct(text, language)
-            return JsonResponse(result)
-        except Exception as e:
-            import traceback; traceback.print_exc()
-            return JsonResponse({"error": f"translate_and_correct failed: {e}"}, status=500)
+        result = translate_and_correct(text, language)
+        return JsonResponse(result)
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON payload."}, status=400)
     except Exception as e:
+        traceback.print_exc()
         return JsonResponse({"error": str(e)}, status=500)
-    
-# amazing ai projects painting 1
+
+
 def painting_view1(request):
-    image = generate_meaningful_abstract_painting(1280, 720)  # HD
+    image = generate_meaningful_abstract_painting(1280, 720)
     buffer = io.BytesIO()
     image.save(buffer, format="PNG")
     return HttpResponse(buffer.getvalue(), content_type="image/png")
-# amazing ai projects painting 2
+
+
 def painting_view2(request):
-    """Return dynamically generated abstract painting as PNG."""
     image = generate_meaningful_abstract_painting1(1280, 720)
     buffer = io.BytesIO()
     image.save(buffer, format="PNG")
     return HttpResponse(buffer.getvalue(), content_type="image/png")
-# amazing ai projects painting 3
+
+
 def painting_faces_view(request):
-    """Return abstract painting with faces as PNG."""
     img = generate_abstract_painting_with_faces(1280, 720)
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     return HttpResponse(buffer.getvalue(), content_type="image/png")
-# amazing ai projects painting 4
+
+
 def abstract_painting_view(request):
-    painting = generate_abstract_painting(1280, 720)  # HD
+    painting = generate_abstract_painting(1280, 720)
     img_io = io.BytesIO()
     painting.save(img_io, format="PNG")
     img_io.seek(0)
     return HttpResponse(img_io, content_type="image/png")
+
+
 @csrf_exempt
 def text_to_speech_view(request):
-    print("text_to_speech_view called")
     if request.method != "POST":
-        return JsonResponse(
-            {"error": "Only POST requests allowed."},
-            status=405
-        )
+        return JsonResponse({"error": "Only POST requests allowed."}, status=405)
 
     temp_wav = None
 
@@ -184,7 +145,6 @@ def text_to_speech_view(request):
         if not audio_file:
             return JsonResponse({"error": "Speaker audio is required."}, status=400)
 
-        # Convert any audio format to WAV
         audio = AudioSegment.from_file(audio_file)
 
         temp = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
@@ -203,210 +163,111 @@ def text_to_speech_view(request):
             "/media/tts/" + os.path.basename(output_path)
         )
 
-        return JsonResponse({
-            "audio": audio_url
-        })
+        return JsonResponse({"audio": audio_url})
 
     except Exception as e:
-        import traceback
         traceback.print_exc()
-
-        return JsonResponse(
-            {"error": str(e)},
-            status=500
-        )
+        return JsonResponse({"error": str(e)}, status=500)
 
     finally:
         if temp_wav and os.path.exists(temp_wav):
             os.remove(temp_wav)
-            
+
+
 @csrf_exempt
-
 def image_to_pdf_view(request):
-
     if request.method != "POST":
-
         return JsonResponse({"error": "Only POST requests allowed."}, status=405)
 
     image = request.FILES.get("image")
 
     if not image:
-
         return JsonResponse({"error": "Image is required."}, status=400)
 
     try:
-
         pdf_path = image_to_pdf(image)
-
         pdf_url = request.build_absolute_uri(
-
             "/media/pdfs/" + os.path.basename(pdf_path)
-
         )
-
-        return JsonResponse({
-
-            "pdf": pdf_url
-
-        })
+        return JsonResponse({"pdf": pdf_url})
 
     except Exception as e:
-
         return JsonResponse({"error": str(e)}, status=500)
-    
-    
-    
+
+
 @csrf_exempt
 def docmind_upload_document(request):
-
     if request.method != "POST":
-
-        return JsonResponse({
-            "success": False,
-            "error": "Only POST requests allowed."
-        }, status=405)
+        return JsonResponse({"success": False, "error": "Only POST requests allowed."}, status=405)
 
     try:
-
-        password = request.headers.get(
-            "X-DocMind-Password"
-        )
+        password = request.headers.get("X-DocMind-Password")
 
         if not DOCMIND_UPLOAD_PASSWORD:
-
-            return JsonResponse({
-                "success": False,
-                "error": "Upload password is not configured."
-            }, status=500)
+            return JsonResponse({"success": False, "error": "Upload password is not configured."}, status=500)
 
         if not password:
-
-            return JsonResponse({
-                "success": False,
-                "error": "Authentication password is required."
-            }, status=401)
+            return JsonResponse({"success": False, "error": "Authentication password is required."}, status=401)
 
         if password != DOCMIND_UPLOAD_PASSWORD:
+            return JsonResponse({"success": False, "error": "Invalid authentication password."}, status=401)
 
-            return JsonResponse({
-                "success": False,
-                "error": "Invalid authentication password."
-            }, status=401)
-
-        document = request.FILES.get(
-            "document"
-        )
+        document = request.FILES.get("document")
 
         if not document:
-
-            return JsonResponse({
-                "success": False,
-                "error": "Document is required."
-            }, status=400)
+            return JsonResponse({"success": False, "error": "Document is required."}, status=400)
 
         file_name = document.name
-
-        extension = os.path.splitext(
-            file_name
-        )[1].lower()
+        extension = os.path.splitext(file_name)[1].lower()
 
         if extension not in SUPPORTED_DOCUMENT_EXTENSIONS:
-
             return JsonResponse({
                 "success": False,
-                "error": (
-                    "Unsupported document type. "
-                    "Allowed: PDF, DOCX, TXT."
-                )
+                "error": "Unsupported document type. Allowed: PDF, DOCX, TXT."
             }, status=400)
 
         temp_file_path = None
 
         try:
-
-            with tempfile.NamedTemporaryFile(
-                delete=False,
-                suffix=extension
-            ) as temp_file:
-
+            with tempfile.NamedTemporaryFile(delete=False, suffix=extension) as temp_file:
                 for chunk in document.chunks():
-
                     temp_file.write(chunk)
-
                 temp_file_path = temp_file.name
 
-            chunk_count = create_embeddings(
-                temp_file_path,
-                extension
-            )
+            chunk_count = create_embeddings(temp_file_path, extension)
 
         finally:
-
-            if (
-                temp_file_path
-                and os.path.exists(temp_file_path)
-            ):
-
+            if temp_file_path and os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
 
         return JsonResponse({
             "success": True,
-            "message": (
-                "Document uploaded and "
-                "embeddings created successfully."
-            ),
+            "message": "Document uploaded and embeddings created successfully.",
             "document": file_name,
             "chunks": chunk_count
         })
 
     except Exception as e:
-
         traceback.print_exc()
-
-        return JsonResponse({
-            "success": False,
-            "error": str(e)
-        }, status=500)
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 
 @csrf_exempt
 def docmind_ask_question(request):
-
     if request.method != "POST":
-
-        return JsonResponse({
-            "success": False,
-            "error": "Only POST requests allowed."
-        }, status=405)
+        return JsonResponse({"success": False, "error": "Only POST requests allowed."}, status=405)
 
     try:
-
         if request.content_type != "application/json":
+            return JsonResponse({"success": False, "error": "Content-Type must be application/json."}, status=400)
 
-            return JsonResponse({
-                "success": False,
-                "error": "Content-Type must be application/json."
-            }, status=400)
-
-        data = json.loads(
-            request.body.decode("utf-8")
-        )
-
-        question = data.get(
-            "question",
-            ""
-        ).strip()
+        data = json.loads(request.body.decode("utf-8"))
+        question = data.get("question", "").strip()
 
         if not question:
+            return JsonResponse({"success": False, "error": "Question is required."}, status=400)
 
-            return JsonResponse({
-                "success": False,
-                "error": "Question is required."
-            }, status=400)
-
-        answer = generate_answer(
-            question
-        )
+        answer = generate_answer(question)
 
         return JsonResponse({
             "success": True,
@@ -415,17 +276,8 @@ def docmind_ask_question(request):
         })
 
     except json.JSONDecodeError:
-
-        return JsonResponse({
-            "success": False,
-            "error": "Invalid JSON payload."
-        }, status=400)
+        return JsonResponse({"success": False, "error": "Invalid JSON payload."}, status=400)
 
     except Exception as e:
-
         traceback.print_exc()
-
-        return JsonResponse({
-            "success": False,
-            "error": str(e)
-        }, status=500)
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
