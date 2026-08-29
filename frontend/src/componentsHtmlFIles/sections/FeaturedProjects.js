@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useReveal from "../../hooks/useReveal";
 import { amazingAI, projectRoutes } from "../../data/amazingAI";
+import ProjectCardLink from "../ProjectCardLink";
 import "../../componentCssFiles/featuredProjects.css";
 
 function FeaturedProjects() {
@@ -20,9 +21,10 @@ function FeaturedProjects() {
 
       <div className="featured-projects-grid">
         {amazingAI.map((proj, i) => (
-          <Link
+          <ProjectCardLink
             key={proj.name}
             to={projectRoutes[proj.name] || "/"}
+            notice={proj.notice}
             className="featured-project-card reveal"
             style={{ transitionDelay: `${(i % 6) * 70}ms` }}
           >
@@ -33,7 +35,7 @@ function FeaturedProjects() {
               <h3>{proj.name}</h3>
               <p>{proj.description}</p>
             </div>
-          </Link>
+          </ProjectCardLink>
         ))}
       </div>
 

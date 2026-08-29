@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "../componentCssFiles/project.css";
+import ProjectCardLink from "./ProjectCardLink";
 
 // Import all project data files
 import { amazingAI, projectRoutes } from "../data/amazingAI";
@@ -26,15 +26,16 @@ function Projects({ projectName }) {
       <div className="projects-list">
         {projects.length === 0 && <p>No projects found for this category.</p>}
         {projects.map((proj) => (
-          <Link
+          <ProjectCardLink
             key={proj.name}
             to={projectRoutes[proj.name] || "/"} // dynamically route based on project name
+            notice={proj.notice}
             className="project-card"
           >
             <img src={proj.image} alt={proj.name} className="project-image" />
             <h2>{proj.name}</h2>
             <p>Explore this AI project in detail.</p>
-          </Link>
+          </ProjectCardLink>
         ))}
       </div>
     </div>

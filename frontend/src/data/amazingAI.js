@@ -46,6 +46,8 @@ export const amazingAI = [
     description:
       "Upload or record a short audio clip, add a prompt, and receive a clean AI-generated audio response.",
     image: assets.speechStudio,
+    notice:
+      "Due to heavy CPU usage, responses on this page may be delayed or occasionally fail. We're actively working on a fix.",
   },
   {
     name: "AI Tool Box",
