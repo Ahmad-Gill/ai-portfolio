@@ -28,7 +28,6 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.BACKEND_EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Install Packages & Sync Files
         run: |
@@ -72,8 +71,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
           ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }} << 'EOF'
-          if [ ! -f /etc/systemd/system/gunicorn.service ]; then
-            sudo tee /etc/systemd/system/gunicorn.service > /dev/null << 'SERVICE'
+          sudo tee /etc/systemd/system/gunicorn.service > /dev/null << 'SERVICE'
           [Unit]
           Description=Gunicorn Django Service
           After=network.target
@@ -82,21 +80,22 @@ jobs:
           User=${{ secrets.EC2_USER }}
           Group=www-data
           WorkingDirectory=/home/${{ secrets.EC2_USER }}/backend
-          Environment="PATH=/home/${{ secrets.EC2_USER }}/backend/venv/bin"
-          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn ai_portfolio.wsgi:application --workers 3 --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
+          Environment="PATH=/home/${{ secrets.EC2_USER }}/backend/venv/bin:/usr/local/bin:/usr/bin:/bin"
+          Environment="OMP_NUM_THREADS=1"
+          Environment="MKL_NUM_THREADS=1"
+          ExecStart=/home/${{ secrets.EC2_USER }}/backend/venv/bin/gunicorn ai_portfolio.wsgi:application --workers 1 --threads 2 --timeout 600 --bind unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock
           Restart=always
           RestartSec=5
 
           [Install]
           WantedBy=multi-user.target
           SERVICE
-            sudo systemctl daemon-reload
-            sudo systemctl enable gunicorn
-          fi
+
+          sudo systemctl daemon-reload
+          sudo systemctl enable gunicorn
           sudo systemctl restart gunicorn
 
-          if [ ! -f /etc/nginx/sites-available/backend ]; then
-            sudo tee /etc/nginx/sites-available/backend > /dev/null << 'NGINX'
+          sudo tee /etc/nginx/sites-available/backend > /dev/null << 'NGINX'
           server {
               listen 80;
               server_name _;
@@ -113,12 +112,15 @@ jobs:
               location /api/ {
                   include proxy_params;
                   proxy_pass http://unix:/home/${{ secrets.EC2_USER }}/backend/gunicorn.sock;
+                  proxy_read_timeout 600s;
+                  proxy_connect_timeout 600s;
+                  proxy_send_timeout 600s;
               }
           }
           NGINX
-            sudo rm -f /etc/nginx/sites-enabled/default
-            sudo ln -sf /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/backend
-          fi
+
+          sudo rm -f /etc/nginx/sites-enabled/default
+          sudo ln -sf /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/backend
           sudo nginx -t
           sudo systemctl restart nginx
           EOF
