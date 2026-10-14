@@ -1,6 +1,7 @@
 import { getPublicAsset } from "../utils/publicAsset";
 
 const assets = {
+  storyWriter: getPublicAsset("Amazing AI projects/story.svg"),
   multiTranslation: getPublicAsset("Amazing AI projects/multi_translation.jpg"),
   aiMythBuster: getPublicAsset("Amazing AI projects/ai_mythbuster.png"),
   abstractArt: getPublicAsset("Amazing AI projects/AbstractArt.png"),
@@ -12,6 +13,7 @@ const assets = {
 
 // Maps a project's display name to its detail page route.
 export const projectRoutes = {
+  "Create Your Own Story": "/amazing_ai_projects/create-your-own-story",
   "AI Chatbot": "/ai-chatbot",
   "Generate Abstract Painting": "/amazing_ai_projects/AbstractArt",
   "Multi Translation": "/amazing_ai_projects/multi-translation",
@@ -23,6 +25,12 @@ export const projectRoutes = {
 };
 
 export const amazingAI = [
+  {
+    name: "Create Your Own Story",
+    description:
+      "Type the opening line and watch a small language model I trained from scratch write the rest, word by word.",
+    image: assets.storyWriter,
+  },
   {
     name: "Multi Translation",
     description:

@@ -5,7 +5,8 @@ from django.urls import path, re_path
 from .views import (
     check_claim, translate_text, painting_view1,
     painting_view2, painting_faces_view, abstract_painting_view,text_to_speech_view,
-    image_to_pdf_view,docmind_upload_document, docmind_ask_question
+    image_to_pdf_view,docmind_upload_document, docmind_ask_question,
+    create_story_view
 )
 
 urlpatterns = [
@@ -29,6 +30,7 @@ path(
     "api/amazing_ai_project/docmind/ask/",
     docmind_ask_question,
 ),
+    path("api/amazing_ai_project/create-story/", create_story_view),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

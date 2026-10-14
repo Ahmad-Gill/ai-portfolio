@@ -6,7 +6,7 @@ import traceback
 import subprocess
 import shutil
 
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from pydub import AudioSegment
 
@@ -273,6 +273,66 @@ def docmind_ask_question(request):
             "success": True,
             "question": question,
             "answer": answer
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({"success": False, "error": "Invalid JSON payload."}, status=400)
+
+    except Exception as e:
+        traceback.print_exc()
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+
+@csrf_exempt
+def create_story_view(request):
+    if request.method != "POST":
+        return JsonResponse({"success": False, "error": "Only POST requests allowed."}, status=405)
+
+    try:
+        if request.content_type != "application/json":
+            return JsonResponse({"success": False, "error": "Content-Type must be application/json."}, status=400)
+
+        data = json.loads(request.body.decode("utf-8"))
+        prompt = str(data.get("prompt", "")).strip()
+        stream = bool(data.get("stream", False))
+
+        if not prompt:
+            return JsonResponse({"success": False, "error": "Prompt is required."}, status=400)
+
+        # Imported here so a problem with the story model never breaks the other APIs
+        from .amazing_AI_projects.storyGenerator import (
+            DEFAULT_MAX_NEW_TOKENS,
+            MAX_NEW_TOKENS_LIMIT,
+            create_story,
+            stream_story,
+        )
+
+        try:
+            max_new_tokens = int(data.get("max_new_tokens", DEFAULT_MAX_NEW_TOKENS))
+            temperature = float(data.get("temperature", 0.8))
+            top_p = float(data.get("top_p", 0.9))
+        except (TypeError, ValueError):
+            return JsonResponse({"success": False, "error": "max_new_tokens, temperature and top_p must be numbers."}, status=400)
+
+        max_new_tokens = max(1, min(max_new_tokens, MAX_NEW_TOKENS_LIMIT))
+        temperature = max(0.1, min(temperature, 2.0))
+        top_p = max(0.1, min(top_p, 1.0))
+
+        if stream:
+            response = StreamingHttpResponse(
+                stream_story(prompt, max_new_tokens, temperature, top_p),
+                content_type="text/plain; charset=utf-8",
+            )
+            response["Cache-Control"] = "no-cache"
+            response["X-Accel-Buffering"] = "no"  # stop nginx buffering the stream
+            return response
+
+        story = create_story(prompt, max_new_tokens, temperature, top_p)
+
+        return JsonResponse({
+            "success": True,
+            "prompt": prompt,
+            "story": story
         })
 
     except json.JSONDecodeError:

@@ -11,6 +11,7 @@ import Toolbox from "./componentsHtmlFIles/amazing_ai_pojects/Toolbox";
 import ImageToPDF from "./componentsHtmlFIles/amazing_ai_pojects/ImageToPDF";
 import RagDocMind from "./componentsHtmlFIles/amazing_ai_pojects/RagDocMind";
 import UrduAudioRag from "./componentsHtmlFIles/amazing_ai_pojects/UrduAudioRag";
+import StoryWriter from "./componentsHtmlFIles/amazing_ai_pojects/StoryWriter";
 import ChatWidget from "./componentsHtmlFIles/ChatWidget";
 
 function ProjectsWrapper() {
@@ -31,6 +32,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:projectName" element={<ProjectsWrapper />} />
+        <Route
+          path="/amazing_ai_projects/create-your-own-story"
+          element={<StoryWriter />}
+        />
         <Route
           path="/amazing_ai_projects/multi-translation"
           element={<MultiTranslation />}
