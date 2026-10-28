@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: "Skills", href: `${BASE_URL}/#skills` },
   { label: "Experience", href: `${BASE_URL}/#experience` },
   { label: "Projects", href: `${BASE_URL}/#projects` },
+  { label: "Apps", href: `${BASE_URL}/#apps` },
   { label: "Contact", href: `${BASE_URL}/#contact` },
 ];
 

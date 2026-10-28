@@ -35,3 +35,9 @@ Thumbs.db
 # Build/Deploy Artifacts
 django-backend.zip
 node_modules/
+
+# App installers (too big for git; hosted on GitHub Releases)
+*.dmg
+*.exe
+*.msi
+*.ipa

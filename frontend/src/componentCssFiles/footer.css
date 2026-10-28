@@ -281,3 +281,11 @@ a.site-footer-contact-item:hover {
     padding: 18px 20px;
   }
 }
+
+.site-footer-visitors {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}

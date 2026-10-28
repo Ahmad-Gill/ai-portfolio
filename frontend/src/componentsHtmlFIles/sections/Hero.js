@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Buttons from "../Button";
 import { getPublicAsset } from "../../utils/publicAsset";
+import useVisitorStats from "../../hooks/useVisitorStats";
 import "../../componentCssFiles/hero.css";
 
 const BASE_URL = (process.env.REACT_APP_PUBLIC_URL || "").replace(/\/+$/, "");
@@ -55,6 +56,7 @@ function RoleCycler() {
 }
 
 function Hero() {
+  const visitorStats = useVisitorStats();
   const heroButtons = [
     {
       text: "Explore AI Projects",
@@ -113,6 +115,19 @@ function Hero() {
                 <span>{stat.label}</span>
               </span>
             ))}
+            {visitorStats && (
+              <span
+                className="hero-stat hero-stat-live"
+                role="listitem"
+                title={`${visitorStats.totalVisits.toLocaleString()} total visits`}
+              >
+                <strong>
+                  <span className="live-dot" aria-hidden="true" />
+                  {visitorStats.uniqueVisitors.toLocaleString()}
+                </strong>
+                <span>visitors so far</span>
+              </span>
+            )}
           </div>
         </div>
 

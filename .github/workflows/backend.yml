@@ -49,6 +49,7 @@ jobs:
           rsync -avz --delete \
             --exclude ".git" --exclude "__pycache__" --exclude "*.pyc" \
             --exclude ".github" --exclude "venv" --exclude ".venv" \
+            --exclude "/data/" \
             -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ \
             ${{ secrets.EC2_USER }}@${{ secrets.BACKEND_EC2_HOST }}:~/backend/

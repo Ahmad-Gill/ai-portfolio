@@ -5,6 +5,10 @@ import tempfile
 import traceback
 import subprocess
 import shutil
+import re
+import sqlite3
+from datetime import datetime, timezone
+from pathlib import Path
 
 from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -338,6 +342,84 @@ def create_story_view(request):
     except json.JSONDecodeError:
         return JsonResponse({"success": False, "error": "Invalid JSON payload."}, status=400)
 
+    except Exception as e:
+        traceback.print_exc()
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+
+# --- Visitor counter ---
+# Own SQLite file in backend/data/ (excluded from the deploy rsync) so the
+# counts survive deployments, unlike db.sqlite3 which is re-synced from git.
+VISITOR_DB_PATH = Path(os.getenv(
+    "VISITOR_DB_PATH",
+    Path(__file__).resolve().parent.parent / "data" / "visitors.sqlite3",
+))
+
+# The frontend sends a random ID it keeps in the browser's localStorage.
+VISITOR_ID_PATTERN = re.compile(r"^[A-Za-z0-9-]{8,64}$")
+
+
+def count_visit(visitor_id=None, user_agent=""):
+    """Add the browser ID if it's new (+1 visitor), always +1 visit, and return the counts."""
+    VISITOR_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+    with sqlite3.connect(VISITOR_DB_PATH, timeout=10) as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS visitors (
+                visitor_id TEXT PRIMARY KEY,
+                first_seen TEXT NOT NULL,
+                last_seen  TEXT NOT NULL,
+                visits     INTEGER NOT NULL DEFAULT 1,
+                user_agent TEXT
+            )
+        """)
+
+        if visitor_id:
+            exists = conn.execute("SELECT 1 FROM visitors WHERE visitor_id = ?", (visitor_id,)).fetchone()
+            if exists:
+                conn.execute(
+                    "UPDATE visitors SET visits = visits + 1, last_seen = ? WHERE visitor_id = ?",
+                    (now, visitor_id),
+                )
+            else:
+                conn.execute(
+                    "INSERT INTO visitors (visitor_id, first_seen, last_seen, visits, user_agent) VALUES (?, ?, ?, 1, ?)",
+                    (visitor_id, now, now, user_agent[:300]),
+                )
+
+        unique_visitors, total_visits = conn.execute(
+            "SELECT COUNT(*), COALESCE(SUM(visits), 0) FROM visitors"
+        ).fetchone()
+
+    return {"unique_visitors": unique_visitors, "total_visits": total_visits}
+
+
+@csrf_exempt
+def visitors_view(request):
+    """POST {"visitor_id": "..."} counts this visit and returns the totals; GET only returns the totals."""
+    if request.method == "GET":
+        try:
+            return JsonResponse({"success": True, **count_visit()})
+        except Exception as e:
+            traceback.print_exc()
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+    if request.method != "POST":
+        return JsonResponse({"success": False, "error": "Only GET and POST requests allowed."}, status=405)
+
+    try:
+        data = json.loads(request.body.decode("utf-8") or "{}")
+    except json.JSONDecodeError:
+        return JsonResponse({"success": False, "error": "Invalid JSON payload."}, status=400)
+
+    visitor_id = data.get("visitor_id")
+    if not isinstance(visitor_id, str) or not VISITOR_ID_PATTERN.match(visitor_id):
+        return JsonResponse({"success": False, "error": "A valid visitor_id is required."}, status=400)
+
+    try:
+        stats = count_visit(visitor_id, request.META.get("HTTP_USER_AGENT", ""))
+        return JsonResponse({"success": True, **stats})
     except Exception as e:
         traceback.print_exc()
         return JsonResponse({"success": False, "error": str(e)}, status=500)

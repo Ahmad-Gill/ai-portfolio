@@ -229,6 +229,27 @@ code {
   margin: 0;
 }
 
+/* Pulsing "live" indicator   used by the visitor counter. */
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 0 var(--success-soft);
+  animation: live-dot-pulse 2s ease-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes live-dot-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(123, 165, 126, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(123, 165, 126, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(123, 165, 126, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+}
+
 /* Scroll-reveal utility, driven by src/hooks/useReveal.js toggling
    .reveal-active on a container; children with .reveal stagger via
    nth-child transition-delay defined per-section as needed. */

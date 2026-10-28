@@ -1,11 +1,13 @@
 import React from "react";
 import "../../componentCssFiles/footer.css";
+import useVisitorStats from "../../hooks/useVisitorStats";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Apps", href: "#apps" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -80,6 +82,7 @@ function BackToTop() {
 
 function Footer() {
   const year = new Date().getFullYear();
+  const visitorStats = useVisitorStats();
 
   return (
     <footer className="site-footer">
@@ -154,6 +157,13 @@ function Footer() {
 
       <div className="site-footer-bottom">
         <span>© {year} Muhammad Ahmad. All rights reserved.</span>
+        {visitorStats && (
+          <span className="site-footer-visitors">
+            <span className="live-dot" aria-hidden="true" />
+            {visitorStats.uniqueVisitors.toLocaleString()} visitors ·{" "}
+            {visitorStats.totalVisits.toLocaleString()} visits
+          </span>
+        )}
         <BackToTop />
       </div>
     </footer>

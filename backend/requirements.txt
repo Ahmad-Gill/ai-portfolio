@@ -59,8 +59,8 @@ torchvision==0.16.2
 # ============================================================
 
 # Compatible with the Torch 2.1.x stack.
-transformers==4.36.2
-tokenizers==0.15.2
+transformers==4.40.2
+tokenizers==0.19.1
 sentence-transformers==2.6.1
 
 
