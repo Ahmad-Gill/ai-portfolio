@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import useReveal from "../../hooks/useReveal";
 import { apps, platforms } from "../../data/apps";
+import DownloadNoticeModal from "../DownloadNoticeModal";
 import "../../componentCssFiles/button.css";
 import "../../componentCssFiles/apps.css";
 
@@ -36,6 +37,9 @@ const appPlatforms = (app) => [...new Set(app.downloads.map((d) => d.platform))]
 function Apps() {
   const revealRef = useReveal();
   const [filter, setFilter] = useState("all");
+  // { appName, download } for the download whose install notice is open.
+  const [pendingDownload, setPendingDownload] = useState(null);
+  const closeNotice = useCallback(() => setPendingDownload(null), []);
 
   // Only offer tabs for platforms that actually have a download.
   const availablePlatforms = Object.keys(platforms).filter((key) =>
@@ -103,6 +107,10 @@ function Apps() {
                       className="btn ghost app-card-download"
                       href={download.url}
                       rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPendingDownload({ appName: app.name, download });
+                      }}
                     >
                       <span className="app-card-download-icon">{PLATFORM_ICONS[download.platform]}</span>
                       <span className="app-card-download-text">
@@ -120,6 +128,14 @@ function Apps() {
           );
         })}
       </div>
+
+      {pendingDownload && (
+        <DownloadNoticeModal
+          appName={pendingDownload.appName}
+          download={pendingDownload.download}
+          onClose={closeNotice}
+        />
+      )}
     </section>
   );
 }
