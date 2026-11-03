@@ -8,6 +8,7 @@ from .views import (
     image_to_pdf_view,docmind_upload_document, docmind_ask_question,
     create_story_view, visitors_view
 )
+from .reviews import reviews_view, review_detail_view, reviews_admin_check_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,9 @@ path(
 ),
     path("api/amazing_ai_project/create-story/", create_story_view),
     path("api/visitors/", visitors_view),
+    path("api/reviews/", reviews_view),
+    path("api/reviews/admin/check/", reviews_admin_check_view),
+    path("api/reviews/<int:review_id>/", review_detail_view),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -51,7 +51,7 @@ function CopyCommand({ command }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      // Clipboard access denied — the command is still selectable.
+      // Clipboard access denied   the command is still selectable.
     }
   };
 

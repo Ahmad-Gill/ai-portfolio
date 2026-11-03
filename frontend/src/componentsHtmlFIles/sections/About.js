@@ -53,13 +53,13 @@ const EDUCATION = [
     abbr: "MS",
     field: "Artificial Intelligence",
     school: "Lahore University of Management Sciences (LUMS)",
-    period: "2025 — 2027",
+    period: "2025   2027",
   },
   {
     abbr: "BS",
     field: "Data Science",
-    school: "FAST — National University of Computer & Emerging Sciences",
-    period: "2021 — 2025",
+    school: "FAST   National University of Computer & Emerging Sciences",
+    period: "2021   2025",
     honor: "Gold Medalist · 4.0 CGPA",
   },
 ];

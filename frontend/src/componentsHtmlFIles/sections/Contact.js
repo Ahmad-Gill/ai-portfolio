@@ -62,7 +62,7 @@ function Contact() {
             <p>
               <span className="contact-terminal-prompt">$</span>whoami
             </p>
-            <p className="contact-terminal-output">Muhammad Ahmad — AI/ML Engineer</p>
+            <p className="contact-terminal-output">Muhammad Ahmad   AI/ML Engineer</p>
             <p className="contact-terminal-spacer" aria-hidden="true" />
             <p>
               <span className="contact-terminal-prompt">$</span>status --check

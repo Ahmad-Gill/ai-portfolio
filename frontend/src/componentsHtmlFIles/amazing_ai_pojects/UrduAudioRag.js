@@ -287,7 +287,7 @@ function UrduAudioRag() {
             <h3>About this pipeline</h3>
             <p className="help">
               Your audio is transcribed to Urdu text, the text is sent to the DocMind RAG endpoint as a
-              question, and the answer is synthesized back into speech — a full voice-in, voice-out RAG loop.
+              question, and the answer is synthesized back into speech   a full voice-in, voice-out RAG loop.
             </p>
           </div>
         </div>

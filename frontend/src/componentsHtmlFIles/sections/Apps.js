@@ -2,6 +2,8 @@ import React, { useCallback, useState } from "react";
 import useReveal from "../../hooks/useReveal";
 import { apps, platforms } from "../../data/apps";
 import DownloadNoticeModal from "../DownloadNoticeModal";
+import { ReviewsModal, Stars } from "../AppReviews";
+import useAppReviews from "../../hooks/useAppReviews";
 import "../../componentCssFiles/button.css";
 import "../../componentCssFiles/apps.css";
 
@@ -40,12 +42,18 @@ function Apps() {
   // { appName, download } for the download whose install notice is open.
   const [pendingDownload, setPendingDownload] = useState(null);
   const closeNotice = useCallback(() => setPendingDownload(null), []);
+  const reviewsState = useAppReviews();
+  const { overall } = reviewsState;
+  // App whose reviews modal is open.
+  const [reviewApp, setReviewApp] = useState(null);
+  const closeReviews = useCallback(() => setReviewApp(null), []);
 
   // Only offer tabs for platforms that actually have a download.
   const availablePlatforms = Object.keys(platforms).filter((key) =>
     apps.some((app) => appPlatforms(app).includes(key))
   );
   const visibleApps = filter === "all" ? apps : apps.filter((app) => appPlatforms(app).includes(filter));
+  const appStats = (app) => reviewsState.apps[app.id] || { average: 0, count: 0 };
 
   return (
     <section className="section apps-section" id="apps" ref={revealRef}>
@@ -56,6 +64,23 @@ function Apps() {
           Native apps I&rsquo;ve built for macOS, Windows and iOS. Free to download and try.
         </p>
       </div>
+
+      {overall && (
+        <div className="apps-rating-overview reveal">
+          <span className="apps-rating-score">{overall.count ? overall.average.toFixed(1) : "–"}</span>
+          <div className="apps-rating-detail">
+            <Stars value={overall.average} size={18} />
+            <span>
+              {overall.count
+                ? `${overall.count} review${overall.count === 1 ? "" : "s"} across ${overall.apps_rated} app${
+                    overall.apps_rated === 1 ? "" : "s"
+                  }`
+                : "No reviews yet. Tried an app? Leave the first review."}
+            </span>
+          </div>
+          <span className="apps-rating-caption">Overall rating</span>
+        </div>
+      )}
 
       {availablePlatforms.length > 1 && (
         <div className="apps-filter reveal" role="tablist" aria-label="Filter apps by platform">
@@ -98,6 +123,31 @@ function Apps() {
                 </div>
               </div>
 
+              <button
+                type="button"
+                className="app-card-rating"
+                onClick={() => setReviewApp(app)}
+                aria-label={`See and write reviews for ${app.name}`}
+              >
+                {appStats(app).count ? (
+                  <>
+                    <strong>{appStats(app).average.toFixed(1)}</strong>
+                    <Stars value={appStats(app).average} size={14} />
+                    <span>
+                      {appStats(app).count} review{appStats(app).count === 1 ? "" : "s"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Stars value={0} size={14} />
+                    <span>No reviews yet</span>
+                  </>
+                )}
+                <span className="app-card-rating-cta">
+                  {reviewsState.reviews.some((r) => r.app_id === app.id && r.mine) ? "Your review" : "Rate"} &rsaquo;
+                </span>
+              </button>
+
               <p className="app-card-description">{app.description}</p>
 
               <ul className="app-card-downloads">
@@ -136,6 +186,8 @@ function Apps() {
           onClose={closeNotice}
         />
       )}
+
+      {reviewApp && <ReviewsModal app={reviewApp} reviewsState={reviewsState} onClose={closeReviews} />}
     </section>
   );
 }

@@ -5,6 +5,8 @@
 // and add an entry below. One app can have a download per platform/build;
 // each download's `platform` must be one of the keys in `platforms`.
 // `url` can also be an App Store / Microsoft Store link.
+// `id` is what the app's reviews are stored under on the backend   lowercase
+// letters, numbers and dashes; don't change it once the app has reviews.
 
 const RELEASES = "https://github.com/Ahmad-Gill/ai-portfolio/releases/download";
 
@@ -16,6 +18,7 @@ export const platforms = {
 
 export const apps = [
   {
+    id: "clipboard",
     name: "Clipboard",
     version: "1.0.0",
     description:

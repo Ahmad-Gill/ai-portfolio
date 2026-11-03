@@ -2,6 +2,7 @@ from deep_translator import GoogleTranslator
 from groq import Groq
 import os
 
+
 # Groq API function
 def groq_completion(prompt: str, model="openai/gpt-oss-120b"):
     """
@@ -11,14 +12,17 @@ def groq_completion(prompt: str, model="openai/gpt-oss-120b"):
     if not GROQ_API_KEY:
         raise RuntimeError("GROQ_API_KEY environment variable is missing")
 
-    # Initialize Groq client — no proxies argument
+    # Initialize Groq client   no proxies argument
     client = Groq(api_key=GROQ_API_KEY)
 
     chat_completion = client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": "You are an empathetic fact-checking assistant."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are an empathetic fact-checking assistant.",
+            },
+            {"role": "user", "content": prompt},
         ],
         max_tokens=500,
         temperature=0.7,
@@ -27,13 +31,16 @@ def groq_completion(prompt: str, model="openai/gpt-oss-120b"):
     # Return text safely
     return chat_completion.choices[0].message.content.strip()
 
+
 # Function to translate and correct
 def translate_and_correct(text: str, target_language: str):
     """
     Translates text into target_language and corrects it using Groq.
     """
     # Step 1: Translate using deep-translator
-    translated_text = GoogleTranslator(source="auto", target=target_language).translate(text)
+    translated_text = GoogleTranslator(source="auto", target=target_language).translate(
+        text
+    )
 
     # Step 2: Ask Groq to correct/improve the translated text
     prompt = (
