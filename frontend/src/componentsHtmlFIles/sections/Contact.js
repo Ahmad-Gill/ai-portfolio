@@ -48,6 +48,12 @@ function Contact() {
                 </a>
               ))}
             </div>
+            <a
+              className="contact-key-request"
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("API key request: Custom LLM Node")}`}
+            >
+              Need an API key for the Custom LLM Node? Request one here &rarr;
+            </a>
           </div>
         </div>
 

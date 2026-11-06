@@ -5,7 +5,7 @@ import "../componentCssFiles/button.css"; // CSS for btn classes
 const isInternalLink = (href) => href && href.startsWith("/") && !href.startsWith("//");
 
 // Button Component
-function Button({ text, href, type = "blue", onClick, target = "_self" }) {
+function Button({ text, href, type = "blue", onClick, target = "_self", disabled = false }) {
   if (href) {
     if (isInternalLink(href) && target !== "_blank") {
       return (
@@ -25,7 +25,7 @@ function Button({ text, href, type = "blue", onClick, target = "_self" }) {
 
   // Render as a clickable button
   return (
-    <button className={`btn ${type}`} onClick={onClick} type="button">
+    <button className={`btn ${type}`} onClick={onClick} type="button" disabled={disabled}>
       {text}
     </button>
   );
@@ -43,6 +43,7 @@ function Buttons({ buttons }) {
           type={btn.type}
           onClick={btn.onClick}
           target={btn.target}
+          disabled={btn.disabled}
         />
       ))}
     </div>

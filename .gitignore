@@ -19,9 +19,11 @@ ENV/
 env/
 .venv/
 
-# Environment files
+# Environment files (deploys write them from the FRONTEND_ENV / BACKEND_ENV secrets)
 .env
 *.env
+frontend/.env
+backend/ai_portfolio/.env
 
 # VSCode / IDE
 .vscode/

@@ -9,6 +9,7 @@ const assets = {
   toolbox: getPublicAsset("Amazing AI projects/tool.png"),
   docmind: getPublicAsset("Amazing AI projects/RAG.png"),
   urduAudioRag: getPublicAsset("Amazing AI projects/urduRAg.png"),
+  llmNode: getPublicAsset("Amazing AI projects/llm-node.svg"),
 };
 
 // Maps a project's display name to its detail page route.
@@ -22,9 +23,16 @@ export const projectRoutes = {
   "AI Tool Box": "/amazing_ai_projects/toolbox",
   "DocMind (RAG)": "/amazing_ai_projects/docmind-rag",
   "Urdu Audio RAG": "/amazing_ai_projects/urdu-audio-rag",
+  "Custom LLM Node": "/amazing_ai_projects/llm-node",
 };
 
 export const amazingAI = [
+  {
+    name: "Custom LLM Node",
+    description:
+      "Chat with a large language model running on my own server, streamed back word by word through a self-hosted API.",
+    image: assets.llmNode,
+  },
   {
     name: "Create Your Own Story",
     description:

@@ -79,6 +79,7 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
     "x-docmind-password",
     "x-reviews-password",
+    "x-password",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -9,6 +9,10 @@ from .views import (
     create_story_view, visitors_view
 )
 from .reviews import reviews_view, review_detail_view, reviews_admin_check_view
+from .llm_node import (
+    llm_models_view, llm_generate_view, llm_keys_view,
+    llm_key_detail_view, llm_key_limit_view,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +40,11 @@ path(
     path("api/reviews/", reviews_view),
     path("api/reviews/admin/check/", reviews_admin_check_view),
     path("api/reviews/<int:review_id>/", review_detail_view),
+    path("api/llm-node/models/", llm_models_view),
+    path("api/llm-node/generate/", llm_generate_view),
+    path("api/llm-node/keys/", llm_keys_view),
+    path("api/llm-node/keys/<int:key_id>/", llm_key_detail_view),
+    path("api/llm-node/keys/<int:key_id>/limit/", llm_key_limit_view),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

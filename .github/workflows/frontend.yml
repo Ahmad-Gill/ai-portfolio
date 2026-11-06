@@ -42,6 +42,17 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      # The whole .env file is stored in the FRONTEND_ENV repository secret
+      - name: Create .env from Secrets
+        env:
+          FRONTEND_ENV: ${{ secrets.FRONTEND_ENV }}
+        run: |
+          if [ -z "$FRONTEND_ENV" ]; then
+            echo "::error::The FRONTEND_ENV secret is missing or empty."
+            exit 1
+          fi
+          printf '%s\n' "$FRONTEND_ENV" > .env
+
       - name: Build React Application
         run: npm run build
 
