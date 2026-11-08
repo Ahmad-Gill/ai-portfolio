@@ -53,6 +53,16 @@ jobs:
           fi
           printf '%s\n' "$FRONTEND_ENV" > .env
 
+          # Without a live API URL the site calls itself and every request fails
+          API_URL=$(grep -E '^REACT_APP_API_URL=' .env | tail -n 1 | cut -d= -f2-)
+          case "$API_URL" in
+            https://*) echo "API URL: $API_URL" ;;
+            *)
+              echo "::error::REACT_APP_API_URL in FRONTEND_ENV must be the live https URL (found '$API_URL')."
+              exit 1
+              ;;
+          esac
+
       - name: Build React Application
         run: npm run build
 
